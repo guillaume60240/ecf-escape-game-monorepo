@@ -38,6 +38,9 @@ jobs:
             esac
           done
           echo "::set-output name=services::${services[@]}"
+      - name: Check services
+        run: |
+          echo ${{ steps.set-services.outputs.services }}
 
   build:
     runs-on: ubuntu-latest
