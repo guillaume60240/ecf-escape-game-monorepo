@@ -13,8 +13,8 @@ jobs:
     steps:
       - uses: actions/labeler@v4
       - run: echo "${labels}"
-        shell: bash
-        run: |
+      - shell: bash
+      - run: |
           IFS=','
           # String to array
           read -a labels <<< "$LABELS"
@@ -22,7 +22,7 @@ jobs:
           for i in "${!labels[@]}"; do
             labels[$i]=$(echo ${labels[$i]} | sed 's|:book: ||')
           done
-  
+
   build:
     runs-on: ubuntu-latest
     strategy:
