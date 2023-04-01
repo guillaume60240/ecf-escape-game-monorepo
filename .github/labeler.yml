@@ -1,5 +1,5 @@
-escape-game-API:
+escape-game-api:
   - "apps/back-end-api/**"
 
-escape-game-APIFront:
+escape-game-front:
   - "apps/web-app/**"
