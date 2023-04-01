@@ -40,8 +40,9 @@ jobs:
           echo "::set-output name=services::${services[@]}"
       - name: Check services
         run: |
-          echo ${{ steps.set-services.outputs.services }}
-
+          for service in ${{ steps.set-services.outputs.services }}; do
+            echo $service
+          done
   build:
     runs-on: ubuntu-latest
     strategy:
