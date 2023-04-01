@@ -17,23 +17,10 @@ jobs:
       - name: Check Labels
         run: |
           x=${{ toJson(github.event.pull_request.labels.*.name) }}
-          echo $x
-      - name: See result
-        run: |
-          IFS=','
-          # String to array
-          read -a labels <<< "$LABELS"
-
-          # Generate Matrix
-          services=()
-          for label in "${labels[@]}"; do
+          for label in $x; do
             echo $label
           done
 
-        env:
-          LABELS: ${{ steps.check_pr_labels.outputs.all-labels }}
-    outputs:
-      labels: ${{ steps.check_pr_labels.outputs.all-labels }}
   build:
     runs-on: ubuntu-latest
     strategy:
