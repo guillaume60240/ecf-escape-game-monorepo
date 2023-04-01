@@ -15,9 +15,33 @@ jobs:
         id: check_pr_labels
         uses: actions/labeler@v4
       - name: See result
-        if: contains(github.event.pull_request.labels.*.name, '<Back End API>')
-        run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event Back End API."
+        run: |
+          IFS=','
+          # String to array
+          read -a labels <<< "$LABELS"
 
+          # Generate Matrix
+          services=()
+          for label in "${labels[@]}"; do
+            if [[ $label == "Back End API"* ]]; then
+              services+=($label)
+            elif [[ $label == "Front Web App"* ]]; then
+              services+=($label)
+            fi
+          done
+
+          # To JSON
+          if [ ${#services[@]} != 0 ]; then
+            json=$(jq --compact-output --null-input '$ARGS.positional' --args -- "${services[@]}")
+            echo services="{\"services\":$json}" >> $GITHUB_OUTPUT
+          else
+            echo 'services=[]' >> $GITHUB_OUTPUT
+          fi
+          cat $GITHUB_OUTPUT
+        env:
+          LABELS: ${{ steps.labeler.outputs.all-labels }}
+    outputs:
+      labels: ${{ steps.labeler.outputs.all-labels }}
   build:
     runs-on: ubuntu-latest
     strategy:
