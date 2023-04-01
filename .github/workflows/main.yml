@@ -1,0 +1,66 @@
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Add Labels
+        uses: technote-space/add-pr-labels@v1.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          add: |
+            { "Back End API": "apps/back-end-api/**" }
+            { "Front Web App": "apps/web-app/**" }
+  quality:
+    runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.labels.*.name, 'Back End API') || contains(github.event.pull_request.labels.*.name, 'Front Web App')
+    strategy:
+      matrix:
+        label: ${{ join(github.event.pull_request.labels.*.name, ',') }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: |
+          for app in $(echo ${{ matrix.label }} | tr ',' '\n')
+          do
+            case $app in
+              "Back End API")
+                cd apps/back-end-api
+                ;;
+              "Front Web App")
+                cd apps/web-app
+                ;;
+            esac
+            npm install
+            npm install -g eslint
+            cd ../..
+          done
+      - name: Run Linter
+        run: |
+          for app in $(echo ${{ matrix.label }} | tr ',' '\n')
+          do
+            case $app in
+              "Back End API")
+                cd apps/back-end-api
+                ;;
+              "Front Web App")
+                cd apps/web-app
+                ;;
+            esac
+            npx eslint .
+            cd ../..
+          done
+      - name: Run Tests
+        run: |
+          for app in $(echo ${{ matrix.label }} | tr ',' '\n')
+          do
+            case $app in
+              "Back End API")
+                cd apps/back-end-api
+                ;;
+              "Front Web App")
+                cd apps/web-app
+                ;;
+            esac
+            npm run test
+            cd ../..
+          done

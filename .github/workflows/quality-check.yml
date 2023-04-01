@@ -24,34 +24,11 @@ jobs:
         if: contains(github.event.pull_request.labels.*.name, 'Front Web App')
         run: |
           echo "Front Web App"
-      - name: Matrix generation
-        id: set-services
-        shell: bash
-        run: |
-          read -a labels <<< "$LABELS"
-          services=()
-          for label in ${{ labels[@] }}; do
-            case $label in
-              "Back End API")
-                services+=("back-end-api")
-                ;;
-              "Front Web App")
-                services+=("web-app")
-                ;;
-            esac
-          done
-
-          # To JSON
-          if [ ${#services[@]} != 0 ]; then
-            json=$(jq --compact-output --null-input '$ARGS.positional' --args -- "${services[@]}")
-            echo services="{\"services\":$json}" >> $GITHUB_OUTPUT
-          else
-            echo 'services=[]' >> $GITHUB_OUTPUT
-          fi
-          cat $GITHUB_OUTPUT
 
   build:
     runs-on: ubuntu-latest
+    needs: triage
+
     strategy:
       matrix:
         node-version: [17.x]
