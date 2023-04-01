@@ -1,72 +1,52 @@
-name: Quality check for each labels
+name: Quality Check 2
 
 on:
   pull_request:
-    types: [opened, reopened, synchronize, labeled]
+    types: [opened, synchronize, labeled]
 
 jobs:
-  label:
+  quality_check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Add Labels
-        uses: technote-space/add-pr-labels@v1.1
+
+      - name: Labeler
+        uses: actions/labeler@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          add: |
-            { "Back End API": "apps/back-end-api/**" }
-            { "Front Web App": "apps/web-app/**" }
-  quality:
-    runs-on: ubuntu-latest
-    if: contains(github.event.pull_request.labels.*.name, 'Back End API') || contains(github.event.pull_request.labels.*.name, 'Front Web App')
-    strategy:
-      matrix:
-        label: ${{ join(github.event.pull_request.labels.*.name, ',') }}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install Dependencies
-        run: |
-          for app in $(echo ${{ matrix.label }} | tr ',' '\n')
-          do
-            case $app in
-              "Back End API")
-                cd apps/back-end-api
-                ;;
-              "Front Web App")
-                cd apps/web-app
-                ;;
-            esac
-            npm install
-            npm install -g eslint
-            cd ../..
-          done
-      - name: Run Linter
-        run: |
-          for app in $(echo ${{ matrix.label }} | tr ',' '\n')
-          do
-            case $app in
-              "Back End API")
-                cd apps/back-end-api
-                ;;
-              "Front Web App")
-                cd apps/web-app
-                ;;
-            esac
-            npx eslint .
-            cd ../..
-          done
-      - name: Run Tests
-        run: |
-          for app in $(echo ${{ matrix.label }} | tr ',' '\n')
-          do
-            case $app in
-              "Back End API")
-                cd apps/back-end-api
-                ;;
-              "Front Web App")
-                cd apps/web-app
-                ;;
-            esac
-            npm run test
-            cd ../..
-          done
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          configuration-path: .github/labeler.yml
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.4.4
+        with:
+          node-version: "14.x"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            apps/back-end-api/node_modules
+            apps/web-app/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        if: steps.labeler.outputs.BackEndAPI == 'true'
+        working-directory: ./apps/back-end-api
+        run: npm ci
+
+      - name: Lint BackEnd API
+        if: steps.labeler.outputs.BackEndAPI == 'true'
+        working-directory: ./apps/back-end-api
+        run: npm run lint
+
+      - name: Install dependencies
+        if: steps.labeler.outputs.FrontWebApp == 'true'
+        working-directory: ./apps/web-app
+        run: npm ci
+
+      - name: Lint Front Web App
+        if: steps.labeler.outputs.FrontWebApp == 'true'
+        working-directory: ./apps/web-app
+        run: npm run lint
