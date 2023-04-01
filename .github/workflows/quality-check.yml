@@ -11,16 +11,11 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/labeler@v4
-      - run: echo "${labels}"
-      - run: |
-          IFS=','
-          # String to array
-          read -a labels <<< "$LABELS"
-          # Remove ':book: '
-          for i in "${!labels[@]}"; do
-            labels[$i]=$(echo ${labels[$i]} | sed 's|:book: ||')
-          done
+      - name: Check PR labels action step
+        id: check_pr_labels
+        uses: actions/labeler@v4
+      - name: See result
+        run: echo "${{ steps.check_pr_labels.outputs.result }}"
 
   build:
     runs-on: ubuntu-latest
