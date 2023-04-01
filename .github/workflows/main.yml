@@ -5,21 +5,15 @@ on:
     types: [opened, synchronize, labeled]
 
 jobs:
-  quality_check:
+  triage:
+    permissions:
+      contents: read
+      pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Labeler
-        triage:
-          permissions:
-            contents: read
-            pull-requests: write
-          runs-on: ubuntu-latest
-          steps:
-            - name: Check PR labels action step
-              id: labeler
-              uses: actions/labeler@v4
+      - name: Check PR labels action step
+        id: labeler
+        uses: actions/labeler@v4
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.5.0
