@@ -15,7 +15,10 @@ jobs:
         id: check_pr_labels
         uses: actions/labeler@v4
       - name: See result
-        run: echo "${{ github.event }}"
+        if: contains(github.event.pull_request.labels.*.name, '<Back End API>')
+        run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event Back End API."
+        else if: contains(github.event.pull_request.labels.*.name, '<Front Web App>')
+        run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event Front Web App."
 
   build:
     runs-on: ubuntu-latest
