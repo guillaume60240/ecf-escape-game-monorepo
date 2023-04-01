@@ -23,21 +23,9 @@ jobs:
           # Generate Matrix
           services=()
           for label in "${labels[@]}"; do
-            if [[ $label == "Back End API"* ]]; then
-              services+=($label)
-            elif [[ $label == "Front Web App"* ]]; then
-              services+=($label)
-            fi
+            echo $label
           done
 
-          # To JSON
-          if [ ${#services[@]} != 0 ]; then
-            json=$(jq --compact-output --null-input '$ARGS.positional' --args -- "${services[@]}")
-            echo services="{\"services\":$json}" >> $GITHUB_OUTPUT
-          else
-            echo 'services=[]' >> $GITHUB_OUTPUT
-          fi
-          cat $GITHUB_OUTPUT
         env:
           LABELS: ${{ steps.labeler.outputs.all-labels }}
     outputs:
