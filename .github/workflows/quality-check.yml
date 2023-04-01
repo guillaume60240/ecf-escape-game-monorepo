@@ -27,12 +27,16 @@ jobs:
         shell: bash
         run: |
           services=()
-          if contains(github.event.pull_request.labels.*.name, 'Back End API'); then
-            services+=("back-end-api")
-          if (contains(github.event.pull_request.labels.*.name, 'Front Web App'); then
-            services+=("web-app")
-          fi
-          echo "::set-output name=services::${services[@]}"
+          for label in ${{ steps.check_pr_labels.outputs.labels }}; do
+            case $label in
+              "Back End API")
+                services+=("back-end-api")
+                ;;
+              "Front Web App")
+                services+=("web-app")
+                ;;
+            esac
+          done
 
   build:
     runs-on: ubuntu-latest
