@@ -22,6 +22,17 @@ jobs:
         if: contains(github.event.pull_request.labels.*.name, 'Front Web App')
         run: |
           echo "Front Web App"
+      - name: Matrix generation
+        id: set-services
+        shell: bash
+        run: |
+          services=()
+          if contains(github.event.pull_request.labels.*.name, 'Back End API'); then
+            services+=("back-end-api")
+          if (contains(github.event.pull_request.labels.*.name, 'Front Web App'); then
+            services+=("web-app")
+          fi
+          echo "::set-output name=services::${services[@]}"
 
   build:
     runs-on: ubuntu-latest
