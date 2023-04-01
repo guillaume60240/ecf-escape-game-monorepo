@@ -15,7 +15,9 @@ jobs:
         id: check_pr_labels
         uses: actions/labeler@v4
       - name: Check Labels
-        run: echo "${{ github.event.label.name }}"
+        run: |
+          x=${{ toJson(github.event.pull_request.labels.*.name) }}
+          echo $x
       - name: See result
         run: |
           IFS=','
