@@ -13,7 +13,6 @@ jobs:
     steps:
       - uses: actions/labeler@v4
       - run: echo "${labels}"
-      - shell: bash
       - run: |
           IFS=','
           # String to array
