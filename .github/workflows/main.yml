@@ -1,3 +1,9 @@
+name: Quality check for each labels
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, labeled]
+
 jobs:
   label:
     runs-on: ubuntu-latest
