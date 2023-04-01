@@ -38,11 +38,15 @@ jobs:
             esac
           done
           echo "::set-output name=services::${services[@]}"
-      - name: Check services
-        run: |
-          for service in ${{ steps.set-services.outputs.services }}; do
-            echo $service
-          done
+
+          # To JSON
+          if [ ${#services[@]} != 0 ]; then
+            json=$(jq --compact-output --null-input '$ARGS.positional' --args -- "${services[@]}")
+            echo services="{\"services\":$json}" >> $GITHUB_OUTPUT
+          else
+            echo 'services=[]' >> $GITHUB_OUTPUT
+          fi
+          cat $GITHUB_OUTPUT
   build:
     runs-on: ubuntu-latest
     strategy:
