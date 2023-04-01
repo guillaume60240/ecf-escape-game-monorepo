@@ -27,9 +27,9 @@ jobs:
           done
 
         env:
-          LABELS: ${{ steps.labeler.outputs.all-labels }}
+          LABELS: ${{ steps.check_pr_labels.outputs.all-labels }}
     outputs:
-      labels: ${{ steps.labeler.outputs.all-labels }}
+      labels: ${{ steps.check_pr_labels.outputs.all-labels }}
   build:
     runs-on: ubuntu-latest
     strategy:

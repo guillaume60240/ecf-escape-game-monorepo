@@ -9,7 +9,7 @@
         "build": "cd apps/back-end-api && npm run build",
         "lint": "cd apps/back-end-api && npm run lint",
         "format": "cd apps/back-end-api && npm run format",
-        "format:fix": "cd apps/back-end-api && npm run format:fix && cd apps/web-app && npm run lint",
-        "install:packages": "cd apps/back-end-api && npm install && cd apps/web-app && npm install"
+        "format:fix": "cd apps/back-end-api && npm run format:fix && cd ../web-app && npm run lint",
+        "install:packages": "cd apps/back-end-api && npm install && cd ../web-app && npm install"
     }
 }
