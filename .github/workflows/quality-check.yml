@@ -12,17 +12,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/labeler@v4
-      - name: Matrix generation
-          id: set-services
-          shell: bash
-          run: |
-            IFS=','
-            # String to array
-            read -a labels <<< "$LABELS"
-            # Remove ':book: '
-            for i in "${!labels[@]}"; do
-              labels[$i]=$(echo ${labels[$i]} | sed 's|:book: ||')
-            done
+      - run: echo "${labels}"
+        shell: bash
+        run: |
+          IFS=','
+          # String to array
+          read -a labels <<< "$LABELS"
+          # Remove ':book: '
+          for i in "${!labels[@]}"; do
+            labels[$i]=$(echo ${labels[$i]} | sed 's|:book: ||')
+          done
   
   build:
     runs-on: ubuntu-latest
