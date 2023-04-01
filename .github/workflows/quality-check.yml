@@ -15,7 +15,7 @@ jobs:
         id: check_pr_labels
         uses: actions/labeler@v4
       - name: See result
-        run: echo "${{ steps.check_pr_labels.outputs.result }}"
+        run: echo "${{ github.event.label.name }}"
 
   build:
     runs-on: ubuntu-latest
