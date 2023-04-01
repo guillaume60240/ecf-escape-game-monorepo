@@ -14,10 +14,11 @@ jobs:
       - name: Check PR labels action step
         id: check_pr_labels
         uses: actions/labeler@v4
-      - name: Check Labels       
-        if: contains(github.event.pull_request.labels.*.name, 'Back End API')      
+      - name: Check Labels back end
+        if: contains(github.event.pull_request.labels.*.name, 'Back End API')
         run: |
           echo "Back End API"
+      - name: Check Labels front end
         if: contains(github.event.pull_request.labels.*.name, 'Front Web App')
         run: |
           echo "Front Web App"
