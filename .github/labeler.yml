@@ -1,0 +1,5 @@
+":book: Escape Game API":
+  - "apps/back-end-api/**"
+
+":book: Escape Game Web App Front":
+  - "apps/web-app/**"

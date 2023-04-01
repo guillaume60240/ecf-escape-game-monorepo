@@ -1,8 +1,51 @@
 name: Quality check
 
-on: [push]
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, labeled]
 
 jobs:
+  labeler:
+    name: Add project labels
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 100
+      - uses: actions/labeler@v4
+        id: labeler
+      - name: Matrix generation
+        id: set-services
+        shell: bash
+        run: |
+          IFS=','
+          # String to array
+          read -a labels <<< "$LABELS"
+          # Remove ':book: '
+          for i in "${!labels[@]}"; do
+            labels[$i]=$(echo ${labels[$i]} | sed 's|:book: ||')
+          done
+
+          # Generate Matrix
+          services=()
+          for label in "${labels[@]}"; do
+              if [ "$label" == "Escape Game API" ]; then
+                services+=("escape-game-api")
+              elif [ "$label" == "Escape Game Web App Front" ]; then
+                services+=("escape-game-web-app")
+              fi
+            done
+          fi
+
+          # To JSON
+          if [ ${#services[@]} != 0 ]; then
+            json=$(jq --compact-output --null-input '$ARGS.positional' --args -- "${services[@]}")
+            echo services="{\"services\":$json}" >> $GITHUB_OUTPUT
+          else
+            echo 'services=[]' >> $GITHUB_OUTPUT
+          fi
+          cat $GITHUB_OUTPUT
   build:
     runs-on: ubuntu-latest
 
