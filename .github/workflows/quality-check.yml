@@ -26,8 +26,9 @@ jobs:
         id: set-services
         shell: bash
         run: |
+          read -a labels <<< "$LABELS"
           services=()
-          for label in ${{ steps.check_pr_labels.outputs.labels }}; do
+          for label in ${{ labels[@] }}; do
             case $label in
               "Back End API")
                 services+=("back-end-api")
@@ -37,7 +38,6 @@ jobs:
                 ;;
             esac
           done
-          echo "::set-output name=services::${services[@]}"
 
           # To JSON
           if [ ${#services[@]} != 0 ]; then
@@ -47,6 +47,8 @@ jobs:
             echo 'services=[]' >> $GITHUB_OUTPUT
           fi
           cat $GITHUB_OUTPUT
+        env:
+          LABELS: ${{ steps.check_pr_labels.outputs.all-labels }}
   build:
     runs-on: ubuntu-latest
     strategy:
