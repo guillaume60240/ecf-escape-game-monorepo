@@ -37,6 +37,7 @@ jobs:
                 ;;
             esac
           done
+          echo "::set-output name=services::${services[@]}"
 
   build:
     runs-on: ubuntu-latest
