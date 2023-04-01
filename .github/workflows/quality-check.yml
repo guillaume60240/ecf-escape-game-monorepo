@@ -14,12 +14,13 @@ jobs:
       - name: Check PR labels action step
         id: check_pr_labels
         uses: actions/labeler@v4
-      - name: Check Labels
+      - name: Check Labels       
+        if: contains(github.event.pull_request.labels.*.name, 'Back End API')      
         run: |
-          x=${{ toJson(github.event.pull_request.labels.*.name) }}
-          for label in $x; do
-            echo $label
-          done
+          echo "Back End API"
+        if: contains(github.event.pull_request.labels.*.name, 'Front Web App')
+        run: |
+          echo "Front Web App"
 
   build:
     runs-on: ubuntu-latest
