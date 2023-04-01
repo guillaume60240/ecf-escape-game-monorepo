@@ -4,11 +4,12 @@
     "description": "Escape game",
     "private": true,
     "scripts": {
-        "start": "cd packages/escape-game && npm start",
-        "test": "cd packages/escape-game && npm test",
-        "build": "cd packages/escape-game && npm run build",
-        "lint": "cd packages/escape-game && npm run lint",
-        "format": "cd packages/escape-game && npm run format",
-        "format:fix": "cd packages/escape-game && npm run format:fix"
+        "start": "cd apps/escape-game && npm start",
+        "test": "cd apps/escape-game && npm test",
+        "build": "cd apps/escape-game && npm run build",
+        "lint": "cd apps/escape-game && npm run lint",
+        "format": "cd apps/escape-game && npm run format",
+        "format:fix": "cd apps/escape-game && npm run format:fix",
+        "install:packages": "cd apps/escape-game && npm install"
     }
 }
