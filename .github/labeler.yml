@@ -3,3 +3,9 @@ Back End API:
 
 Front Web App:
   - "apps/web-app/**"
+
+Front Mobile App:
+  - "apps/mobile-app/**"
+
+Github Actions:
+  - ".github/**"
