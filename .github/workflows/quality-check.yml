@@ -28,6 +28,7 @@ jobs:
         if: contains(github.event.pull_request.labels.*.name, 'Front Web App')
         run: |
           echo "Front Web App"
+          
   build-and-lint-back-end:
     needs: [triage, display-labels]
     if: ${{ contains(github.event.pull_request.labels.*.name, 'Back End API') }}
@@ -40,6 +41,7 @@ jobs:
       - name: Lint
         run: npm run lint
         working-directory: apps/back-end-api
+        run: echo "🍏 lint is ${{ job.status }}."
       #- name: Test
       #  run: npm run test
       #  working-directory: apps/back-end-api
@@ -55,3 +57,4 @@ jobs:
       - name: Lint
         run: npm run lint
         working-directory: apps/web-app
+        run: echo "🍏 lint is ${{ job.status }}."
