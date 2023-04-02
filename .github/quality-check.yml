@@ -43,3 +43,35 @@ jobs:
       - run: npm run install:packages
       - run: npm run lint
       - run: echo "🍏 lint is ${{ job.status }}."
+
+  lint-and-test-back-end-api:
+    needs: triage
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'Back End API') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm ci
+        working-directory: apps/back-end-api
+      - name: Lint
+        run: npm run lint
+        working-directory: apps/back-end-api
+      - name: Test
+        run: npm run test
+        working-directory: apps/back-end-api
+
+  lint-and-test-web-app:
+    needs: triage
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'Front Web App') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm ci
+        working-directory: apps/web-app
+      - name: Lint
+        run: npm run lint
+        working-directory: apps/web-app
+      - name: Test
+        run: npm run test
+        working-directory: apps/web-app
