@@ -1,5 +1,67 @@
-/* color palette from <https://github.com/vuejs/theme> */
 :root {
+  --bs-primary-rgb: 35, 68, 150;
+  --font-family: 'Roboto', sans-serif;
+  --white: #ffffff;
+  --pink: #ff0076;
+  --pink-hover: #ff0077a8;
+  --black: #000000;
+  --dark-blue: #011638;
+  --primary-50: #e9e6f8;
+  --primary-100: #c7c0ee;
+  --primary-200: #a296e3;
+  --primary-500: #234496;
+  --primary-700: #234496;
+  --primary-900: #234496;
+  --danger-50: #fae7e8;
+  --danger-100: #f2c2c5;
+  --danger-200: #ea9a9e;
+  --danger-500: #D9534F;
+  --danger-700: #D9534F;
+  --danger-900: #D9534F;
+  --success-50: #e4f0ea;
+  --success-100: #bcdaca;
+  --success-200: #90c1a6;
+  --success-500: #5CB85C;
+  --success-700: #5CB85C;
+  --success-900: #5CB85C;
+  --warning-50: #fff4e0;
+  --warning-100: #ffe3b3;
+  --warning-200: #ffd080;
+  --warning-500: #ffa000;
+  --warning-700: #ff8e00;
+  --warning-900: #ff7300;
+  --info-50: #e3eafd;
+  --info-100: #b9cafa;
+  --info-200: #8ba7f7;
+  --info-500: #174eef;
+  --info-700: #113deb;
+  --info-900: #0725e4;
+  --secondary-50: #edeef0;
+  --secondary-100: #d2d4d9;
+  --secondary-500: #52473D;
+  --text-main: #363a41;
+  --text-disabled: #d7d8d9;
+  --text-reverse: #ffffff;
+
+  --bg-white: #ffffff;
+  --bg-grey: #fafafb;
+  --bg-dark: #363a41;
+  --border-main: #c8d7e4;
+  --border-decorative: #e1e0eb;
+  --border: 1px solid var(--border-main);
+  --border-transparent: 1px solid transparent;
+  --border-2: 1px solid var(--border-decorative);
+  --border-radius: 4px;
+}
+//bootstrap colors variables
+$primary: #234496;
+$danger: #D9534F;
+$success: #5CB85C;
+$warning: #ffa000;
+$info: #174eef;
+$secondary: #52473D;
+/* color palette from <https://github.com/vuejs/theme> */
+/* :root {
   --vt-c-white: #ffffff;
   --vt-c-white-soft: #f8f8f8;
   --vt-c-white-mute: #f2f2f2;
@@ -19,10 +81,10 @@
   --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
   --vt-c-text-dark-1: var(--vt-c-white);
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
-}
+} */
 
 /* semantic color variables for this project */
-:root {
+/* :root {
   --color-background: var(--vt-c-white);
   --color-background-soft: var(--vt-c-white-soft);
   --color-background-mute: var(--vt-c-white-mute);
@@ -35,8 +97,8 @@
 
   --section-gap: 160px;
 }
-
-@media (prefers-color-scheme: dark) {
+ */
+/* @media (prefers-color-scheme: dark) {
   :root {
     --color-background: var(--vt-c-black);
     --color-background-soft: var(--vt-c-black-soft);
@@ -71,4 +133,4 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
+} */
