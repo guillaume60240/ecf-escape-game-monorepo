@@ -1,22 +1,58 @@
-name: Quality check
+name: labeler and Quality Check
 
-on: [push]
+on:
+  pull_request:
+    types: [opened, synchronize, labeled]
 
 jobs:
-  build:
+  triage:
+    permissions:
+      contents: read
+      pull-requests: write
     runs-on: ubuntu-latest
+    steps:
+      - name: Check PR labels action step
+        id: labeler
+        uses: actions/labeler@v4
 
-    strategy:
-      matrix:
-        node-version: [17.x]
-
+  display-labels:
+    runs-on: ubuntu-latest
+    needs: triage
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: npm run install:packages
-      - run: npm run lint
-      - run: echo "🍏 lint is ${{ job.status }}."
+      - name: Check Labels back end
+        if: contains(github.event.pull_request.labels.*.name, 'Back End API')
+        run: |
+          echo "Back End API"
+      - name: Check Labels front end
+        if: contains(github.event.pull_request.labels.*.name, 'Front Web App')
+        run: |
+          echo "Front Web App"
+
+  build-and-lint-back-end:
+    needs: [triage, display-labels]
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'Back End API') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+        working-directory: apps/back-end-api
+      - name: Lint
+        run: npm run lint
+        working-directory: apps/back-end-api
+      #- name: Test
+      #  run: npm run test
+      #  working-directory: apps/back-end-api
+  build-and-lint-front-end:
+    needs: [triage, display-labels]
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'Front Web App') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+        working-directory: apps/web-app
+      - name: Lint
+        run: npm run lint
+        working-directory: apps/web-app
