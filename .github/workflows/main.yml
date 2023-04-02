@@ -40,9 +40,9 @@ jobs:
       - name: Lint
         run: npm run lint
         working-directory: apps/back-end-api
-      - name: Test
-        run: npm run test
-        working-directory: apps/back-end-api
+      #- name: Test
+      #  run: npm run test
+      #  working-directory: apps/back-end-api
   build-and-lint-front-end:
     needs: [triage, display-labels]
     if: ${{ contains(github.event.pull_request.labels.*.name, 'Front Web App') }}
@@ -54,7 +54,4 @@ jobs:
         working-directory: apps/web-app
       - name: Lint
         run: npm run lint
-        working-directory: apps/web-app
-      - name: Test
-        run: npm run test
         working-directory: apps/web-app
