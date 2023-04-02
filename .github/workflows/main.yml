@@ -14,12 +14,6 @@ jobs:
       - name: Check PR labels action step
         id: labeler
         uses: actions/labeler@v4
-        env:
-          LABELS: ${{ steps.labeler.outputs.all-labels }}
-      - name: Check Labels back end
-        if: contains(github.event.pull_request.labels.*.name, 'Back End API')
-        run: |
-          echo "Back End API"
 
   display-labels:
     runs-on: ubuntu-latest
@@ -30,3 +24,7 @@ jobs:
         if: contains(github.event.pull_request.labels.*.name, 'Back End API')
         run: |
           echo "Back End API"
+      - name: Check Labels front end
+        if: contains(github.event.pull_request.labels.*.name, 'Front Web App')
+        run: |
+          echo "Front Web App"
