@@ -14,23 +14,12 @@ jobs:
       - name: Check PR labels action step
         id: labeler
         uses: actions/labeler@v4
-  #build project who is laleled with Back End API
+        env:
+          LABELS: ${{ steps.labeler.outputs.all-labels }}
 
-  build-back-end-api:
+  display-labels:
     runs-on: ubuntu-latest
     needs: triage
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'Back End API') }}
-    strategy:
-      matrix:
-        node-version: [17.x]
-
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: npm run install:packages
-      - run: npm run lint
-      - run: echo "🍏 lint is ${{ job.status }}."
+      - run: echo "🍏 The labels are ${{ env.LABELS }}."
