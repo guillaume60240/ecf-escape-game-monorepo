@@ -28,31 +28,61 @@ jobs:
         if: contains(github.event.pull_request.labels.*.name, 'Front Web App')
         run: |
           echo "Front Web App"
+      - name: Check Labels mobile app
+        if: contains(github.event.pull_request.labels.*.name, 'Front Mobile App')
+        run: |
+          echo "Front Mobile App"
 
   build-and-lint-back-end:
     needs: [triage, display-labels]
     if: ${{ contains(github.event.pull_request.labels.*.name, 'Back End API') }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Install dependencies
-        run: npm install
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
         working-directory: apps/back-end-api
-      - name: Lint
-        run: npm run lint
+      - run: npm run lint
         working-directory: apps/back-end-api
       #- name: Test
       #  run: npm run test
       #  working-directory: apps/back-end-api
+      - run: echo "🍏 lint is ${{ job.status }}."
+
   build-and-lint-front-end:
     needs: [triage, display-labels]
     if: ${{ contains(github.event.pull_request.labels.*.name, 'Front Web App') }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Install dependencies
-        run: npm install
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
         working-directory: apps/web-app
-      - name: Lint
-        run: npm run lint
+      - run: npm run lint
         working-directory: apps/web-app
+      - run: echo "🍏 lint is ${{ job.status }}."
+
+  build-and-lint-mobile-app:
+    needs: [triage, display-labels]
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'Front Mobile App') }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+        working-directory: apps/mobile-app
+      - run: npm run lint
+        working-directory: apps/mobile-app
+      - run: echo "🍏 lint is ${{ job.status }}."
