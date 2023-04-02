@@ -15,49 +15,32 @@ jobs:
         id: labeler
         uses: actions/labeler@v4
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v2.5.0
-        with:
-          node-version: "14.x"
+      - name: lint-and-test-back-end-api
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'Back End API') }}
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v2
+          - name: Install dependencies
+            run: npm ci
+            working-directory: apps/back-end-api
+          - name: Lint
+            run: npm run lint
+            working-directory: apps/back-end-api
+          - name: Test
+            run: npm run test
+            working-directory: apps/back-end-api
 
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            apps/back-end-api/node_modules
-            apps/web-app/node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-  lint-and-test-back-end-api:
-    needs: triage
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'Back End API') }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install dependencies
-        run: npm ci
-        working-directory: apps/back-end-api
-      - name: Lint
-        run: npm run lint
-        working-directory: apps/back-end-api
-      - name: Test
-        run: npm run test
-        working-directory: apps/back-end-api
-
-  lint-and-test-web-app:
-    needs: triage
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'Front Web App') }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install dependencies
-        run: npm ci
-        working-directory: apps/web-app
-      - name: Lint
-        run: npm run lint
-        working-directory: apps/web-app
-      - name: Test
-        run: npm run test
-        working-directory: apps/web-app
+      - name: lint-and-test-web-app
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'Front Web App') }}
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v2
+          - name: Install dependencies
+            run: npm ci
+            working-directory: apps/web-app
+          - name: Lint
+            run: npm run lint
+            working-directory: apps/web-app
+          - name: Test
+            run: npm run test
+            working-directory: apps/web-app
