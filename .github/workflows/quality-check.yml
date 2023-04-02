@@ -28,6 +28,10 @@ jobs:
         if: contains(github.event.pull_request.labels.*.name, 'Front Web App')
         run: |
           echo "Front Web App"
+      - name: Check Labels mobile app
+        if: contains(github.event.pull_request.labels.*.name, 'Front Mobile App')
+        run: |
+          echo "Front Mobile App"
 
   build-and-lint-back-end:
     needs: [triage, display-labels]
@@ -62,10 +66,12 @@ jobs:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'Front Mobile App') }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Install dependencies
-        run: npm install
-        working-directory: apps/mobile-app
-      - name: Lint
-        run: npm run lint
-        working-directory: apps/mobile-app
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm ci
+      - run: npm run lint
+      - run: echo "🍏 lint is ${{ job.status }}."
