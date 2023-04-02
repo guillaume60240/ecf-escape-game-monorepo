@@ -1,4 +1,4 @@
-name: Quality Check 2
+name: labeler and Quality Check
 
 on:
   pull_request:
@@ -30,22 +30,34 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+  lint-and-test-back-end-api:
+    needs: triage
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'Back End API') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
       - name: Install dependencies
-        if: steps.labeler.outputs.BackEndAPI == 'true'
-        working-directory: ./apps/back-end-api
         run: npm ci
-
-      - name: Lint BackEnd API
-        if: steps.labeler.outputs.BackEndAPI == 'true'
-        working-directory: ./apps/back-end-api
+        working-directory: apps/back-end-api
+      - name: Lint
         run: npm run lint
+        working-directory: apps/back-end-api
+      - name: Test
+        run: npm run test
+        working-directory: apps/back-end-api
 
+  lint-and-test-web-app:
+    needs: triage
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'Front Web App') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
       - name: Install dependencies
-        if: steps.labeler.outputs.FrontWebApp == 'true'
-        working-directory: ./apps/web-app
         run: npm ci
-
-      - name: Lint Front Web App
-        if: steps.labeler.outputs.FrontWebApp == 'true'
-        working-directory: ./apps/web-app
+        working-directory: apps/web-app
+      - name: Lint
         run: npm run lint
+        working-directory: apps/web-app
+      - name: Test
+        run: npm run test
+        working-directory: apps/web-app
