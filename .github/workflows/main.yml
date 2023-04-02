@@ -14,13 +14,3 @@ jobs:
       - name: Check PR labels action step
         id: labeler
         uses: actions/labeler@v4
-
-  lint-and-test-back-end-api:
-    needs: triage
-    if: ${{ contains(github.event.pull_request.labels.*.name, 'Back End API') }}
-    runs-on: ubuntu-latest
-    steps:
-      -run: |
-        for label in ${{ steps.labeler.outputs.all-labels }}; do
-          echo "Label: $label"
-        done
