@@ -18,8 +18,7 @@ jobs:
       - name: lint-and-test-back-end-api
         if: ${{ contains(github.event.pull_request.labels.*.name, 'Back End API') }}
         runs-on: ubuntu-latest
-        steps:
-          - uses: actions/checkout@v2
+        uses: actions/checkout@v2
           - name: Install dependencies
             run: npm ci
             working-directory: apps/back-end-api
@@ -33,8 +32,7 @@ jobs:
       - name: lint-and-test-web-app
         if: ${{ contains(github.event.pull_request.labels.*.name, 'Front Web App') }}
         runs-on: ubuntu-latest
-        steps:
-          - uses: actions/checkout@v2
+        uses: actions/checkout@v2
           - name: Install dependencies
             run: npm ci
             working-directory: apps/web-app
