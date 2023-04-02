@@ -28,3 +28,33 @@ jobs:
         if: contains(github.event.pull_request.labels.*.name, 'Front Web App')
         run: |
           echo "Front Web App"
+  build-and-lint-back-end:
+    needs: [triage, display-labels]
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'Back End API') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+        working-directory: apps/back-end-api
+      - name: Lint
+        run: npm run lint
+        working-directory: apps/back-end-api
+      - name: Test
+        run: npm run test
+        working-directory: apps/back-end-api
+  build-and-lint-front-end:
+    needs: [triage, display-labels]
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'Front Web App') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+        working-directory: apps/web-app
+      - name: Lint
+        run: npm run lint
+        working-directory: apps/web-app
+      - name: Test
+        run: npm run test
+        working-directory: apps/web-app
