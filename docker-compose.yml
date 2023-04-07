@@ -5,25 +5,42 @@ services:
       dockerfile: ./docker/mobile-app.Dockerfile
     ports:
       - "8080:80"
+
   web-app:
     build:
       context: .
       dockerfile: ./docker/web-app.Dockerfile
     ports:
       - "8081:80"
+
   postgres:
-    image: postgres
-    ports:
-      - "5432:5432"
-    env_file:
-      - ./apps/back-end-api/.env.dist
-      
+    #image: postgres
+    #ports:
+    #  - "5432:5432"
+    #env_file:
+    #  - ./apps/back-end-api/.env.dist
+    extends:
+      file: ./docker/postgres/docker-compose.yml
+      service: postgres
+    env_file: ./docker/postgres/postgres.env
+
+  pg-admin:
+    #image: dpage/pgadmin4
+    #ports:
+    #  - "8083:80"
+    depends_on:
+      - postgres
+    extends:
+      file: ./docker/postgres/docker-compose.yml
+      service: pg-admin
+    env_file: ./docker/postgres/pg-admin.env
+
   back-end-api:
     build:
       context: .
-      dockerfile: ./docker/back-end-api.Dockerfile
+      dockerfile: ./docker/back-end-api-test.Dockerfile
     ports:
-      - "8082:80"
+      - "8082:3000"
     env_file:
       - ./apps/back-end-api/.env.dist
     depends_on:
