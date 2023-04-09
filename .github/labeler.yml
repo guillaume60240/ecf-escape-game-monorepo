@@ -9,3 +9,7 @@ Front Mobile App:
 
 Github Actions:
   - ".github/**"
+
+Docker:
+  - "docker/**"
+  - "docker-compose.yml"

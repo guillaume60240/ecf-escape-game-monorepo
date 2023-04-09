@@ -1,0 +1,44 @@
+services:
+  postgres:
+    image: postgres:latest
+    command: ['postgres', '-c', 'log_statement=all']
+    container_name: ecf-postgres
+    ## uncomment the following to display logs
+    # command: ["postgres", "-c", "log_statement=all"]
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'pg_isready --quiet -U $${POSTGRES_USER} -d $${POSTGRES_DB}',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./schema:/docker-entrypoint-initdb.d/escape-game:ro
+    ## uncomment the following to persist data
+    #  - postgres-data:/var/lib/postgresql/data
+    ports:
+      - :5432
+
+  pg-admin:
+    container_name: ecf-pg-admin
+    image: dpage/pgadmin4:latest
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'wget',
+          '--quiet',
+          '--tries=1',
+          '--spider',
+          'http://localhost:80/misc/ping',
+        ]
+    volumes:
+      - ./pgadmin.servers.json:/pgadmin4/servers.json:ro
+      - ./pgadmin.pgpass:/pgadmin4/pgpass:ro
+    ports:
+      - :80
+## uncomment the following to persist data
+#volumes:
+#  postgres-data:
