@@ -10,7 +10,6 @@ WORKDIR /home/node/apps/web-app
 
 ADD ./ ./
 
-RUN cp .env .env.local || cp .env.dist .env.local
 RUN echo "Install dependencies"
 RUN npm install
 RUN echo "Build app"
@@ -27,7 +26,6 @@ WORKDIR /app
 
 RUN sed -i '1idaemon off;' /etc/nginx/nginx.conf
 
-ADD ./spa.nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /home/node/apps/web-app/dist/ ./
 
 EXPOSE 80
