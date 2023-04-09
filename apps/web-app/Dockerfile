@@ -1,32 +1,22 @@
-ARG BUILDPLATFORM=linux/amd64
-ARG NODE_VERSION=18.12-alpine
-ARG NGINX_VERSION=stable-alpine
-ARG APP_VERSION=0.0.0
+ARG NODE_VERSION=15.4
+ARG NGINX_VERSION=1.19
 
 # web-app dependencies & build the app
 # ----------------------
-FROM --platform=${BUILDPLATFORM} node:${NODE_VERSION} as builder
+FROM node:${NODE_VERSION} as builder
 WORKDIR /app
 
-COPY . .
+COPY package*.json .
 
 RUN echo "Install dependencies"
 RUN npm install
 RUN echo "Build app"
+COPY . .
 RUN npm run build
 
 # production image
 # ----------------
-FROM --platform=${BUILDPLATFORM} nginx:$NGINX_VERSION as production
-ARG APP_VERSION
-ENV APP_VERSION=${APP_VERSION}
-ENV APP_NAME=web-app
+FROM  nginx:$NGINX_VERSION as production
 
-WORKDIR /app
-
-RUN sed -i '1idaemon off;' /etc/nginx/nginx.conf
-
-COPY --from=builder /app/dist/ ./usr/share/nginx/html
-
-EXPOSE 80
-CMD ["nginx"]
+COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY --from=builder /app/dist /usr/share/nginx/html
