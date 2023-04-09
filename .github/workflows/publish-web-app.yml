@@ -10,10 +10,10 @@
 name: Publish Docker image
 
 on:
-  #release:
-  #  types: [published]
-  pull_request:
-    types: [opened, synchronize, labeled]
+  release:
+    types: [published]
+    tags:
+      - "web-app-*"
 jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
@@ -41,4 +41,4 @@ jobs:
           file: ./docker/web-app.Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          labels: :latest
+          labels: ${{ steps.meta.outputs.labels }}
