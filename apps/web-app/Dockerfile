@@ -6,6 +6,8 @@ ARG NGINX_VERSION=1.19
 FROM node:${NODE_VERSION} as builder
 WORKDIR /app
 
+RUN echo ls -la
+
 ADD package*.json .
 
 RUN echo "Install dependencies"
