@@ -6,7 +6,7 @@ ARG NGINX_VERSION=1.19
 FROM node:${NODE_VERSION} as builder
 WORKDIR /app
 
-COPY package*.json .
+COPY ./package*.json .
 
 RUN echo "Install dependencies"
 RUN npm install
