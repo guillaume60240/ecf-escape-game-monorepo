@@ -6,9 +6,9 @@ ARG APP_VERSION=0.0.0
 # web-app dependencies & build the app
 # ----------------------
 FROM --platform=${BUILDPLATFORM} node:${NODE_VERSION} as builder
-WORKDIR /home/node/apps/web-app
+WORKDIR /app
 
-ADD ./ ./
+COPY . .
 
 RUN echo "Install dependencies"
 RUN npm install
@@ -26,7 +26,7 @@ WORKDIR /app
 
 RUN sed -i '1idaemon off;' /etc/nginx/nginx.conf
 
-COPY --from=builder /home/node/apps/web-app/dist/ ./
+COPY --from=builder /app/dist/ ./usr/share/nginx/html
 
 EXPOSE 80
 CMD ["nginx"]
