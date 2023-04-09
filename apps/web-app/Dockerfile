@@ -6,7 +6,7 @@ ARG NGINX_VERSION=1.19
 FROM node:${NODE_VERSION} as builder
 WORKDIR /app
 
-ADD ./apps/web-app/package*.json .
+ADD package*.json .
 
 RUN echo "Install dependencies"
 RUN npm install
@@ -18,5 +18,5 @@ RUN npm run build
 # ----------------
 FROM  nginx:$NGINX_VERSION as production
 
-ADD ./apps/web-app/nginx.conf /etc/nginx/nginx.conf
+ADD nginx.conf /etc/nginx/nginx.conf
 COPY --from=builder /app/dist /usr/share/nginx/html
