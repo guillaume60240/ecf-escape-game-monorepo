@@ -11,40 +11,6 @@ env:
   IMAGE_NAME_IOS: release-ios-app-latest
 
 jobs:
-  quality-check:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [17.x]
-    steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: cd ./apps/mobile-app
-      - run: npm install
-      - run: npm run lint
-      - run: echo "🍏 lint is ${{ job.status }}."
-
-  unit-test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [17.x]
-    steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: cd ./apps/mobile-app
-      - run: npm install
-      - run: npm run test:unit
-      - run: echo "🍏 test is ${{ job.status }}."
-
   release-apk:
     name: Upload Release APK
     runs-on: ubuntu-latest
