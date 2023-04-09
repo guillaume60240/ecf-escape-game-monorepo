@@ -14,9 +14,6 @@ jobs:
   release-apk:
     name: Upload Release APK
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        service: ["android"]
     steps:
       - name: init tag prefix
         run: echo "TAG_PREFIX=refs/tags/${{ matrix.service }}-" >> $GITHUB_ENV
