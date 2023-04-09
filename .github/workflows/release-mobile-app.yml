@@ -18,7 +18,7 @@ jobs:
       - name: init tag prefix
         run: echo "TAG_PREFIX=refs/tags/${{ matrix.service }}-" >> $GITHUB_ENV
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
