@@ -9,3 +9,5 @@
 </p>
 
 ## Here is the monorepo for the escape game ECF 2023
+
+web-app url: https://ecf-escape-game-web-app-docker-bfaitf4hkq-od.a.run.app
