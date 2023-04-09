@@ -1,14 +1,14 @@
 # vue.js environment
 FROM node:14-alpine as vue-build
 WORKDIR /app
-COPY apps/web-app/package*.json ./
+COPY package.json ./
 RUN npm install
 COPY ./ .
 RUN npm run build
 
 # server environment
 FROM nginx:alpine
-COPY apps/web-app/nginx.conf /etc/nginx/conf.d/configfile.template
+COPY nginx.conf /etc/nginx/conf.d/configfile.template
 COPY --from=vue-build /app/dist /usr/share/nginx/html
 ENV PORT 8080
 ENV HOST 0.0.0.0
