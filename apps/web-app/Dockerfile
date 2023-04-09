@@ -6,17 +6,17 @@ ARG NGINX_VERSION=1.19
 FROM node:${NODE_VERSION} as builder
 WORKDIR /app
 
-COPY ./package*.json .
+COPY ./apps/web-app/package*.json .
 
 RUN echo "Install dependencies"
 RUN npm install
 RUN echo "Build app"
-COPY . .
+COPY ./apps/web-app/ .
 RUN npm run build
 
 # production image
 # ----------------
 FROM  nginx:$NGINX_VERSION as production
 
-COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY ./apps/web-app/nginx.conf /etc/nginx/nginx.conf
 COPY --from=builder /app/dist /usr/share/nginx/html
