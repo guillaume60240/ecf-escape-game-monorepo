@@ -1,24 +1,16 @@
-ARG NODE_VERSION=15.4
-ARG NGINX_VERSION=1.19
-
-# web-app dependencies & build the app
-# ----------------------
-FROM node:${NODE_VERSION} as builder
+# vue.js environment
+FROM node:14-alpine as vue-build
 WORKDIR /app
-
-RUN echo ls -la
-
-ADD package*.json .
-
-RUN echo "Install dependencies"
+COPY package*.json ./
 RUN npm install
-RUN echo "Build app"
-COPY . .
+COPY ./ .
 RUN npm run build
 
-# production image
-# ----------------
-FROM  nginx:$NGINX_VERSION as production
-
-ADD nginx.conf /etc/nginx/nginx.conf
-COPY --from=builder /app/dist /usr/share/nginx/html
+# server environment
+FROM nginx:alpine
+COPY nginx.conf /etc/nginx/conf.d/configfile.template
+COPY --from=vue-build /app/dist /usr/share/nginx/html
+ENV PORT 8080
+ENV HOST 0.0.0.0
+EXPOSE 8080
+CMD sh -c "envsubst '\$PORT' < /etc/nginx/conf.d/configfile.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
