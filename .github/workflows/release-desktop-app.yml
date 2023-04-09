@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: cd ./apps/mobile-app
-      - run: npm ci
+      - run: npm install
       - run: npm run lint
       - run: echo "🍏 lint is ${{ job.status }}."
 
@@ -41,7 +41,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: cd ./apps/mobile-app
-      - run: npm ci
+      - run: npm install
       - run: npm run test:unit
       - run: echo "🍏 test is ${{ job.status }}."
 

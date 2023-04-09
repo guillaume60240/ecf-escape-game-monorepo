@@ -28,3 +28,4 @@ npm run copy:all
 
 - to release
   On Github make a release with tag `android-*` && with tag `desktop-*`
+  Files are availables to https://github.com/guillaume60240/ecf-escape-game-monorepo/releases
