@@ -21,6 +21,15 @@ jobs:
         with:
           token: ${{ github.token }}
           latest: true
+      - name: Echo Values
+        run: |
+          echo "ID: ${{ steps.latest_release.outputs.id}}"
+          echo "URL: ${{ steps.latest_release.outputs.url}}"
+          echo "HTML URL: ${{ steps.latest_release.outputs.html_url}}"
+          echo "Assets URL: ${{ steps.latest_release.outputs.assets_url}}"
+          echo "upload_url: ${{ steps.latest_release.output.upload_url}}"
+          echo "Name: ${{ steps.latest_release.outputs.name}}"
+          echo "Tag: ${{ steps.latest_release.outputs.tag_name}}"
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Create directory
@@ -31,4 +40,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.IMAGE_NAME_APK }}
-          path: apps/mobile-app/releases/ionic-release.apk
+          path: apps/mobile-app/releases/${{ steps.latest_release.tag_name }}.apk
