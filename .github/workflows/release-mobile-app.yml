@@ -19,7 +19,7 @@ jobs:
 
       - run: mkdir -p apps/mobile-app/releases/ionic-release
 
-      - run: echo hello > apps/mobile-app/releases/ionic-release.apk
+      - run: cp apps/mobile-app/releases/ionic-release.apk apps/mobile-app/releases/ionic-release/ionic-release.apk
 
       - uses: actions/upload-artifact@v3
         with:
