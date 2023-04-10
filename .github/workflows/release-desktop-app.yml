@@ -32,8 +32,6 @@ jobs:
           echo "Tag: ${{ steps.latest_release.outputs.tag_name}}"
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Checkout code
-        uses: actions/checkout@v3
       - name: Create directory
         run: mkdir -p releases
       - name: Copy APK
