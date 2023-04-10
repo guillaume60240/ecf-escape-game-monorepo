@@ -33,11 +33,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Create directory
-        run: mkdir -p apps/mobile-app/releases/ionic-release
+        run: mkdir -p releases
       - name: Copy APK
-        run: cp apps/mobile-app/releases/ionic-release.apk apps/mobile-app/releases/ionic-release/${{ steps.latest_release.tag_name }}.apk
+        run: cp apps/mobile-app/releases/ionic-release.apk releases/${{ steps.latest_release.outputs.tag_name }}.apk
       - name: Upload Release Asset
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.IMAGE_NAME_APK }}
-          path: apps/mobile-app/releases/${{ steps.latest_release.tag_name }}.apk
+          name: ${{ steps.latest_release.outputs.tag_name }}
+          path: apps/mobile-app/releases/ionic-release.apk
