@@ -10,4 +10,27 @@
 
 ## Here is the monorepo for the escape game ECF 2023
 
-web-app url: https://ecf-escape-game-web-app-docker-bfaitf4hkq-od.a.run.app
+### web-app
+
+- To release
+  On Github make a release with tag `web-app-*`
+- url: https://ecf-escape-game-web-app-docker-bfaitf4hkq-od.a.run.app
+
+### mobile app:
+
+- to build
+
+```
+cd apps/mobile-app
+npm run build:all
+npm run copy:all
+```
+
+- to release
+  On Github make a release with tag `android-*` && with tag `desktop-*`
+  Files are availables to
+
+  - for the mobile-app : https://github.com/guillaume60240/ecf-escape-game-monorepo/actions/workflows/release-mobile-app.yml
+  - for the desktop-app: https://github.com/guillaume60240/ecf-escape-game-monorepo/actions/workflows/release-desktop-app.yml
+
+  Select the last actions to dowload artifact

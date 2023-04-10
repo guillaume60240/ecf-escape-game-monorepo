@@ -1,0 +1,43 @@
+name: Deploy android release
+
+on:
+  push:
+    tags:
+      - "android-*"
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME_APK: release-android-app-latest
+  IMAGE_NAME_IOS: release-ios-app-latest
+
+jobs:
+  release-apk:
+    name: Upload Release APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get latest release
+        id: latest_release
+        uses: kaliber5/action-get-release@v1
+        with:
+          token: ${{ github.token }}
+          latest: true
+      - name: Echo Values
+        run: |
+          echo "ID: ${{ steps.latest_release.outputs.id}}"
+          echo "URL: ${{ steps.latest_release.outputs.url}}"
+          echo "HTML URL: ${{ steps.latest_release.outputs.html_url}}"
+          echo "Assets URL: ${{ steps.latest_release.outputs.assets_url}}"
+          echo "upload_url: ${{ steps.latest_release.output.upload_url}}"
+          echo "Name: ${{ steps.latest_release.outputs.name}}"
+          echo "Tag: ${{ steps.latest_release.outputs.tag_name}}"
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Create directory
+        run: mkdir -p releases
+      - name: Copy APK
+        run: cp apps/mobile-app/releases/ionic-release.apk releases/${{ steps.latest_release.outputs.tag_name }}.apk
+      - name: Upload Release Asset
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.latest_release.outputs.tag_name }}
+          path: apps/mobile-app/releases/ionic-release.apk
