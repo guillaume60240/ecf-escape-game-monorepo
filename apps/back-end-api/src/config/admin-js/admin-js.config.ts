@@ -1,4 +1,4 @@
-import { AdminModule } from '@adminjs/nestjs';
+/* import { AdminModule } from '@adminjs/nestjs';
 import AdminJS from 'adminjs';
 import * as AdminJSTypeorm from '@adminjs/typeorm';
 import { User } from 'src/entity/user.entity';
@@ -39,4 +39,4 @@ export const adminjsConfig = AdminModule.createAdminAsync({
       secret: 'secret',
     },
   }),
-});
+}); */
