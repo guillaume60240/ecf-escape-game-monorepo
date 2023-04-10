@@ -15,17 +15,13 @@ jobs:
     name: Upload Release APK
     runs-on: ubuntu-latest
     steps:
-      - name: init tag prefix
-        run: echo "TAG_PREFIX=refs/tags/${{ matrix.service }}-" >> $GITHUB_ENV
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Create Release
-        id: create_release
-        uses: pipe-cd/actions-gh-release@v2.3.4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
+      - uses: actions/checkout@v3
+
+      - run: mkdir -p apps/mobile-app/releases/ionic-release
+
+      - run: echo hello > apps/mobile-app/releases/ionic-release.apk
+
+      - uses: actions/upload-artifact@v3
         with:
           name: ${{ env.IMAGE_NAME_APK }}
-          path: ./releases/electron-release.apk
+          path: apps/mobile-app/releases/ionic-release.apk
