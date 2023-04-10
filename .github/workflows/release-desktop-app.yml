@@ -15,25 +15,31 @@ jobs:
     name: Upload Release iOS
     runs-on: ubuntu-latest
     steps:
+     - name: Get latest release
+        id: latest_release
+        uses: kaliber5/action-get-release@v1
+        with:
+          token: ${{ github.token }}
+          latest: true
+      - name: Echo Values
+        run: |
+          echo "ID: ${{ steps.latest_release.outputs.id}}"
+          echo "URL: ${{ steps.latest_release.outputs.url}}"
+          echo "HTML URL: ${{ steps.latest_release.outputs.html_url}}"
+          echo "Assets URL: ${{ steps.latest_release.outputs.assets_url}}"
+          echo "upload_url: ${{ steps.latest_release.output.upload_url}}"
+          echo "Name: ${{ steps.latest_release.outputs.name}}"
+          echo "Tag: ${{ steps.latest_release.outputs.tag_name}}"
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}-app
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Create directory
+        run: mkdir -p releases
+      - name: Copy APK
+        run: cp apps/mobile-app/releases/electron-release.dmg releases/${{ steps.latest_release.outputs.tag_name }}.apk
       - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: actions/upload-artifact@v3
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./releases/electron-release.dmg
-          asset_name: ${{ env.IMAGE_NAME_IOS }}.dmg
-          asset_content_type: application/zip
+          name: ${{ steps.latest_release.outputs.tag_name }}
+          path: apps/mobile-app/releases/electron-release.dmg
