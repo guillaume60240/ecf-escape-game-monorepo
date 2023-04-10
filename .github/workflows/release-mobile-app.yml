@@ -15,13 +15,20 @@ jobs:
     name: Upload Release APK
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
-      - run: mkdir -p apps/mobile-app/releases/ionic-release
-
-      - run: cp apps/mobile-app/releases/ionic-release.apk apps/mobile-app/releases/ionic-release/ionic-release.apk
-
-      - uses: actions/upload-artifact@v3
+      - name: Get latest release
+        id: latest_release
+        uses: kaliber5/action-get-release@v1
+        with:
+          token: ${{ github.token }}
+          latest: true
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Create directory
+        run: mkdir -p apps/mobile-app/releases/ionic-release
+      - name: Copy APK
+        run: cp apps/mobile-app/releases/ionic-release.apk apps/mobile-app/releases/ionic-release/${{ steps.latest_release.tag_name }}.apk
+      - name: Upload Release Asset
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ env.IMAGE_NAME_APK }}
           path: apps/mobile-app/releases/ionic-release.apk
