@@ -1,4 +1,4 @@
-/* import { User } from 'src/entity/user.entity';
+import { User } from 'src/entity/user.entity';
 
 export const userAdapter = {
   ressource: User,
@@ -13,4 +13,3 @@ export const userAdapter = {
     label: 'Utilisateurs',
   },
 };
- */

@@ -1,4 +1,4 @@
-/* import { User } from 'src/entity/user.entity';
+import { User } from 'src/entity/user.entity';
 import { DataSource } from 'typeorm';
 
 export const databaseProviders = [
@@ -18,4 +18,4 @@ export const databaseProviders = [
       return dataSource.initialize();
     },
   },
-]; */
+];
