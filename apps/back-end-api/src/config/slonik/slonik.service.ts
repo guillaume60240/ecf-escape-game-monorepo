@@ -18,13 +18,13 @@ export class SlonikService implements BeforeApplicationShutdown {
   constructor(private readonly config: ConfigService) {
     const c = {
       // TODO add your database credentials here
-      user: process.env.POSTGRES_USER || 'postgres',
-      password: process.env.POSTGRES_PASSWORD || '1234',
-      host: process.env.POSTGRES_HOST || 'localhost',
-      port: process.env.POSTGRES_PORT || 5432,
-      database: process.env.POSTGRES_DB || 'test_postgres',
+      user: process.env.POSTGRES_USER,
+      password: process.env.POSTGRES_PASSWORD,
+      host: process.env.POSTGRES_HOST,
+      port: process.env.POSTGRES_PORT,
+      database: process.env.POSTGRES_DB,
     };
-    const connectionUri = `postgres://${c.user}:${c.password}@${c.host}:${c.port}/${c.database}?application_name=proxy-api&sslmode=disable`;
+    const connectionUri = `postgres://${c.user}:${c.password}@${c.host}:${c.port}/${c.database}`;
     const interceptors = [
       new SlonikLoggingInterceptor({ logValues: false, logSQL: true }),
     ];

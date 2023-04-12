@@ -38,7 +38,7 @@ services:
   back-end-api:
     build:
       context: .
-      dockerfile: ./docker/back-end-api-test.Dockerfile
+      dockerfile: ./docker/back-end-api.Dockerfile
     ports:
       - "8082:3000"
     env_file:
