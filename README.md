@@ -8,7 +8,7 @@
 <img src="https://img.shields.io/badge/Electron-87CEFA.svg?style=flat-square" alt="Electron" />
 </p>
 
-## Here is the monorepo for the escape game ECF 2023
+# Here is the monorepo for the escape game ECF 2023
 
 ### web-app
 
@@ -16,7 +16,7 @@
   On Github make a release with tag `web-app-*`
 - url: https://ecf-escape-game-web-app-docker-bfaitf4hkq-od.a.run.app
 
-### mobile app:
+### mobile-app:
 
 - to build
 
@@ -34,3 +34,21 @@ npm run copy:all
   - for the desktop-app: https://github.com/guillaume60240/ecf-escape-game-monorepo/actions/workflows/release-desktop-app.yml
 
   Select the last actions to dowload artifact
+
+### back-end api
+
+- To release
+  On Github make a release with tag `back-end-api-*`
+- swagger: https://ecf-escape-game-back-end-api-bfaitf4hkq-od.a.run.app/api
+
+## To run in Docker
+
+run `docker compose up -d`
+it will create a `web-app`, a `mobile-app`, a `back-end-api` and a PostGres instance with somme data.
+
+- web-app = http://localhost:8081
+- mobile-app = http://localhost:8080 (use browser inspector to emulate mobile or desktop environment)
+- swagger = http://localhost:8082/api
+- admin = http://localhost:8082/admin
+- pg-admin = http://localhost:5050
+- postgres = http://localhost:5432 (db: escape_game_postgres, user: postgres, password: password)
