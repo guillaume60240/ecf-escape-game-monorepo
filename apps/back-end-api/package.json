@@ -24,6 +24,7 @@
     "@adminjs/express": "^5.1.0",
     "@adminjs/nestjs": "^5.1.1",
     "@adminjs/sql": "^1.0.0",
+    "@nestjs/terminus": "^9.1.4",
     "@adminjs/typeorm": "^4.0.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.3.1",
