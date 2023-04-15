@@ -3,9 +3,7 @@ import { User } from 'src/entity/user.entity';
 export const userAdapter = {
   ressource: User,
   options: {
-    properties: {
-      'customField.addNewItem': 'Ajouter un utilisateur',
-    },
+    properties: {},
     listProperties: ['id', 'email', 'name'],
     filterProperties: ['email', 'name'],
     editProperties: ['email'],

@@ -19,7 +19,14 @@ SET row_security = off;
 --
 -- Name: escapegame; Type: SCHEMA; Schema: -; Owner: -
 --
+CREATE SCHEMA IF NOT EXISTS public
+    AUTHORIZATION postgres;
 
-CREATE SCHEMA escapegame;
+COMMENT ON SCHEMA public
+    IS 'standard public schema';
+
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+GRANT ALL ON SCHEMA public TO postgres;
 
 

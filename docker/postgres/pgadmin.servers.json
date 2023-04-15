@@ -1,0 +1,15 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "Escape-Game server",
+      "Group": "Servers",
+      "Host": "postgres",
+      "Port": 5432,
+      "MaintenanceDB": "postgres",
+      "Username": "postgres",
+      "PassFile": "/pgadmin4/pgpass",
+      "Comment": "You will probably need to set the password (password) by hand, as the pgpass file is not read.",
+      "SSLMode": "prefer"
+    }
+  }
+}

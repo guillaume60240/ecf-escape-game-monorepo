@@ -1,15 +1,15 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './user.controller';
+import { UserService } from './user.service';
+import { mock } from 'jest-mock-extended';
 
-describe('UserController', () => {
+describe('HealthcheckService', () => {
   let controller: UserController;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [UserController],
-    }).compile();
+  const service = mock<UserService>();
 
-    controller = module.get<UserController>(UserController);
+  beforeEach(() => {
+    controller = new UserController(service);
+    jest.resetAllMocks();
   });
 
   it('should be defined', () => {
