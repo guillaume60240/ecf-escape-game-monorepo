@@ -1,6 +1,4 @@
--- SCHEMA: escapegame
-
--- DROP SCHEMA IF EXISTS escapegame ;
+-- SCHEMA: public
 
 CREATE SEQUENCE public.user_id_seq
     START WITH 1
@@ -16,9 +14,7 @@ CREATE TABLE IF NOT EXISTS public."user"
     email character varying NOT NULL,
     password character varying NOT NULL,
     CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY (id)
-)
-
-TABLESPACE pg_default;
+);
 
 ALTER TABLE IF EXISTS public."user"
     OWNER to postgres;
