@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: triage
     steps:
+      - run: echo   ${{ github.event.pull_request.labels }}
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - name: Check Labels back end
         if: contains(github.event.pull_request.labels.*.name, 'Back End API')

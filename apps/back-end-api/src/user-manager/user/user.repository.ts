@@ -1,27 +1,26 @@
 import { SlonikService } from '../../config/slonik/slonik.service';
 import { Injectable } from '@nestjs/common';
 import { sql } from 'slonik';
-import { UserDto } from './dto/responses/user.dto';
+import { User } from '../..//entity/user.entity';
 
 @Injectable()
 export class UserRepository {
   constructor(private readonly slonik: SlonikService) {}
 
-  async getAllUsers(): Promise<UserDto[]> {
+  async getAllUsers(): Promise<User[]> {
     const { rows } = await this.slonik.query(sql`
         SELECT * FROM public.user
         `);
 
-    console.log('rows ', rows);
-    return rows as UserDto[];
+    return rows as User[];
   }
 
-  async getOneUserById(id: number): Promise<UserDto> {
+  async getOneUserById(id: number): Promise<User> {
     const { rows } = await this.slonik.query(sql`
         SELECT * FROM public.user
         WHERE id = ${id}
         `);
-    return rows[0] as any as UserDto;
+    return rows[0] as any as User;
   }
 
   async findOneByEmail(email: string) {
@@ -29,7 +28,7 @@ export class UserRepository {
         SELECT * FROM public.user
         WHERE email = ${email}
         `);
-    return rows[0] as any as UserDto;
+    return rows[0] as any as User;
   }
 
   async saveNewUser(user: any) {
