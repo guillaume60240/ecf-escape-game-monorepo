@@ -5,11 +5,10 @@ import {
   Get,
   Header,
   InternalServerErrorException,
-  NotFoundException,
 } from '@nestjs/common';
-import { PricesDto } from 'src/scenarios-manager/dto/responses/prices.dto';
+import { PricesDto } from 'src/booking-manager/dto/responses/prices.dto';
 
-@ApiTags('Prices manager')
+@ApiTags('Booking manager')
 @Controller('prices')
 export class PricesController {
   constructor(private service: PricesService) {}
@@ -22,11 +21,6 @@ export class PricesController {
     type: PricesDto,
   })
   @ApiResponse({
-    status: 404,
-    description: 'Nothing found',
-    type: NotFoundException,
-  })
-  @ApiResponse({
     status: 500,
     description: 'Erreur interne',
     type: InternalServerErrorException,
@@ -36,6 +30,6 @@ export class PricesController {
     description: 'Get all prices range',
   })
   async getScearios(): Promise<PricesDto[]> {
-    return await this.service.getAllScenarios();
+    return await this.service.getAllPricesRange();
   }
 }

@@ -5,7 +5,7 @@ import { PricesDto } from '../../dto/responses/prices.dto';
 @Injectable()
 export class PricesService {
   constructor(private repository: PricesRepository) {}
-  async getAllScenarios(): Promise<PricesDto[]> {
+  async getAllPricesRange(): Promise<PricesDto[]> {
     const request = await this.repository.getAllPricesRange();
 
     return request.map((price) => ({
