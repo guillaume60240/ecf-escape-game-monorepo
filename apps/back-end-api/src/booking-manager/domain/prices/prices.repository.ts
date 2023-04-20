@@ -1,7 +1,7 @@
 import { PriceEntity } from './../../entity/price.entity';
 import { Injectable } from '@nestjs/common';
 import { sql } from 'slonik';
-import { SlonikService } from 'src/config/slonik/slonik.service';
+import { SlonikService } from '../../../config/slonik/slonik.service';
 
 @Injectable()
 export class PricesRepository {

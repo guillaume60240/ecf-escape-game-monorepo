@@ -18,8 +18,8 @@ services:
       - ./schema/public:/docker-entrypoint-initdb.d/public:ro
       - ./schema/user-manager:/docker-entrypoint-initdb.d/user-manager:ro
       - ./schema/game-manager:/docker-entrypoint-initdb.d/game-manager:ro
-      - ./schema/reservation-manager:/docker-entrypoint-initdb.d/reservation-manager:ro
       - ./schema/scenario-manager:/docker-entrypoint-initdb.d/scenario-manager:ro
+      - ./schema/booking-manager:/docker-entrypoint-initdb.d/booking-manager:ro
       - ./schema/insert-data:/docker-entrypoint-initdb.d/insert-data:ro
       - ./init.sh:/docker-entrypoint-initdb.d/init.sh:ro
 

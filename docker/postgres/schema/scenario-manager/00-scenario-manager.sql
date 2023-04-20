@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS public."scenario"
     difficulty integer NOT NULL,
     room_id character varying NOT NULL,
     price_id character varying NOT NULL,
-    min_players integer NOT NULL,
     max_players integer NOT NULL,
+    min_players integer NOT NULL,
     duration integer NOT NULL,
     pictures character varying NOT NULL,
     CONSTRAINT "PK_9c9e9a9a9c9e9a9a9c9e9a9a9f9" PRIMARY KEY (id)

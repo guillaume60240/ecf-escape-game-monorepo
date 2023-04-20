@@ -6,27 +6,6 @@ VALUES
     ('Salle 4'),
     ('Salle 5'),
     ('Salle 6');
-
-INSERT INTO "public"."price"("min_players", "max_players", "price")
-VALUES
-    (
-        
-        1,
-        3,
-        27
-    ),
-    (
-        
-        4,
-        6,
-        22
-    ),
-    (
-        
-        7,
-        8,
-        20
-    );
     
 INSERT INTO "public"."scenario"("name", "description", "difficulty", "min_players", "max_players", "duration", "pictures")
 VALUES(

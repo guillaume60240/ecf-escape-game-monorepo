@@ -1,12 +1,17 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+
 @Entity()
-export class Price extends BaseEntity {
+export class Booking extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
   @Column()
-  min_players: number;
+  start_date: Date;
   @Column()
-  max_players: number;
+  user_id: number;
+  @Column()
+  scenario_id: number;
+  @Column()
+  players: number;
   @Column()
   price: number;
 }
