@@ -4,6 +4,7 @@ import * as AdminJSTypeorm from '@adminjs/typeorm';
 import { userAdapter } from './admin-adapters/user-adapter';
 import { scenarioAdapter } from './admin-adapters/scenario-adapter';
 import { priceAdapter } from './admin-adapters/price-adapter';
+import { timeSlotAdapter } from './admin-adapters/time-slot-adapter';
 
 const DEFAULT_ADMIN = {
   email: 'admin@example.com',
@@ -35,6 +36,10 @@ export const adminjsConfig = AdminModule.createAdminAsync({
         {
           resource: priceAdapter.resource,
           options: priceAdapter.options,
+        },
+        {
+          resource: timeSlotAdapter.resource,
+          options: timeSlotAdapter.options,
         },
       ],
     },
