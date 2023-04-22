@@ -25,7 +25,14 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
 
-const state = reactive({
+const state = reactive<{
+  carouselImg: number
+  laucherCarousel: any
+  carouselPicture: {
+    src: string
+    alt: string
+  }[]
+}>({
   carouselImg: 1,
   laucherCarousel: 0,
   carouselPicture: [
