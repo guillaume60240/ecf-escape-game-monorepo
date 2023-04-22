@@ -37,11 +37,11 @@ const state = reactive<{
   laucherCarousel: 0,
   carouselPicture: [
     {
-      src: 'src/assets/carousel-1.jpg',
+      src: 'https://storage.googleapis.com/project-pictures/carousel-1.jpg',
       alt: 'Door in donjon'
     },
     {
-      src: 'src/assets/carousel-2.jpg',
+      src: 'https://storage.googleapis.com/project-pictures/carousel-2.jpg',
       alt: 'Table on balck room'
     }
   ]
