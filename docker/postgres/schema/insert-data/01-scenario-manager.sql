@@ -1,6 +1,6 @@
 INSERT INTO "public"."scenario"("name", "description", "summary", "difficulty", "min_players", "max_players", "duration", "pictures")
 VALUES(
-    'Echet et Mat',
+    'Echec et Mat',
     'Le scénario de l''escape game "Échec et mat" met les joueurs dans la peau de détectives privés chargés d''enquêter sur une mystérieuse disparition. Ils sont contactés par la famille d''un célèbre joueur d''échecs, qui a mystérieusement disparu peu de temps avant une importante compétition. Les joueurs doivent se rendre dans l''appartement du joueur et chercher des indices pour découvrir ce qui est arrivé.
     L''escape game se déroule dans l''appartement du joueur, qui est rempli d''objets étranges et de pièges. Les joueurs doivent résoudre des énigmes, trouver des indices cachés et déverrouiller des serrures pour progresser dans l''histoire.
     Au fur et à mesure que les joueurs découvrent des indices, ils commencent à comprendre que la disparition du joueur est liée à un complot plus vaste impliquant des joueurs d''échecs rivaux, des secrets de famille et des événements sinistres du passé.
