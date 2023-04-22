@@ -9,6 +9,8 @@ export class Scenario extends BaseEntity {
   @Column()
   description: string;
   @Column()
+  summary: string;
+  @Column()
   difficulty: number;
   @Column()
   min_players: number;

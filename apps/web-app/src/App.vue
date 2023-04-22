@@ -1,85 +1,135 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import FooterComponent from './components/footer/FooterComponent.vue'
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+    <div class="d-flex align-items-top justify-content-between">
+      <div class="d-flex flex-column align-items-start">
+        <img alt="Escape Game logo" class="logo" src="@/assets/icon.jpg" />
+        <p class="icon-text">The Escape Game</p>
+      </div>
+
+      <div class="title-wrapper">
+        <span>The way you choose</span> <span>Can be the way to go</span><span>Or not</span>
+      </div>
+    </div>
 
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
       <nav>
-        <RouterLink to="/">Escape game</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/">Accueil</RouterLink>
+        <RouterLink to="/about">Connexion</RouterLink>
+        <RouterLink to="/about">Créer un compte</RouterLink>
       </nav>
     </div>
   </header>
 
-  <RouterView />
+  <RouterView class="content" />
+
+  <FooterComponent />
 </template>
 
 <style scoped lang="scss">
 header {
   line-height: 1.5;
   max-height: 100vh;
-}
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+  .icon-text {
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 1rem;
+  }
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
+  .title-wrapper {
     display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    font-size: 16px;
+    font-weight: 400;
+    flex-grow: 1;
+    line-height: 18.75px;
+
+    :nth-child(2) {
+      margin-left: 2rem;
+    }
+    :nth-child(3) {
+      margin-left: 4rem;
+    }
+  }
+
+  a {
+    color: var(--text-nav);
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+    font-size: 14px;
+    font-weight: regular;
   }
 
   .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+    display: block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
   }
 
   nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
+    width: 100%;
+    font-size: 12px;
     margin-top: 1rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  nav a.router-link-exact-active {
+    color: var(--text-nav-active);
+  }
+}
+
+.content {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+@media (min-width: 750px) {
+  header {
+    flex-direction: row;
+    padding: 1rem 2rem;
+
+    .wrapper {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+
+      nav {
+        margin: 0;
+      }
+    }
+    .title-wrapper {
+      font-size: 24px;
+      line-height: 28.125px;
+      :nth-child(2) {
+        margin-left: 4rem;
+      }
+      :nth-child(3) {
+        margin-left: 8rem;
+      }
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+    }
+
+    .icon-text {
+      font-size: 16px;
+      margin-top: 2rem;
+    }
   }
 }
 </style>

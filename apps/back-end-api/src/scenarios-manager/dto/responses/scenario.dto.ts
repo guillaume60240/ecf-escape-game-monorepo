@@ -15,6 +15,10 @@ export class ScenarioDto {
   description: string;
 
   @ApiProperty()
+  @IsString()
+  summary: string;
+
+  @ApiProperty()
   @IsNumber()
   duration: number;
 
