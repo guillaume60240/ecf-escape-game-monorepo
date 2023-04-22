@@ -15,7 +15,6 @@ const state = reactive<{
 
 async function getSceanrios() {
   state.scenarios = await getAllScenarios()
-  console.log(state.scenarios)
 }
 
 getSceanrios()
