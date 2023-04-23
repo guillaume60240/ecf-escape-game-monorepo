@@ -5,10 +5,11 @@ import { userAdapter } from './admin-adapters/user-adapter';
 import { scenarioAdapter } from './admin-adapters/scenario-adapter';
 import { priceAdapter } from './admin-adapters/price-adapter';
 import { timeSlotAdapter } from './admin-adapters/time-slot-adapter';
+import { gameAdapter } from './admin-adapters/game-adapter';
 
 const DEFAULT_ADMIN = {
-  email: 'admin@example.com',
-  password: 'password',
+  email: process.env.ADMIN_JS_EMAIL,
+  password: process.env.ADMIN_JS_PASSWORD,
 };
 
 AdminJS.registerAdapter({
@@ -40,6 +41,10 @@ export const adminjsConfig = AdminModule.createAdminAsync({
         {
           resource: timeSlotAdapter.resource,
           options: timeSlotAdapter.options,
+        },
+        {
+          resource: gameAdapter.resource,
+          options: gameAdapter.options,
         },
       ],
     },

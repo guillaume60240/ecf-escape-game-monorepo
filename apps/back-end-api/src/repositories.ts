@@ -4,6 +4,7 @@ import { ScenarioRepository } from './scenarios-manager/domain/scenario/scenario
 import { PricesRepository } from './booking-manager/domain/prices/prices.repository';
 import { BookingRepository } from './booking-manager/domain/booking/booking.repository';
 import { TimeSlotRepository } from './booking-manager/domain/time-slot/time-slot.repository';
+import { GameManagerRepository } from './game-manager/domain/game-manager.repository';
 
 export const repositories = [
   UserRepository,
@@ -12,4 +13,5 @@ export const repositories = [
   PricesRepository,
   BookingRepository,
   TimeSlotRepository,
+  GameManagerRepository,
 ];

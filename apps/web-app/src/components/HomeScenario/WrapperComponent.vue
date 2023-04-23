@@ -6,8 +6,10 @@
     </div>
     <h3>{{ props.scenario.title }}</h3>
     <div class="btn-container">
-      <button>Voir plus</button>
-      <button>Réserver</button>
+      <RouterLink :to="{ name: 'scenarios', params: { id: props.scenario.id } }"
+        >Voir plus</RouterLink
+      >
+      <RouterLink :to="{ name: 'home' }">Réserver</RouterLink>
     </div>
     <div class="footer mb-2">
       <span>de {{ props.scenario.minPlayers }} à {{ props.scenario.maxPlayers }} joueurs</span>
@@ -54,7 +56,7 @@ const props = defineProps<{
     margin-top: 1rem;
     margin-bottom: 1rem;
 
-    button {
+    a {
       background-color: var(--secondary-500);
       color: var(--white);
       border: none;
@@ -64,6 +66,8 @@ const props = defineProps<{
       font-size: 12px;
       font-weight: 400;
       cursor: pointer;
+      text-decoration: none;
+      text-align: center;
     }
   }
 
