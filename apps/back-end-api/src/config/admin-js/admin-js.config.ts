@@ -8,8 +8,8 @@ import { timeSlotAdapter } from './admin-adapters/time-slot-adapter';
 import { gameAdapter } from './admin-adapters/game-adapter';
 
 const DEFAULT_ADMIN = {
-  email: 'admin@example.com',
-  password: 'password',
+  email: process.env.ADMIN_JS_EMAIL,
+  password: process.env.ADMIN_JS_PASSWORD,
 };
 
 AdminJS.registerAdapter({
