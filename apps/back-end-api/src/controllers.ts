@@ -4,6 +4,7 @@ import { ScenariosController } from './scenarios-manager/domain/scenario/scenari
 import { PricesController } from './booking-manager/domain/prices/prices.controller';
 import { BookingController } from './booking-manager/domain/booking/booking.controller';
 import { TimeSlotController } from './booking-manager/domain/time-slot/time-slot.controller';
+import { GameController } from './game-manager/domain/game-manager.controller';
 export const controllers = [
   UserController,
   HealthcheckController,
@@ -11,4 +12,5 @@ export const controllers = [
   PricesController,
   BookingController,
   TimeSlotController,
+  GameController,
 ];
