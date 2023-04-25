@@ -23,6 +23,9 @@ export class BookingRepository {
       period: 'day',
       datePart: sql`date_part('day', b.start_date)`,
     };
+    const startDatePeriod = sql`${startDate.toISOString()}`;
+    console.log('startDate= >', startDate);
+
     const endDate = new Date(startDate);
     endDate.setDate(startDate.getDate() + 3);
     const { rows } = await this.slonik.query(sql`
@@ -32,7 +35,7 @@ export class BookingRepository {
                 array_agg(b.time_slot) AS time_slots
             FROM public.booking b
             WHERE b.scenario_id = ${scenarioId}
-            AND b.start_date BETWEEN DATE_TRUNC(${granularity.period}, b.start_date) AND DATE_TRUNC(${granularity.period}, b.start_date) + interval '3 days'
+            AND ${startDatePeriod}::TIMESTAMP BETWEEN DATE_TRUNC(${granularity.period}, b.start_date) AND DATE_TRUNC(${granularity.period}, b.start_date) + interval '3 days'
             GROUP BY day
             ORDER BY day
         `);

@@ -16,29 +16,10 @@
           >
           <div class="info-wrapper">
             <h1>{{ state.scenario.title }}</h1>
-            <div class="scenario-description">{{ state.scenario.description }}</div>
-            <div class="info-container">
-              <p>
-                Nombre de joueurs: de {{ state.scenario.minPlayers }} à
-                {{ state.scenario.maxPlayers }}
-              </p>
-              <p>Durée: environ {{ state.scenario.duration }} mins</p>
-              <p>Difficulté: {{ state.scenario.difficulty }}/10</p>
-            </div>
           </div>
         </div>
         <div class="d-flex flex-column align-items-center justify-content-center ms-xl-5 wrapper">
-          <RouterLink :to="{ name: 'booking', params: { id: state.scenario.id } }"
-            ><button>Réserver</button></RouterLink
-          >
-          <div class="mt-5">
-            <h3>Les autres scénarios</h3>
-            <template v-for="(scenario, index) in state.otherScenarios" :key="index">
-              <RouterLink :to="{ name: 'scenarios', params: { id: scenario.id } }">{{
-                scenario.title
-              }}</RouterLink>
-            </template>
-          </div>
+          <button>Réserver</button>
         </div>
       </div>
       <div v-else class="mt-5 d-flex justify-content-center align-items-center flex-column">
@@ -51,15 +32,13 @@
   </Transition>
 </template>
 <script setup lang="ts">
-import {
-  getAllScenarios,
-  getOneScenarioById
-} from '@/services/api-request/scenario-manager/scenario-request'
+import { getOneScenarioById } from '@/services/api-request/scenario-manager/scenario-request'
 
 import type { scenarioDto } from '@/dto/scenario.dto'
-import { reactive, watchEffect } from 'vue'
+import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { getRecordByscenarioId } from '@/services/api-request/game-manager/game-request'
+import { getBookedDateForPeriodByScenarioId } from '@/services/api-request/booking-manager/booking-request'
 import ScenarioImg from '@/components/HomeScenario/ScenarioImg.vue'
 
 const router = useRouter()
@@ -69,46 +48,31 @@ const state = reactive<{
   isLoading: boolean
   scenarioId: string
   scenarioRecord: any
-  otherScenarios: scenarioDto[]
+  datesBooked: any[]
+  startPeriod: Date
 }>({
   scenario: {} as scenarioDto,
   isLoading: true,
   scenarioId: router.currentRoute.value.params.id.toString(),
   scenarioRecord: null,
-  otherScenarios: [] as scenarioDto[]
+  datesBooked: [] as any[],
+  startPeriod: new Date()
 })
 
 async function init() {
   state.scenario = await getOneScenarioById(state.scenarioId)
+  console.log(await getBookedDateForPeriodByScenarioId(state.scenarioId, state.startPeriod))
   const recordRequest = await getRecordByscenarioId(state.scenarioId)
   if (recordRequest) {
     state.scenarioRecord = formatRecord(recordRequest)
   } else {
     state.scenarioRecord = null
   }
-  state.otherScenarios = []
-  const allScenarios = await getAllScenarios()
-  allScenarios.map((scenario) => {
-    if (scenario.id != state.scenarioId) {
-      console.log(scenario)
-      console.log(state.otherScenarios)
-      state.otherScenarios.push(scenario)
-    }
-  })
   state.isLoading = false
 }
 
 init()
 
-watchEffect(() => {
-  console.log('states', state.scenarioId)
-  console.log('params', router.currentRoute.value.params.id.toString())
-  if (state.scenarioId != router.currentRoute.value.params.id.toString()) {
-    state.scenarioId = router.currentRoute.value.params.id.toString()
-    state.isLoading = true
-    init()
-  }
-})
 function formatRecord(duration: any) {
   const array = duration.duration.split(':')
   const hours = parseInt(array[0])
@@ -157,18 +121,6 @@ h1 {
   margin-bottom: 2rem;
 }
 
-.scenario-description {
-  margin: 0 auto;
-  text-align: center;
-  font-size: 14px;
-  text-align: justify;
-  text-justify: inter-character;
-}
-
-.info-container {
-  margin-top: 2rem;
-  color: var(--primary-500);
-}
 button {
   background-color: var(--primary-500);
   color: var(--white);
