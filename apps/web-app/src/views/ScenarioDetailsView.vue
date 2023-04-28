@@ -55,11 +55,12 @@ import {
   getAllScenarios,
   getOneScenarioById
 } from '@/services/api-request/scenario-manager/scenario-request'
+import { getRecordByscenarioId } from '@/services/api-request/game-manager/game-request'
+import { formatRecord } from '@/services/utils/format-data-utils'
 
 import type { scenarioDto } from '@/dto/scenario.dto'
 import { reactive, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
-import { getRecordByscenarioId } from '@/services/api-request/game-manager/game-request'
 import ScenarioImg from '@/components/HomeScenario/ScenarioImg.vue'
 
 const router = useRouter()
@@ -109,15 +110,6 @@ watchEffect(() => {
     init()
   }
 })
-function formatRecord(duration: any) {
-  const array = duration.duration.split(':')
-  const hours = parseInt(array[0])
-  const minutes = parseInt(array[1])
-  const seconds = parseInt(array[2])
-  return {
-    duration: `${hours}h ${minutes}m ${seconds}s`
-  }
-}
 </script>
 
 <style scoped lang="scss">
