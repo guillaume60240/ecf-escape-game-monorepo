@@ -48,6 +48,7 @@
   --bg-white: #ffffff;
   --bg-grey: #fafafb;
   --bg-dark: #363a41;
+  --bg-disabled: #677676c2;
   --border-main: #c8d7e4;
   --border-decorative: #e1e0eb;
   --border: 1px solid var(--border-main);
@@ -62,6 +63,37 @@ $success: #5CB85C;
 $warning: #ffa000;
 $info: #174eef;
 $secondary: #52473D;
+
+.slot {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: var(--white);
+  text-align: center;
+  min-width: 91px;
+  min-height: 19.2px;
+}
+.slot-booked {
+  background-color: var(--danger-500);
+  cursor: not-allowed;
+}
+.slot-open {
+  background-color: var(--success-500);
+  cursor: pointer;
+}
+.slot-lost {
+  background-color: var(--secondary-50);
+  color: var(--text-disabled);
+  cursor: not-allowed;
+}
+.slot-new-date {
+  background-color: var(--primary-500);
+  cursor: pointer;
+}
+button:disabled {
+  cursor: not-allowed !important;
+  color: var(--text-disabled) !important;
+  background-color: var(--bg-disabled) !important;;
+}
 /* color palette from <https://github.com/vuejs/theme> */
 /* :root {
   --vt-c-white: #ffffff;

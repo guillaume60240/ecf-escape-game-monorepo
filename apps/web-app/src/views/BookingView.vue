@@ -1,45 +1,91 @@
 <template>
-  <Transition mode="out-in">
-    <Suspense>
-      <div
-        class="d-flex flex-column flex-xl-row align-items-center section"
-        v-if="!state.isLoading"
-      >
-        <div class="wrapper justify-content-center me-xl-5">
-          <ScenarioImg
-            :imgUrl="state.scenario.imgUrl"
-            :alt="state.scenario.title"
-            class="scenarioImg"
-          />
-          <span v-if="state.scenarioRecord" class="record-banner"
-            >Record: {{ state.scenarioRecord.duration }}</span
-          >
-          <div class="info-wrapper">
-            <h1>{{ state.scenario.title }}</h1>
+  <div class="d-flex flex-column flex-xl-row align-items-center justify-contents-between">
+    <Transition mode="out-in">
+      <Suspense>
+        <div
+          class="d-flex flex-column flex-xl-row align-items-center section"
+          v-if="!state.isLoading"
+        >
+          <div class="wrapper justify-content-center me-xl-5">
+            <ScenarioImg
+              :imgUrl="state.scenario.imgUrl"
+              :alt="state.scenario.title"
+              class="scenarioImg"
+            />
+            <span v-if="state.scenarioRecord" class="record-banner"
+              >Record: {{ state.scenarioRecord.duration }}</span
+            >
+            <div class="info-wrapper">
+              <h1>{{ state.scenario.title }}</h1>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-center align-items-center flex-column">
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <button @click="goToLastDate" :disabled="chechIfLastIsPossible()">
+                <i class="bi bi-caret-left-fill me-2"></i>Prédent</button
+              ><button @click="goToNextDate">
+                Suivant<i class="bi bi-caret-right-fill ms-2"></i>
+              </button>
+            </div>
+            <div class="date-zone">
+              <div v-for="(date, index) in state.period" :key="index">
+                <DateWrapperCommponent
+                  :date="date"
+                  :timeSlots="state.timeSlots"
+                  :bookedDate="state.datesBooked.bookingDate"
+                  :newDateBooked="state.newDateBooked"
+                  @bookASlot="bookASlot($event)"
+                  @cancelNewDate="state.newDateBooked = null"
+                />
+              </div>
+            </div>
+            <!-- <div class="d-flex justify-content-around align-items-center w-100">
+              <p class="slot slot-booked">Indisponible</p>
+              <p class="slot slot-open">Disponible</p>
+            </div> -->
+            <PriceWrapperComponent
+              :prices="state.prices"
+              :minPlayers="state.scenario.minPlayers"
+              :maxPlayers="state.scenario.maxPlayers"
+              @selectPlayersNumber="setPriceInfo($event)"
+            />
+            <div
+              class="d-flex flex-column align-items-center justify-content-center ms-xl-5 wrapper"
+            >
+              <button
+                :disabled="state.newDateBooked && state.bookingPriceInfo != null ? false : true"
+                @click="sendNewBookedDate"
+              >
+                Réserver
+              </button>
+            </div>
           </div>
         </div>
-        <div class="d-flex flex-column align-items-center justify-content-center ms-xl-5 wrapper">
-          <button>Réserver</button>
+        <div v-else class="mt-5 d-flex justify-content-center align-items-center flex-column">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Chargement...</span>
+          </div>
+          <p class="mt-3">Chargement de la page...</p>
         </div>
-      </div>
-      <div v-else class="mt-5 d-flex justify-content-center align-items-center flex-column">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Chargement...</span>
-        </div>
-        <p class="mt-3">Chargement de la page...</p>
-      </div>
-    </Suspense>
-  </Transition>
+      </Suspense>
+    </Transition>
+  </div>
 </template>
 <script setup lang="ts">
 import { getOneScenarioById } from '@/services/api-request/scenario-manager/scenario-request'
-
-import type { scenarioDto } from '@/dto/scenario.dto'
-import { reactive } from 'vue'
-import { useRouter } from 'vue-router'
 import { getRecordByscenarioId } from '@/services/api-request/game-manager/game-request'
 import { getBookedDateForPeriodByScenarioId } from '@/services/api-request/booking-manager/booking-request'
+import { getPrices } from '@/services/api-request/booking-manager/prices-request'
+import { getAllTimeSlot } from '@/services/api-request/booking-manager/time-slot-request'
+import { formatRecord } from '@/services/utils/format-data-utils'
+import { reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import type { scenarioDto } from '@/dto/scenario.dto'
 import ScenarioImg from '@/components/HomeScenario/ScenarioImg.vue'
+import DateWrapperCommponent from '@/components/booking-components/DateWrapperCommponent.vue'
+import PriceWrapperComponent from '@/components/booking-components/PriceWrapperComponent.vue'
+import type { PricesDto } from '../dto/prices.dto'
 
 const router = useRouter()
 
@@ -48,39 +94,102 @@ const state = reactive<{
   isLoading: boolean
   scenarioId: string
   scenarioRecord: any
-  datesBooked: any[]
+  datesBooked: BookingDate
   startPeriod: Date
+  period: Date[]
+  timeSlots: any[]
+  newDateBooked: { startDate: Date; hour: string } | null
+  prices: PricesDto[]
+  bookingPriceInfo: { price: number; players: number } | null
 }>({
   scenario: {} as scenarioDto,
   isLoading: true,
   scenarioId: router.currentRoute.value.params.id.toString(),
   scenarioRecord: null,
-  datesBooked: [] as any[],
-  startPeriod: new Date()
+  datesBooked: {} as BookingDate,
+  startPeriod: new Date(),
+  period: [],
+  timeSlots: [],
+  newDateBooked: null,
+  prices: [],
+  bookingPriceInfo: null
 })
 
 async function init() {
   state.scenario = await getOneScenarioById(state.scenarioId)
-  console.log(await getBookedDateForPeriodByScenarioId(state.scenarioId, state.startPeriod))
   const recordRequest = await getRecordByscenarioId(state.scenarioId)
   if (recordRequest) {
     state.scenarioRecord = formatRecord(recordRequest)
   } else {
     state.scenarioRecord = null
   }
+  initDates()
+  state.prices = await getPrices()
   state.isLoading = false
+  console.log(state.prices)
+  console.log(state.scenario)
 }
-
+async function initDates() {
+  state.datesBooked = await getBookedDateForPeriodByScenarioId(state.scenarioId, state.startPeriod)
+  state.timeSlots = await getAllTimeSlot()
+  state.period = calcTreeDays()
+}
+interface BookingDate {
+  bookingDate: {
+    hour: string[]
+    startDate: Date
+  }[]
+  start: Date
+  end: Date
+}
 init()
 
-function formatRecord(duration: any) {
-  const array = duration.duration.split(':')
-  const hours = parseInt(array[0])
-  const minutes = parseInt(array[1])
-  const seconds = parseInt(array[2])
-  return {
-    duration: `${hours}h ${minutes}m ${seconds}s`
+function chechIfLastIsPossible() {
+  const today = new Date().toISOString().split('T')[0]
+  const thisperiodStart = state.startPeriod.toISOString().split('T')[0]
+
+  if (today === thisperiodStart) {
+    return true
+  } else {
+    return false
   }
+}
+function calcTreeDays(): Date[] {
+  const today = state.startPeriod
+  const tomorrow = new Date(today)
+  tomorrow.setDate(tomorrow.getDate() + 1)
+  const afterTomorrow = new Date(today)
+  afterTomorrow.setDate(afterTomorrow.getDate() + 2)
+  return [today, tomorrow, afterTomorrow]
+}
+
+function bookASlot(date: { startDate: Date; hour: string }) {
+  state.newDateBooked = date
+}
+
+async function sendNewBookedDate() {
+  if (!state.newDateBooked) return
+  console.log('Try to book new date')
+  console.log(state.newDateBooked)
+  console.log('pour ', state.bookingPriceInfo?.players, 'joueurs')
+  console.log('au prix de ', state.bookingPriceInfo?.price, '€')
+}
+
+function setPriceInfo(priceInfo: { price: number; players: number }) {
+  state.bookingPriceInfo = priceInfo
+}
+
+async function goToLastDate() {
+  const startNewPeriod = new Date(state.startPeriod)
+  startNewPeriod.setDate(startNewPeriod.getDate() - 3)
+  state.startPeriod = new Date(startNewPeriod)
+  state.newDateBooked = null
+  initDates()
+}
+async function goToNextDate() {
+  state.startPeriod = new Date(state.datesBooked.end)
+  state.newDateBooked = null
+  initDates()
 }
 </script>
 
@@ -143,5 +252,16 @@ a {
   font-weight: 400;
   cursor: pointer;
   text-align: center;
+}
+.date-zone {
+  width: 100%;
+  margin: 0 auto;
+  padding: 1rem;
+  background-color: var(--white);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
 }
 </style>
