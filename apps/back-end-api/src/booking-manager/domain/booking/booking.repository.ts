@@ -35,7 +35,8 @@ export class BookingRepository {
                 array_agg(b.time_slot) AS time_slots
             FROM public.booking b
             WHERE b.scenario_id = ${scenarioId}
-            AND ${startDatePeriod}::TIMESTAMP BETWEEN DATE_TRUNC(${granularity.period}, b.start_date) AND DATE_TRUNC(${granularity.period}, b.start_date) + interval '3 days'
+                AND b.start_date >= ${startDatePeriod} 
+                AND b.start_date < ${endDate.toISOString()}
             GROUP BY day
             ORDER BY day
         `);
