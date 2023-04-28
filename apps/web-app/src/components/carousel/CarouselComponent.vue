@@ -37,11 +37,11 @@ const state = reactive<{
   laucherCarousel: 0,
   carouselPicture: [
     {
-      src: 'https://storage.googleapis.com/project-pictures/carousel-1.jpg',
+      src: 'https://storage.googleapis.com/escape-game-img/carousel-1.jpg',
       alt: 'Door in donjon'
     },
     {
-      src: 'https://storage.googleapis.com/project-pictures/carousel-2.jpg',
+      src: 'https://storage.googleapis.com/escape-game-img/carousel-2.jpg',
       alt: 'Table on balck room'
     }
   ]
