@@ -20,7 +20,7 @@
             </div>
           </div>
 
-          <div class="d-flex justify-content-center align-items-center flex-column">
+          <div class="d-flex justify-content-center align-items-center flex-column date-container">
             <div class="d-flex justify-content-between align-items-center w-100">
               <button @click="goToLastDate" :disabled="chechIfLastIsPossible()">
                 <i class="bi bi-caret-left-fill me-2"></i>Prédent</button
@@ -37,7 +37,9 @@
                   :newDateBooked="state.newDateBooked"
                   @bookASlot="bookASlot($event)"
                   @cancelNewDate="state.newDateBooked = null"
+                  v-if="!state.dateIsLoading"
                 />
+                <DateWrapperComponentLoader v-else :timeSlots="state.timeSlots" />
               </div>
             </div>
             <!-- <div class="d-flex justify-content-around align-items-center w-100">
@@ -81,9 +83,11 @@ import { getAllTimeSlot } from '@/services/api-request/booking-manager/time-slot
 import { formatRecord } from '@/services/utils/format-data-utils'
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { useBookingStore } from '@/stores/booking'
 import type { scenarioDto } from '@/dto/scenario.dto'
 import ScenarioImg from '@/components/HomeScenario/ScenarioImg.vue'
 import DateWrapperCommponent from '@/components/booking-components/DateWrapperCommponent.vue'
+import DateWrapperComponentLoader from '@/components/booking-components/DateWrapperComponentLoader.vue'
 import PriceWrapperComponent from '@/components/booking-components/PriceWrapperComponent.vue'
 import type { PricesDto } from '../dto/prices.dto'
 
@@ -130,11 +134,15 @@ async function init() {
   state.isLoading = false
 }
 async function initDates() {
-  state.dateIsLoading = true
   state.datesBooked = await getBookedDateForPeriodByScenarioId(state.scenarioId, state.startPeriod)
+  if (!state.datesBooked.bookingDate.length) {
+    state.datesBooked.bookingDate = []
+  }
   state.timeSlots = await getAllTimeSlot()
   state.period = calcTreeDays()
-  state.dateIsLoading = false
+  setTimeout(() => {
+    state.dateIsLoading = false
+  }, 300)
 }
 interface BookingDate {
   bookingDate: {
@@ -160,11 +168,17 @@ function bookASlot(date: { startDate: Date; hour: string }) {
 }
 
 async function sendNewBookedDate() {
-  if (!state.newDateBooked) return
-  console.log('Try to book new date')
-  console.log(state.newDateBooked)
-  console.log('pour ', state.bookingPriceInfo?.players, 'joueurs')
-  console.log('au prix de ', state.bookingPriceInfo?.price, '€')
+  if (!state.newDateBooked || !state.bookingPriceInfo?.players) return
+  const newBooking = {
+    startDate: state.newDateBooked.startDate,
+    hour: state.newDateBooked.hour,
+    scenarioId: state.scenarioId,
+    scenarioTitle: state.scenario.title,
+    players: state.bookingPriceInfo.players,
+    price: state.bookingPriceInfo?.price
+  }
+  useBookingStore().setNewBooking(newBooking)
+  router.push('/booking-confirmation')
 }
 
 function setPriceInfo(priceInfo: { price: number; players: number }) {
@@ -188,6 +202,7 @@ function reinitializePropsDate() {
   state.datesBooked = {} as BookingDate
 }
 async function goToLastDate() {
+  state.dateIsLoading = true
   const startNewPeriod = new Date(state.startPeriod)
   startNewPeriod.setDate(startNewPeriod.getDate() - 3)
   state.startPeriod = new Date(startNewPeriod)
@@ -196,6 +211,7 @@ async function goToLastDate() {
   initDates()
 }
 async function goToNextDate() {
+  state.dateIsLoading = true
   state.startPeriod = new Date(state.datesBooked.end)
   state.newDateBooked = null
   reinitializePropsDate()
@@ -263,15 +279,19 @@ a {
   cursor: pointer;
   text-align: center;
 }
-.date-zone {
-  width: 100%;
-  margin: 0 auto;
-  padding: 1rem;
-  background-color: var(--white);
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-  margin-top: 2rem;
-  margin-bottom: 2rem;
-  display: flex;
-  justify-content: space-between;
+.date-container {
+  min-width: 360px;
+  .date-zone {
+    width: 100%;
+    height: 450px;
+    margin: 0 auto;
+    padding: 1rem;
+    background-color: var(--white);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+  }
 }
 </style>

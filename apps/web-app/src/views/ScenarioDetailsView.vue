@@ -91,8 +91,6 @@ async function init() {
   const allScenarios = await getAllScenarios()
   allScenarios.map((scenario) => {
     if (scenario.id != state.scenarioId) {
-      console.log(scenario)
-      console.log(state.otherScenarios)
       state.otherScenarios.push(scenario)
     }
   })
@@ -102,8 +100,6 @@ async function init() {
 init()
 
 watchEffect(() => {
-  console.log('states', state.scenarioId)
-  console.log('params', router.currentRoute.value.params.id.toString())
   if (state.scenarioId != router.currentRoute.value.params.id.toString()) {
     state.scenarioId = router.currentRoute.value.params.id.toString()
     state.isLoading = true
