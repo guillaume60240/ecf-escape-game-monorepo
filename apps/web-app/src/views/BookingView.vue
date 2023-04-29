@@ -56,7 +56,13 @@
               class="d-flex flex-column align-items-center justify-content-center ms-xl-5 wrapper"
             >
               <button
-                :disabled="state.newDateBooked && state.bookingPriceInfo != null ? false : true"
+                :disabled="
+                  state.newDateBooked &&
+                  state.bookingPriceInfo != null &&
+                  state.bookingPriceInfo.price != 0
+                    ? false
+                    : true
+                "
                 @click="sendNewBookedDate"
               >
                 Réserver

@@ -1,6 +1,23 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import ModaleOverlayComponent from './components/modals/ModaleOverlayComponent.vue'
+import LoginModaleComponent from './components/modals/LoginModaleComponent.vue'
+import RegistrationModaleComponent from './components/modals/RegistrationModaleComponent.vue'
 import FooterComponent from './components/footer/FooterComponent.vue'
+import { reactive } from 'vue'
+
+function openLoginModal() {
+  console.log('openLoginModal')
+  state.loginModaleIsOpen = true
+}
+
+const state = reactive<{
+  loginModaleIsOpen: boolean
+  registartionModalIsOpen: boolean
+}>({
+  loginModaleIsOpen: false,
+  registartionModalIsOpen: false
+})
 </script>
 
 <template>
@@ -25,7 +42,21 @@ import FooterComponent from './components/footer/FooterComponent.vue'
     </div>
   </header>
 
-  <RouterView class="content" />
+  <RouterView class="content" @openLoginModal="openLoginModal" />
+  <ModaleOverlayComponent v-if="state.loginModaleIsOpen">
+    <LoginModaleComponent
+      @closeLoginModal="state.loginModaleIsOpen = false"
+      @openRegistrationModale="
+        ;(state.loginModaleIsOpen = false), (state.registartionModalIsOpen = true)
+      "
+    />
+  </ModaleOverlayComponent>
+  <ModaleOverlayComponent v-if="state.registartionModalIsOpen">
+    <RegistrationModaleComponent
+      @closeRegistrationModale="state.registartionModalIsOpen = false"
+      @openLoginModale=";(state.loginModaleIsOpen = true), (state.registartionModalIsOpen = false)"
+    />
+  </ModaleOverlayComponent>
 
   <FooterComponent />
 </template>

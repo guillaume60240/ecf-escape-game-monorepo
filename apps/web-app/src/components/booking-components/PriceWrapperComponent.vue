@@ -6,7 +6,7 @@
       name="PlayersNumber"
       @change="selectPlayersNumber($event.target.value)"
     >
-      <option selected>Choississez le nombre de joueurs</option>
+      <option :value="0" selected>Choississez le nombre de joueurs</option>
       <option v-for="player in state.authorizedPlayers" :key="player" :value="player">
         {{ player }}
       </option>
@@ -48,10 +48,16 @@ init()
 function selectPlayersNumber(player: number) {
   state.playersNumberSelected = player
   calcPrice()
+  console.log(state.playersNumberSelected, state.price)
   emits('selectPlayersNumber', { players: state.playersNumberSelected, price: state.price })
 }
 
 function calcPrice() {
+  if (state.playersNumberSelected == 0) {
+    state.price = 0
+    console.log('no players selected')
+    return
+  }
   props.prices.forEach((el) => {
     if (
       el.minPlayers <= state.playersNumberSelected &&

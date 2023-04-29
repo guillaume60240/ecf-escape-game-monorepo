@@ -15,21 +15,31 @@
 
 <script setup lang="ts">
 import { useBookingStore } from '@/stores/booking'
+import { useUserStore } from '@/stores/user'
 import { reactive, watchEffect } from 'vue'
 import type { BookingDto } from '../dto/booking.dto'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const bookingStore = useBookingStore()
+const userStore = useUserStore()
 const state = reactive<{
   booking: BookingDto
 }>({
   booking: useBookingStore().getBooking()
 })
 
+const emits = defineEmits<{
+  (event: 'openLoginModal'): void
+}>()
+
 const displayDate = (date: Date) => {
-  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
-  return date.toLocaleDateString('fr-FR', options)
+  return date.toLocaleDateString('fr-FR', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
 }
 
 function deleteNewBookingDate() {
@@ -39,6 +49,12 @@ function deleteNewBookingDate() {
 
 function registerNewBookingDate() {
   console.log('registerNewBookingDate')
+  const user = userStore.getUser()
+  console.log(user)
+  if (!user.id) {
+    console.log('no user')
+    emits('openLoginModal')
+  }
 }
 
 watchEffect(() => {
