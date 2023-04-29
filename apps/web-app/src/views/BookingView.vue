@@ -92,6 +92,7 @@ const router = useRouter()
 const state = reactive<{
   scenario: scenarioDto
   isLoading: boolean
+  dateIsLoading: boolean
   scenarioId: string
   scenarioRecord: any
   datesBooked: BookingDate
@@ -104,6 +105,7 @@ const state = reactive<{
 }>({
   scenario: {} as scenarioDto,
   isLoading: true,
+  dateIsLoading: true,
   scenarioId: router.currentRoute.value.params.id.toString(),
   scenarioRecord: null,
   datesBooked: {} as BookingDate,
@@ -126,13 +128,13 @@ async function init() {
   initDates()
   state.prices = await getPrices()
   state.isLoading = false
-  console.log(state.prices)
-  console.log(state.scenario)
 }
 async function initDates() {
+  state.dateIsLoading = true
   state.datesBooked = await getBookedDateForPeriodByScenarioId(state.scenarioId, state.startPeriod)
   state.timeSlots = await getAllTimeSlot()
   state.period = calcTreeDays()
+  state.dateIsLoading = false
 }
 interface BookingDate {
   bookingDate: {
@@ -144,16 +146,6 @@ interface BookingDate {
 }
 init()
 
-function chechIfLastIsPossible() {
-  const today = new Date().toISOString().split('T')[0]
-  const thisperiodStart = state.startPeriod.toISOString().split('T')[0]
-
-  if (today === thisperiodStart) {
-    return true
-  } else {
-    return false
-  }
-}
 function calcTreeDays(): Date[] {
   const today = state.startPeriod
   const tomorrow = new Date(today)
@@ -179,16 +171,34 @@ function setPriceInfo(priceInfo: { price: number; players: number }) {
   state.bookingPriceInfo = priceInfo
 }
 
+/// pagination des date
+function chechIfLastIsPossible() {
+  const today = new Date().toISOString().split('T')[0]
+  const thisperiodStart = state.startPeriod.toISOString().split('T')[0]
+
+  if (today === thisperiodStart) {
+    return true
+  } else {
+    return false
+  }
+}
+
+function reinitializePropsDate() {
+  state.timeSlots = []
+  state.datesBooked = {} as BookingDate
+}
 async function goToLastDate() {
   const startNewPeriod = new Date(state.startPeriod)
   startNewPeriod.setDate(startNewPeriod.getDate() - 3)
   state.startPeriod = new Date(startNewPeriod)
   state.newDateBooked = null
+  reinitializePropsDate()
   initDates()
 }
 async function goToNextDate() {
   state.startPeriod = new Date(state.datesBooked.end)
   state.newDateBooked = null
+  reinitializePropsDate()
   initDates()
 }
 </script>

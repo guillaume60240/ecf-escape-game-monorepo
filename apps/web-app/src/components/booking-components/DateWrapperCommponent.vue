@@ -11,7 +11,7 @@
           :label="slot.hour"
           :startDate="props.date"
           :isLost="isTimeLost(slot.hour)"
-          :isBooked="state.slotsBooked.find((el) => el == slot.hour) ? true : false"
+          :isBooked="checkIfIsSlotBooked(slot.hour)"
           :newDateBooked="props.newDateBooked"
           @bookASlot="emits('bookASlot', $event)"
           @cancelNewDate="emits('cancelNewDate')"
@@ -22,13 +22,9 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, watchEffect } from 'vue'
 import SlotComponent from './SlotComponent.vue'
 
-interface Slot {
-  id: string
-  hour: string
-}
 const props = defineProps<{
   date: Date
   bookedDate: any[]
@@ -39,9 +35,11 @@ const props = defineProps<{
 const state = reactive<{
   slotsBooked: any[]
   now: Date
+  startDate: Date
 }>({
   slotsBooked: [],
-  now: new Date()
+  now: new Date(),
+  startDate: new Date(props.date)
 })
 
 const emits = defineEmits<{
@@ -51,6 +49,10 @@ const emits = defineEmits<{
 
 function isBooked(date: Date) {
   const dateToCompare = date.toISOString().split('T')[0]
+  if (!props.bookedDate.length) {
+    state.slotsBooked = []
+    return
+  }
   props.bookedDate.forEach((el) => {
     if (el.startDate.split('T')[0] === dateToCompare) {
       el.hour.forEach((hour: any) => {
@@ -60,6 +62,10 @@ function isBooked(date: Date) {
   })
 }
 
+function checkIfIsSlotBooked(hour: string) {
+  if (!state.slotsBooked) return false
+  return state.slotsBooked.find((el) => el == hour) ? true : false
+}
 function isTimeLost(hour: string) {
   const hourToCompare = hour.split(':')[0]
   if (
@@ -72,6 +78,11 @@ function isTimeLost(hour: string) {
   return false
 }
 isBooked(props.date)
+
+watchEffect(() => {
+  if (props.date != state.startDate) isBooked(props.date)
+  state.startDate = props.date
+})
 </script>
 
 <style scoped lang="scss">
