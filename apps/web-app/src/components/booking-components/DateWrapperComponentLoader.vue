@@ -8,7 +8,7 @@
           :isLost="true"
           :isBooked="true"
           :startDate="new Date()"
-          :newDateBooked="{}"
+          :newDateBooked="null"
         />
       </template>
     </div>

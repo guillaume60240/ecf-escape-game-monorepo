@@ -4,7 +4,8 @@
       class="form-select form-select mb-3"
       aria-label=".form-select-lg example"
       name="PlayersNumber"
-      @change="selectPlayersNumber($event.target.value)"
+      v-model="state.playersNumberSelected"
+      @change="selectPlayersNumber()"
     >
       <option :value="0" selected>Choississez le nombre de joueurs</option>
       <option v-for="player in state.authorizedPlayers" :key="player" :value="player">
@@ -45,17 +46,14 @@ function init() {
 
 init()
 
-function selectPlayersNumber(player: number) {
-  state.playersNumberSelected = player
+function selectPlayersNumber() {
   calcPrice()
-  console.log(state.playersNumberSelected, state.price)
   emits('selectPlayersNumber', { players: state.playersNumberSelected, price: state.price })
 }
 
 function calcPrice() {
   if (state.playersNumberSelected == 0) {
     state.price = 0
-    console.log('no players selected')
     return
   }
   props.prices.forEach((el) => {
