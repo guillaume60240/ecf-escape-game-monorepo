@@ -18,6 +18,7 @@ export const databaseProviders = [
         database: process.env.DB_NAME || 'test_postgres',
         entities: [User, Scenario, Price, TimeSlot, Game],
         synchronize: true,
+        ssl: true,
       });
       return dataSource.initialize();
     },
