@@ -28,7 +28,9 @@
           </div>
         </div>
         <div class="d-flex flex-column align-items-center justify-content-center ms-xl-5 wrapper">
-          <button>Réserver</button>
+          <RouterLink :to="{ name: 'booking', params: { id: state.scenario.id } }"
+            ><button>Réserver</button></RouterLink
+          >
           <div class="mt-5">
             <h3>Les autres scénarios</h3>
             <template v-for="(scenario, index) in state.otherScenarios" :key="index">
@@ -53,11 +55,12 @@ import {
   getAllScenarios,
   getOneScenarioById
 } from '@/services/api-request/scenario-manager/scenario-request'
+import { getRecordByscenarioId } from '@/services/api-request/game-manager/game-request'
+import { formatRecord } from '@/services/utils/format-data-utils'
 
 import type { scenarioDto } from '@/dto/scenario.dto'
 import { reactive, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
-import { getRecordByscenarioId } from '@/services/api-request/game-manager/game-request'
 import ScenarioImg from '@/components/HomeScenario/ScenarioImg.vue'
 
 const router = useRouter()
@@ -88,8 +91,6 @@ async function init() {
   const allScenarios = await getAllScenarios()
   allScenarios.map((scenario) => {
     if (scenario.id != state.scenarioId) {
-      console.log(scenario)
-      console.log(state.otherScenarios)
       state.otherScenarios.push(scenario)
     }
   })
@@ -99,23 +100,12 @@ async function init() {
 init()
 
 watchEffect(() => {
-  console.log('states', state.scenarioId)
-  console.log('params', router.currentRoute.value.params.id.toString())
   if (state.scenarioId != router.currentRoute.value.params.id.toString()) {
     state.scenarioId = router.currentRoute.value.params.id.toString()
     state.isLoading = true
     init()
   }
 })
-function formatRecord(duration: any) {
-  const array = duration.duration.split(':')
-  const hours = parseInt(array[0])
-  const minutes = parseInt(array[1])
-  const seconds = parseInt(array[2])
-  return {
-    duration: `${hours}h ${minutes}m ${seconds}s`
-  }
-}
 </script>
 
 <style scoped lang="scss">

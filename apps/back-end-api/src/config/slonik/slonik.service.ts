@@ -44,6 +44,9 @@ export class SlonikService implements BeforeApplicationShutdown {
         +(process.env.POSTGRES_TRANSACTION_RETRY_LIMIT as string) || 2,
       captureStackTrace: true,
       interceptors,
+      ssl: {
+        rejectUnauthorized: false,
+      },
     };
     this.pool = createPool(connectionUri, slonikConfig);
     this.logger.log(`Slonik connected to ${c.host} as ${c.user}`, {

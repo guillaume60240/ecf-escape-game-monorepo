@@ -9,7 +9,7 @@
       <RouterLink :to="{ name: 'scenarios', params: { id: props.scenario.id } }"
         >Voir plus</RouterLink
       >
-      <RouterLink :to="{ name: 'home' }">Réserver</RouterLink>
+      <RouterLink :to="{ name: 'booking', params: { id: scenario.id } }">Réserver</RouterLink>
     </div>
     <div class="footer mb-2">
       <span>de {{ props.scenario.minPlayers }} à {{ props.scenario.maxPlayers }} joueurs</span>

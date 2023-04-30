@@ -11,7 +11,7 @@ VALUES(
     1,
     7,
     45,
-    'https://storage.googleapis.com/project-pictures/hassan-pasha-nEbMedmVwgw-unsplash.jpg'
+    'https://storage.googleapis.com/escape-game-img/hassan-pasha-nEbMedmVwgw-unsplash.jpg'
 ),
 (
     'Le mystère de la chambre rouge',
@@ -25,5 +25,5 @@ VALUES(
     1,
     8,
     60,
-    'https://storage.googleapis.com/project-pictures/le-mystere-de-la-chambre-rouge.jpeg'
+    'https://storage.googleapis.com/escape-game-img/le-mystere-de-la-chambre-rouge.jpeg'
 );
