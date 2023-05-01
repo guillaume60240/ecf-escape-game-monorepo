@@ -76,8 +76,15 @@
         v-model="state.validCondition"
       />
       <label class="form-check-label" for="validCondition">
-        J'accepte les conditions générales de vente</label
-      >
+        J'accepte
+        <RouterLink to="/confidential-policies" @click="closeRegistrationModale()"
+          >la politique de confidentialité</RouterLink
+        >
+        et
+        <RouterLink to="/general-conditions" @click="closeRegistrationModale()"
+          >les conditions générales de vente</RouterLink
+        >
+      </label>
     </div>
     <div class="form-check mb-3">
       <input

@@ -16,8 +16,12 @@
         </template>
         <template v-slot:content>
           <a href="">La FAQ</a>
-          <a href="">Polique de confidentialité</a>
-          <a href="">Les conditions générales de vente</a>
+          <RouterLink to="/confidential-policies#politiciestitle"
+            >Polique de confidentialité</RouterLink
+          >
+          <RouterLink to="/general-conditions#conditionstitle"
+            >Les conditions générales de vente</RouterLink
+          >
         </template>
       </ContentWrapper>
       <ContentWrapper class="col-12">

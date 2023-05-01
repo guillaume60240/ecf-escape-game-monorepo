@@ -45,7 +45,9 @@ const state = reactive<{
   <header>
     <div class="d-flex align-items-top justify-content-between">
       <div class="d-flex flex-column align-items-start">
-        <img alt="Escape Game logo" class="logo" src="@/assets/icon.jpg" />
+        <router-link to="/">
+          <img alt="Escape Game logo" class="logo" src="@/assets/icon.jpg" />
+        </router-link>
         <p class="icon-text">The Escape Game</p>
       </div>
 
