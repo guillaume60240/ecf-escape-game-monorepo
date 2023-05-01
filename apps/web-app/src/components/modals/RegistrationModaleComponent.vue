@@ -4,6 +4,10 @@
       <i class="bi bi-x-lg"></i>
     </button>
     <h3>Espace inscription</h3>
+    <div class="alert alert-danger" v-if="state.registrationFailed">
+      Une erreur est survenue lors de l'inscription. Merci de contacter Escape Game pour plus
+      d'informations.
+    </div>
     <hr />
     <div class="mb-3">
       <label for="userMailInput" class="form-label">Adresse mail</label>
@@ -136,6 +140,7 @@ const state = reactive<{
   imHuman: boolean
   captchaIsValid: boolean
   userNameIsValid: boolean
+  registrationFailed: boolean
 }>({
   userMail: '',
   firstPassword: '',
@@ -147,7 +152,8 @@ const state = reactive<{
   emailIsValid: false,
   imHuman: false,
   captchaIsValid: false,
-  userNameIsValid: false
+  userNameIsValid: false,
+  registrationFailed: false
 })
 const inputValue = ref(null)
 
@@ -187,11 +193,16 @@ async function registerNewUser() {
         id: '',
         mail: state.userMail,
         name: '',
-        accesToken: request.access_token
+        accesToken: loginRequest.access_token
       })
       console.log('login ok')
+      emits('registerNewUser')
       closeRegistrationModale()
+    } else {
+      state.registrationFailed = true
     }
+  } else {
+    state.registrationFailed = true
   }
 }
 watchEffect(() => {
@@ -218,6 +229,7 @@ watchEffect(() => {
 const emits = defineEmits<{
   (event: 'closeRegistrationModale'): void
   (event: 'openLoginModale'): void
+  (event: 'registerNewUser'): void
 }>()
 
 function closeRegistrationModale() {
@@ -235,8 +247,10 @@ function openLoginModale() {
   padding: 2rem;
   border-radius: 5px;
   min-width: 90%;
+  max-height: 100%;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
   position: relative;
+  overflow: scroll;
 
   .closeButton {
     position: absolute;
