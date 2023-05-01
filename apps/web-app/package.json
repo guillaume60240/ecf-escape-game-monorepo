@@ -21,6 +21,7 @@
     "dotenv": "^16.0.3",
     "pinia": "^2.0.32",
     "vue": "^3.2.47",
+    "vue-client-recaptcha": "^1.1.1",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
