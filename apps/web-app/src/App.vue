@@ -9,20 +9,19 @@ import { useUserStore } from '@/stores/user'
 import type { userDto } from './dto/user.dto'
 
 const userStore = useUserStore()
-
 function openLoginModal() {
   console.log('openLoginModal')
   state.loginModaleIsOpen = true
 }
 
 function closeLoginModal() {
-  state.user = userStore.user
   state.loginModaleIsOpen = false
+  state.user = userStore.getUser()
 }
 
 function closeRegistrationModale() {
-  state.user = userStore.user
   state.registartionModalIsOpen = false
+  state.user = userStore.getUser()
 }
 
 function logoutUser() {
@@ -30,19 +29,33 @@ function logoutUser() {
   state.user = userStore.user
 }
 
+function registerUserSuccess() {
+  state.newUserRegistrationSuccess = true
+  state.registartionModalIsOpen = false
+  state.user = userStore.getUser()
+  setTimeout(() => {
+    state.newUserRegistrationSuccess = false
+  }, 5000)
+}
+
 const state = reactive<{
   loginModaleIsOpen: boolean
   registartionModalIsOpen: boolean
   user: userDto
+  newUserRegistrationSuccess: boolean
 }>({
   loginModaleIsOpen: false,
   registartionModalIsOpen: false,
-  user: userStore.user
+  user: userStore.user,
+  newUserRegistrationSuccess: false
 })
 </script>
 
 <template>
   <header>
+    <div class="alert alert-success" v-if="state.newUserRegistrationSuccess">
+      Merci pour votre inscription
+    </div>
     <div class="d-flex align-items-top justify-content-between">
       <div class="d-flex flex-column align-items-start">
         <router-link to="/">
@@ -90,6 +103,7 @@ const state = reactive<{
     <RegistrationModaleComponent
       @closeRegistrationModale="closeRegistrationModale"
       @openLoginModale=";(state.loginModaleIsOpen = true), (state.registartionModalIsOpen = false)"
+      @registerNewUser="registerUserSuccess"
     />
   </ModaleOverlayComponent>
 
@@ -108,6 +122,11 @@ header {
     font-size: 14px;
     font-weight: bold;
     margin-top: 1rem;
+  }
+  .alert {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
   }
 
   .title-wrapper {
