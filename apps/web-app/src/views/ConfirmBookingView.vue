@@ -48,10 +48,9 @@ function deleteNewBookingDate() {
 }
 
 function registerNewBookingDate() {
-  console.log('registerNewBookingDate')
   const user = userStore.getUser()
   console.log(user)
-  if (!user.id) {
+  if (!user.accesToken) {
     console.log('no user')
     emits('openLoginModal')
   }

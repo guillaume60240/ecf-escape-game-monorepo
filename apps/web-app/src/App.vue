@@ -5,18 +5,39 @@ import LoginModaleComponent from './components/modals/LoginModaleComponent.vue'
 import RegistrationModaleComponent from './components/modals/RegistrationModaleComponent.vue'
 import FooterComponent from './components/footer/FooterComponent.vue'
 import { reactive } from 'vue'
+import { useUserStore } from '@/stores/user'
+import type { userDto } from './dto/user.dto'
+
+const userStore = useUserStore()
 
 function openLoginModal() {
   console.log('openLoginModal')
   state.loginModaleIsOpen = true
 }
 
+function closeLoginModal() {
+  state.user = userStore.user
+  state.loginModaleIsOpen = false
+}
+
+function closeRegistrationModale() {
+  state.user = userStore.user
+  state.registartionModalIsOpen = false
+}
+
+function logoutUser() {
+  userStore.resetUser()
+  state.user = userStore.user
+}
+
 const state = reactive<{
   loginModaleIsOpen: boolean
   registartionModalIsOpen: boolean
+  user: userDto
 }>({
   loginModaleIsOpen: false,
-  registartionModalIsOpen: false
+  registartionModalIsOpen: false,
+  user: userStore.user
 })
 </script>
 
@@ -24,7 +45,9 @@ const state = reactive<{
   <header>
     <div class="d-flex align-items-top justify-content-between">
       <div class="d-flex flex-column align-items-start">
-        <img alt="Escape Game logo" class="logo" src="@/assets/icon.jpg" />
+        <router-link to="/">
+          <img alt="Escape Game logo" class="logo" src="@/assets/icon.jpg" />
+        </router-link>
         <p class="icon-text">The Escape Game</p>
       </div>
 
@@ -36,8 +59,20 @@ const state = reactive<{
     <div class="wrapper">
       <nav>
         <RouterLink to="/">Accueil</RouterLink>
-        <RouterLink to="/about">Connexion</RouterLink>
-        <RouterLink to="/about">Créer un compte</RouterLink>
+        <span
+          class="modal-action"
+          @click=";(state.loginModaleIsOpen = true), (state.registartionModalIsOpen = false)"
+          v-if="!state.user.accesToken"
+          >Connexion</span
+        >
+        <span v-else class="modal-action" @click="logoutUser">Déconnexion</span>
+        <span
+          class="modal-action"
+          @click=";(state.loginModaleIsOpen = false), (state.registartionModalIsOpen = true)"
+          v-if="!state.user.accesToken"
+          >Créer un compte</span
+        >
+        <span v-else class="modal-action">Mon compte</span>
       </nav>
     </div>
   </header>
@@ -45,7 +80,7 @@ const state = reactive<{
   <RouterView class="content" @openLoginModal="openLoginModal" />
   <ModaleOverlayComponent v-if="state.loginModaleIsOpen">
     <LoginModaleComponent
-      @closeLoginModal="state.loginModaleIsOpen = false"
+      @closeLoginModal="closeLoginModal"
       @openRegistrationModale="
         ;(state.loginModaleIsOpen = false), (state.registartionModalIsOpen = true)
       "
@@ -53,7 +88,7 @@ const state = reactive<{
   </ModaleOverlayComponent>
   <ModaleOverlayComponent v-if="state.registartionModalIsOpen">
     <RegistrationModaleComponent
-      @closeRegistrationModale="state.registartionModalIsOpen = false"
+      @closeRegistrationModale="closeRegistrationModale"
       @openLoginModale=";(state.loginModaleIsOpen = true), (state.registartionModalIsOpen = false)"
     />
   </ModaleOverlayComponent>
@@ -115,6 +150,13 @@ header {
     display: flex;
     justify-content: space-around;
     align-items: center;
+
+    .modal-action {
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: regular;
+      color: var(--text-nav);
+    }
   }
 
   nav a.router-link-exact-active {

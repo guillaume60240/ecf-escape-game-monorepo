@@ -7,14 +7,32 @@
     <hr />
     <div class="mb-3">
       <label for="mailInput" class="form-label">Adresse mail</label>
-      <input type="email" class="form-control" id="mailInput" placeholder="name@example.com" />
+      <input
+        type="email"
+        class="form-control"
+        id="mailInput"
+        placeholder="name@example.com"
+        v-model="state.userMail"
+      />
     </div>
     <div class="mb-3">
       <label for="passwordInput" class="form-label">Mot de passe</label>
-      <input type="password" class="form-control" id="passwordInput" placeholder="password" />
+      <input
+        type="password"
+        class="form-control"
+        id="passwordInput"
+        placeholder="password"
+        v-model="state.userPassword"
+      />
     </div>
     <div class="d-flex justify-content-evenly align-items-center w-100">
-      <button class="btn btn-primary">Valider</button>
+      <button
+        class="btn btn-primary"
+        :disabled="!state.userMail || !state.userPassword"
+        @click="sendLogin"
+      >
+        Valider
+      </button>
     </div>
     <div class="mt-2">
       <button class="registerRedirectionButton">
@@ -25,6 +43,36 @@
 </template>
 
 <script setup lang="ts">
+import { reactive } from 'vue'
+import { login } from '@/services/api-request/user-manager/user-services'
+import { useUserStore } from '@/stores/user'
+
+const state = reactive<{
+  userMail: string
+  userPassword: string
+}>({
+  userMail: '',
+  userPassword: ''
+})
+
+async function sendLogin() {
+  const request = await login(state.userMail, state.userPassword)
+  console.log(request)
+  if (request) {
+    const userStore = useUserStore()
+    userStore.setUser({
+      //TODO : add id
+      id: '',
+      mail: state.userMail,
+      // TODO : add username
+      name: '',
+      accesToken: request.access_token
+    })
+    closeLoginModal()
+  } else {
+    console.log('error')
+  }
+}
 const emits = defineEmits<{
   (event: 'closeLoginModal'): void
   (event: 'openRegistrationModale'): void
