@@ -188,14 +188,22 @@ async function registerNewUser() {
     const loginRequest = await login(state.userMail, state.firstPassword)
     console.log('registration ok')
     if (loginRequest) {
+      localStorage.setItem(
+        'user',
+        JSON.stringify({
+          id: loginRequest.userId,
+          mail: loginRequest.userMail,
+          name: loginRequest.userName,
+          accesToken: loginRequest.access_token
+        })
+      )
       const userStore = useUserStore()
       userStore.setUser({
-        id: '',
-        mail: state.userMail,
-        name: '',
+        id: loginRequest.userId,
+        mail: loginRequest.userMail,
+        name: loginRequest.userName,
         accesToken: loginRequest.access_token
       })
-      console.log('login ok')
       emits('registerNewUser')
       closeRegistrationModale()
     } else {

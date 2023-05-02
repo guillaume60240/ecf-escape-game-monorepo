@@ -1,5 +1,8 @@
 <template>
   <div class="modale-container">
+    <div class="alert alert-danger" v-if="state.onError">
+      Une erreur est survenue, merci de réessayer ultérieurement.
+    </div>
     <button class="btn btn-link closeButton" @click="closeLoginModal()">
       <i class="bi bi-x-lg"></i>
     </button>
@@ -50,27 +53,35 @@ import { useUserStore } from '@/stores/user'
 const state = reactive<{
   userMail: string
   userPassword: string
+  onError: boolean
 }>({
   userMail: '',
-  userPassword: ''
+  userPassword: '',
+  onError: false
 })
 
 async function sendLogin() {
   const request = await login(state.userMail, state.userPassword)
-  console.log(request)
   if (request) {
+    localStorage.setItem(
+      'user',
+      JSON.stringify({
+        id: request.userId,
+        mail: request.userMail,
+        name: request.userName,
+        accesToken: request.access_token
+      })
+    )
     const userStore = useUserStore()
     userStore.setUser({
-      //TODO : add id
-      id: '',
-      mail: state.userMail,
-      // TODO : add username
-      name: '',
+      id: request.userId,
+      mail: request.userMail,
+      name: request.userName,
       accesToken: request.access_token
     })
     closeLoginModal()
   } else {
-    console.log('error')
+    loginError()
   }
 }
 const emits = defineEmits<{
@@ -84,6 +95,13 @@ function closeLoginModal() {
 
 function openRegistrationModale() {
   emits('openRegistrationModale')
+}
+
+function loginError() {
+  state.onError = true
+  setTimeout(() => {
+    state.onError = false
+  }, 5000)
 }
 </script>
 
@@ -116,6 +134,11 @@ function openRegistrationModale() {
     cursor: pointer;
     outline: inherit;
     color: var(--info-500);
+  }
+  .alert {
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
   }
 }
 </style>

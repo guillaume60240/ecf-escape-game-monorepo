@@ -28,6 +28,9 @@ export class AuthService {
         secret: process.env.JWT_SECRET,
         algorithm: 'HS256',
       }),
+      userId: user.id,
+      userMail: user.email,
+      userName: user.name,
     };
   }
 }

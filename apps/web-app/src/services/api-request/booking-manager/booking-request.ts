@@ -14,3 +14,32 @@ export async function getBookedDateForPeriodByScenarioId(scenarioId: string, per
   )
   return response.ok ? await response.json() : null
 }
+
+export async function bookNewDate(
+  date: Date,
+  timeSlot: string,
+  players: number,
+  price: number,
+  userId: string,
+  scenarioId: string,
+  jwt: string
+) {
+  const response = await fetch(`${API_URl}/booking/new-booking`, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${jwt}`
+    },
+    body: JSON.stringify({
+      startDate: date.toISOString(),
+      timeSlot,
+      players,
+      price,
+      scenarioId,
+      userId
+    })
+  })
+  return response.status
+}
