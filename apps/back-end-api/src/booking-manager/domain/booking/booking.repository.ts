@@ -24,7 +24,6 @@ export class BookingRepository {
       datePart: sql`date_part('day', b.start_date)`,
     };
     const startDatePeriod = sql`${startDate.toISOString()}`;
-    console.log('startDate= >', startDate);
 
     const endDate = new Date(startDate);
     endDate.setDate(startDate.getDate() + 3);

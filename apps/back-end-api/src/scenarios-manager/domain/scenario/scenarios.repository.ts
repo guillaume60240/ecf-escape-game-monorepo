@@ -15,7 +15,6 @@ export class ScenarioRepository {
   }
 
   async getOneScenarioById(id: number): Promise<ScenarioEntity> {
-    console.log('id ', id);
     const { rows } = await this.slonik.query(sql`
             SELECT * FROM public.scenario
             WHERE public.scenario.id = ${id}

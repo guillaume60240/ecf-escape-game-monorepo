@@ -20,7 +20,6 @@ export class BookingService {
   }
 
   async createBooking(newBookingDate: NewBookingDateDto) {
-    console.log(newBookingDate.startDate);
     const request = await this.repository.createBooking(
       new Date(newBookingDate.startDate),
       newBookingDate.timeSlot,

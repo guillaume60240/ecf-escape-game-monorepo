@@ -7,7 +7,6 @@ export class UserGuard implements CanActivate {
   constructor(private userService: UserService) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    console.log(request.body);
     const token = request.headers['authorization'].split(' ')[1];
     if (!token) return false;
     const decoded = verify(token, process.env.JWT_SECRET);

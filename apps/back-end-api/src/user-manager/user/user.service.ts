@@ -26,7 +26,6 @@ export class UserService {
       throw new Error('Internal server error');
     }
     const newUser = await this.usersRepository.saveNewUser(user);
-    console.log(newUser);
     return {
       id: newUser.id,
       email: newUser.email,
