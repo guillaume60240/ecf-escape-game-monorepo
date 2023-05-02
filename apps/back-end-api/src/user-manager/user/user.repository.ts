@@ -15,7 +15,7 @@ export class UserRepository {
     return rows as User[];
   }
 
-  async getOneUserById(id: number): Promise<User> {
+  async getOneUserById(id: string): Promise<User> {
     const { rows } = await this.slonik.query(sql`
         SELECT * FROM public.user
         WHERE id = ${id}

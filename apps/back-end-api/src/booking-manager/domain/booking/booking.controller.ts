@@ -1,12 +1,19 @@
 import {
+  Body,
   Controller,
   Get,
   InternalServerErrorException,
+  Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { BookingService } from './booking.service';
-import { BookedDateDto } from '../../dto/responses/booked-date.dto';
+import {
+  BookedDateDto,
+  NewBookingDateDto,
+} from '../../dto/responses/booked-date.dto';
+import { UserGuard } from '../../../guard/user.guard';
 
 @ApiTags('Booking manager')
 @Controller('booking')
@@ -37,5 +44,32 @@ export class BookingController {
       scenarioId,
       new Date(date),
     );
+  }
+
+  @UseGuards(UserGuard)
+  @Post('/new-booking')
+  @ApiResponse({
+    status: 201,
+    description: 'Booking created',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error',
+    type: InternalServerErrorException,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request',
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Non authorized',
+  })
+  @ApiOperation({
+    summary: 'Create booking',
+    description: 'Create booking',
+  })
+  async createBooking(@Body() booking: NewBookingDateDto) {
+    return await this.service.createBooking(booking);
   }
 }

@@ -51,4 +51,21 @@ export class BookingRepository {
       end: endDate,
     };
   }
+
+  async createBooking(
+    date: Date,
+    timeSlot: string,
+    userId: string,
+    scenarioId: string,
+    players: number,
+    price: number,
+  ) {
+    const request = await this.slonik.query(sql`
+            INSERT INTO public.booking(
+                start_date, time_slot, user_id, scenario_id, players, price)
+                VALUES (${date.toISOString()}, ${timeSlot}, ${userId}, ${scenarioId}, ${players}, ${price})
+                RETURNING id;
+        `);
+    return request;
+  }
 }

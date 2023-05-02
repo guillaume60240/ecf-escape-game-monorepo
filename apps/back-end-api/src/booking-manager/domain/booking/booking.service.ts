@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { BookingRepository } from './booking.repository';
-import { BookedDateDto } from '../../dto/responses/booked-date.dto';
+import {
+  BookedDateDto,
+  NewBookingDateDto,
+} from '../../dto/responses/booked-date.dto';
 
 @Injectable()
 export class BookingService {
@@ -14,5 +17,18 @@ export class BookingService {
       scenarioId,
       startDate,
     );
+  }
+
+  async createBooking(newBookingDate: NewBookingDateDto) {
+    console.log(newBookingDate.startDate);
+    const request = await this.repository.createBooking(
+      new Date(newBookingDate.startDate),
+      newBookingDate.timeSlot,
+      newBookingDate.userId,
+      newBookingDate.scenarioId,
+      newBookingDate.players,
+      newBookingDate.price,
+    );
+    return request;
   }
 }

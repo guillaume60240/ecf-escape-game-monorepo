@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsNumber } from 'class-validator';
+import { IsDate, IsNumber, IsString } from 'class-validator';
 
 export class BookedDateDto {
   @ApiProperty({
@@ -29,4 +29,25 @@ class BookingDto {
   constructor(data: Partial<BookingDto> = {}) {
     Object.assign(this, data);
   }
+}
+
+export class NewBookingDateDto {
+  @ApiProperty()
+  @IsString()
+  startDate: string;
+  @ApiProperty()
+  @IsString()
+  timeSlot: string;
+  @ApiProperty()
+  @IsNumber()
+  players: number;
+  @ApiProperty()
+  @IsNumber()
+  price: number;
+  @ApiProperty()
+  @IsString()
+  scenarioId: string;
+  @ApiProperty()
+  @IsString()
+  userId: string;
 }
