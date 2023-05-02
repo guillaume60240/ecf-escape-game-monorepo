@@ -28,26 +28,49 @@ export class SlonikService implements BeforeApplicationShutdown {
     const interceptors = [
       new SlonikLoggingInterceptor({ logValues: false, logSQL: true }),
     ];
-    const slonikConfig: Partial<ClientConfigurationInput> = {
-      connectionRetryLimit:
-        +(process.env.POSTGRES_TRANSACTION_RETRY_LIMIT as string) || 2,
-      connectionTimeout:
-        +(process.env.POSTGRES_STATEMENT_TIMEOUT as string) || 25000,
-      idleInTransactionSessionTimeout:
-        +(process.env.POSTGRES_IDLE_IN_TRANSACTION_SESSION_TIMEOUT as string) ||
-        20000,
-      idleTimeout: +(process.env.POSTGRES_IDLE_TIMEOUT as string) || 100,
-      maximumPoolSize: +(process.env.POSTGRES_MAX_CONNECTIONS as string) || 10,
-      statementTimeout:
-        +(process.env.POSTGRES_STATEMENT_TIMEOUT as string) || 25000,
-      transactionRetryLimit:
-        +(process.env.POSTGRES_TRANSACTION_RETRY_LIMIT as string) || 2,
-      captureStackTrace: true,
-      interceptors,
-      ssl: {
-        rejectUnauthorized: false,
-      },
-    };
+    const slonikConfig: Partial<ClientConfigurationInput> =
+      process.env.SSL_ENABLED == 'true'
+        ? {
+            connectionRetryLimit:
+              +(process.env.POSTGRES_TRANSACTION_RETRY_LIMIT as string) || 2,
+            connectionTimeout:
+              +(process.env.POSTGRES_STATEMENT_TIMEOUT as string) || 25000,
+            idleInTransactionSessionTimeout:
+              +(process.env
+                .POSTGRES_IDLE_IN_TRANSACTION_SESSION_TIMEOUT as string) ||
+              20000,
+            idleTimeout: +(process.env.POSTGRES_IDLE_TIMEOUT as string) || 100,
+            maximumPoolSize:
+              +(process.env.POSTGRES_MAX_CONNECTIONS as string) || 10,
+            statementTimeout:
+              +(process.env.POSTGRES_STATEMENT_TIMEOUT as string) || 25000,
+            transactionRetryLimit:
+              +(process.env.POSTGRES_TRANSACTION_RETRY_LIMIT as string) || 2,
+            captureStackTrace: true,
+            interceptors,
+            ssl: {
+              rejectUnauthorized: false,
+            },
+          }
+        : {
+            connectionRetryLimit:
+              +(process.env.POSTGRES_TRANSACTION_RETRY_LIMIT as string) || 2,
+            connectionTimeout:
+              +(process.env.POSTGRES_STATEMENT_TIMEOUT as string) || 25000,
+            idleInTransactionSessionTimeout:
+              +(process.env
+                .POSTGRES_IDLE_IN_TRANSACTION_SESSION_TIMEOUT as string) ||
+              20000,
+            idleTimeout: +(process.env.POSTGRES_IDLE_TIMEOUT as string) || 100,
+            maximumPoolSize:
+              +(process.env.POSTGRES_MAX_CONNECTIONS as string) || 10,
+            statementTimeout:
+              +(process.env.POSTGRES_STATEMENT_TIMEOUT as string) || 25000,
+            transactionRetryLimit:
+              +(process.env.POSTGRES_TRANSACTION_RETRY_LIMIT as string) || 2,
+            captureStackTrace: true,
+            interceptors,
+          };
     this.pool = createPool(connectionUri, slonikConfig);
     this.logger.log(`Slonik connected to ${c.host} as ${c.user}`, {
       slonikConfig,

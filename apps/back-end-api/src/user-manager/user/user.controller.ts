@@ -71,9 +71,7 @@ export class UserController {
     summary: 'Get one user ',
     description: 'Get on user by id',
   })
-  async getUser(
-    @Param('userId', ParseIntPipe) userId: number,
-  ): Promise<UserDto> {
+  async getUser(@Param('userId') userId: string): Promise<UserDto> {
     return await this.userService.getOneUserById(userId);
   }
 

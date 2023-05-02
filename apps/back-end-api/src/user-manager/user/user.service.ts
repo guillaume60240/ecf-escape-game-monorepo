@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { UserRepository } from './user.repository';
@@ -11,7 +11,7 @@ export class UserService {
   async getAllUsers(): Promise<UserDto[]> {
     return await this.usersRepository.getAllUsers();
   }
-  async getOneUserById(id: number): Promise<UserDto> {
+  async getOneUserById(id: string): Promise<UserDto> {
     return await this.usersRepository.getOneUserById(id);
   }
 
@@ -21,7 +21,16 @@ export class UserService {
 
   async registerUser(user: CreateUserDto) {
     user.password = await bcrypt.hash(user.password, 10);
-    return this.usersRepository.saveNewUser(user);
+    const userFromDb = await this.usersRepository.findOneByEmail(user.email);
+    if (userFromDb) {
+      throw new Error('Internal server error');
+    }
+    const newUser = await this.usersRepository.saveNewUser(user);
+    return {
+      id: newUser.id,
+      email: newUser.email,
+      name: newUser.name,
+    };
   }
 }
 

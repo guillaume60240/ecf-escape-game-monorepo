@@ -22,9 +22,12 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const payload = { email: user.email, name: user.name, sub: user.userId };
+    const payload = { email: user.email, name: user.name };
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: this.jwtService.sign(payload, {
+        secret: process.env.JWT_SECRET,
+        algorithm: 'HS256',
+      }),
     };
   }
 }
