@@ -68,13 +68,13 @@ const router = useRouter()
 const state = reactive<{
   scenario: scenarioDto
   isLoading: boolean
-  scenarioId: string
+  scenarioId: number
   scenarioRecord: any
   otherScenarios: scenarioDto[]
 }>({
   scenario: {} as scenarioDto,
   isLoading: true,
-  scenarioId: router.currentRoute.value.params.id.toString(),
+  scenarioId: +router.currentRoute.value.params.id,
   scenarioRecord: null,
   otherScenarios: [] as scenarioDto[]
 })
@@ -100,8 +100,8 @@ async function init() {
 init()
 
 watchEffect(() => {
-  if (state.scenarioId != router.currentRoute.value.params.id.toString()) {
-    state.scenarioId = router.currentRoute.value.params.id.toString()
+  if (state.scenarioId != +router.currentRoute.value.params.id) {
+    state.scenarioId = +router.currentRoute.value.params.id
     state.isLoading = true
     init()
   }
