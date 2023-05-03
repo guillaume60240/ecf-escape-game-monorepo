@@ -16,7 +16,7 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserDto } from './dto/responses/user.dto';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UserGuard } from 'src/guard/user.guard';
+import { UserGuard } from '../../guard/user.guard';
 
 @ApiTags('Users manager')
 @Controller('users')

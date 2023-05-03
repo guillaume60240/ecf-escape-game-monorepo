@@ -16,7 +16,7 @@ describe('BookingController', () => {
   });
 
   it('should return an empty array cause no result found', async () => {
-    const scenarioId = '1';
+    const scenarioId = 1;
     const date = new Date();
     service.getBookingsByScenarioIdByStartDate.mockResolvedValue(
       [] as any as BookedDateDto,
@@ -30,7 +30,7 @@ describe('BookingController', () => {
   });
 
   it('should return an array of booked dates', async () => {
-    const scenarioId = '1';
+    const scenarioId = 1;
     const date = new Date('2021-01-01');
     service.getBookingsByScenarioIdByStartDate.mockResolvedValue(
       bookedDateFixtures[0],
