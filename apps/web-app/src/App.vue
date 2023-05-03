@@ -4,13 +4,12 @@ import ModaleOverlayComponent from './components/modals/ModaleOverlayComponent.v
 import LoginModaleComponent from './components/modals/LoginModaleComponent.vue'
 import RegistrationModaleComponent from './components/modals/RegistrationModaleComponent.vue'
 import FooterComponent from './components/footer/FooterComponent.vue'
-import { reactive } from 'vue'
+import { reactive, watchEffect } from 'vue'
 import { useUserStore } from '@/stores/user'
 import type { userDto } from './dto/user.dto'
 
 const userStore = useUserStore()
 function openLoginModal() {
-  console.log('openLoginModal')
   state.loginModaleIsOpen = true
 }
 
@@ -30,31 +29,54 @@ function logoutUser() {
 }
 
 function registerUserSuccess() {
-  state.newUserRegistrationSuccess = true
+  state.needAlertMessage = true
   state.registartionModalIsOpen = false
+  state.alertType = 'success'
+  state.statusMessage = 'Votre compte a bien été créé'
   state.user = userStore.getUser()
   setTimeout(() => {
-    state.newUserRegistrationSuccess = false
+    state.needAlertMessage = false
+    state.alertType = 0
+    state.statusMessage = ''
+  }, 5000)
+}
+
+function bookingDone(statut: 'success' | 'danger', message: string) {
+  state.alertType = statut
+  state.statusMessage = message
+  state.needAlertMessage = true
+  setTimeout(() => {
+    state.alertType = 0
+    state.statusMessage = ''
+    state.needAlertMessage = false
   }, 5000)
 }
 
 const state = reactive<{
   loginModaleIsOpen: boolean
   registartionModalIsOpen: boolean
+  needAlertMessage: boolean
   user: userDto
-  newUserRegistrationSuccess: boolean
+  alertType: 'success' | 'danger' | 0
+  statusMessage: string
 }>({
   loginModaleIsOpen: false,
   registartionModalIsOpen: false,
+  needAlertMessage: false,
   user: userStore.user,
-  newUserRegistrationSuccess: false
+  alertType: 0,
+  statusMessage: ''
+})
+
+watchEffect(() => {
+  state.user = userStore.getUser()
 })
 </script>
 
 <template>
   <header>
-    <div class="alert alert-success" v-if="state.newUserRegistrationSuccess">
-      Merci pour votre inscription
+    <div :class="`alert alert-${state.alertType}`" v-if="state.needAlertMessage">
+      {{ state.statusMessage }}
     </div>
     <div class="d-flex align-items-top justify-content-between">
       <div class="d-flex flex-column align-items-start">
@@ -90,7 +112,7 @@ const state = reactive<{
     </div>
   </header>
 
-  <RouterView class="content" @openLoginModal="openLoginModal" />
+  <RouterView class="content" @openLoginModal="openLoginModal" @bookingDone="bookingDone" />
   <ModaleOverlayComponent v-if="state.loginModaleIsOpen">
     <LoginModaleComponent
       @closeLoginModal="closeLoginModal"

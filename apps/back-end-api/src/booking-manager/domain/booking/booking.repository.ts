@@ -16,7 +16,7 @@ export class BookingRepository {
   }
 
   async getBookingsByScenarioIdByStartDate(
-    scenarioId: string,
+    scenarioId: number,
     startDate: Date,
   ): Promise<BookedDateEntity> {
     const granularity = {
@@ -54,8 +54,8 @@ export class BookingRepository {
   async createBooking(
     date: Date,
     timeSlot: string,
-    userId: string,
-    scenarioId: string,
+    userId: number,
+    scenarioId: number,
     players: number,
     price: number,
   ) {

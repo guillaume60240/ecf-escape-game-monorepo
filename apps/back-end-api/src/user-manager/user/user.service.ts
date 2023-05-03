@@ -32,6 +32,14 @@ export class UserService {
       name: newUser.name,
     };
   }
+
+  async getMe(user: Partial<UserDto>) {
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+    };
+  }
 }
 
 /*  getOne(id: number) {

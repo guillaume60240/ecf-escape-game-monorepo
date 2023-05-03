@@ -103,7 +103,7 @@ const state = reactive<{
   scenario: scenarioDto
   isLoading: boolean
   dateIsLoading: boolean
-  scenarioId: string
+  scenarioId: number
   scenarioRecord: any
   datesBooked: BookingDate
   startPeriod: Date
@@ -116,7 +116,7 @@ const state = reactive<{
   scenario: {} as scenarioDto,
   isLoading: true,
   dateIsLoading: true,
-  scenarioId: router.currentRoute.value.params.id.toString(),
+  scenarioId: +router.currentRoute.value.params.id,
   scenarioRecord: null,
   datesBooked: {} as BookingDate,
   startPeriod: new Date(),

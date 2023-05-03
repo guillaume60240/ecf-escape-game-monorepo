@@ -38,7 +38,7 @@ export class BookingController {
   })
   async getBookingsByScenarioIdByStartDate(
     @Query('date') date: Date,
-    @Query('scenarioId') scenarioId: string,
+    @Query('scenarioId') scenarioId: number,
   ) {
     return await this.service.getBookingsByScenarioIdByStartDate(
       scenarioId,

@@ -186,7 +186,6 @@ async function registerNewUser() {
   const request = await register(state.userMail, state.firstPassword, state.userName)
   if (request) {
     const loginRequest = await login(state.userMail, state.firstPassword)
-    console.log('registration ok')
     if (loginRequest) {
       localStorage.setItem(
         'user',

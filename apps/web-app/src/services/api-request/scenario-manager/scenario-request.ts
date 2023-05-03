@@ -14,7 +14,7 @@ export async function getAllScenarios(): Promise<scenarioDto[]> {
   return await response.json()
 }
 
-export async function getOneScenarioById(id: string): Promise<scenarioDto> {
+export async function getOneScenarioById(id: number): Promise<scenarioDto> {
   const response = await fetch(`${API_URl}/scenarios/${id}`, {
     method: 'GET',
     mode: 'cors',
