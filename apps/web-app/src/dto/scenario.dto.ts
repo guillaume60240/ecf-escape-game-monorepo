@@ -1,5 +1,5 @@
 export interface scenarioDto {
-  id: string
+  id: number
   title: string
   description: string
   summary: string
