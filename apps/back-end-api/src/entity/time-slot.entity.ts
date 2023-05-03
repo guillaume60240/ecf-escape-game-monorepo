@@ -3,7 +3,7 @@ import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class TimeSlot extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
   @Column()
   display_hour: string;
 }

@@ -10,7 +10,7 @@ export class BookingService {
   constructor(private repository: BookingRepository) {}
 
   async getBookingsByScenarioIdByStartDate(
-    scenarioId: string,
+    scenarioId: number,
     startDate: Date,
   ): Promise<BookedDateDto> {
     return await this.repository.getBookingsByScenarioIdByStartDate(

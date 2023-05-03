@@ -13,7 +13,6 @@ export async function login(email: string, password: string) {
       password: password
     })
   })
-  console.log(response)
   return response.status === 201 ? await response.json() : null
 }
 
@@ -32,4 +31,22 @@ export async function register(email: string, password: string, name: string) {
     })
   })
   return response.status === 201 ? await response.json() : null
+}
+
+export async function getMe(token: string, id: number, email: string, name: string) {
+  const response = await fetch(`${API_URl}/users/me`, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      id: +id,
+      name: name,
+      email: email
+    })
+  })
+  return response.status === 201 ? true : false
 }

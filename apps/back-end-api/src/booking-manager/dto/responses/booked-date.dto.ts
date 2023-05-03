@@ -45,9 +45,9 @@ export class NewBookingDateDto {
   @IsNumber()
   price: number;
   @ApiProperty()
-  @IsString()
-  scenarioId: string;
+  @IsNumber()
+  scenarioId: number;
   @ApiProperty()
-  @IsString()
-  userId: string;
+  @IsNumber()
+  userId: number;
 }

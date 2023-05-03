@@ -10,11 +10,13 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserDto } from './dto/responses/user.dto';
 import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { UserGuard } from '../../guard/user.guard';
 
 @ApiTags('Users manager')
 @Controller('users')
@@ -78,6 +80,34 @@ export class UserController {
   @Post()
   async createUser(@Body() user: CreateUserDto) {
     return await this.userService.registerUser(user);
+  }
+
+  @UseGuards(UserGuard)
+  @Post('/me')
+  @ApiResponse({
+    status: 200,
+    description: 'Verif if user is connected',
+    type: UserDto,
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Erreur interne',
+    type: InternalServerErrorException,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request',
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Non authorized',
+  })
+  @ApiOperation({
+    summary: 'Get one user',
+    description: 'Verify who I am',
+  })
+  async getMe(@Body() user: Partial<UserDto>) {
+    return await this.userService.getMe(user);
   }
 
   /* @Patch(':userId')

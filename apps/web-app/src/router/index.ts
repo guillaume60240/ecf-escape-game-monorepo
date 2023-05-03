@@ -1,6 +1,22 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { getMe } from '@/services/api-request/user-manager/user-services'
+import { useUserStore } from '@/stores/user'
 
+async function verifyUser() {
+  const userStore = useUserStore()
+  const user = userStore.getUser()
+  if (!user.accesToken) {
+    return false
+  } else {
+    const userVerified = await getMe(user.accesToken, user.id, user.email, user.name)
+    if (!userVerified) {
+      return false
+    } else {
+      return true
+    }
+  }
+}
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   scrollBehavior(to, from, savedPosition) {
@@ -35,7 +51,20 @@ const router = createRouter({
     {
       path: '/booking-confirmation',
       name: 'booking-confirmation',
-      component: () => import('../views/ConfirmBookingView.vue')
+      component: () => import('../views/ConfirmBookingView.vue'),
+      beforeEnter: async (to, from, next) => {
+        const user = await verifyUser()
+        if (!user) {
+          const userStore = useUserStore()
+          localStorage.removeItem('user')
+          userStore.resetUser()
+        }
+        if (from.name !== 'booking') {
+          next({ name: 'home' })
+        } else {
+          next()
+        }
+      }
     },
     {
       path: '/confidential-policies',

@@ -1,6 +1,6 @@
 const API_URl = `${import.meta.env.VITE_APP_API_KEY}`
 
-export async function getBookedDateForPeriodByScenarioId(scenarioId: string, periodStart: Date) {
+export async function getBookedDateForPeriodByScenarioId(scenarioId: number, periodStart: Date) {
   const response = await fetch(
     `${API_URl}/booking?scenarioId=${scenarioId}&date=${periodStart.toISOString()}`,
     {
@@ -13,4 +13,33 @@ export async function getBookedDateForPeriodByScenarioId(scenarioId: string, per
     }
   )
   return response.ok ? await response.json() : null
+}
+
+export async function bookNewDate(
+  date: Date,
+  timeSlot: string,
+  players: number,
+  price: number,
+  userId: number,
+  scenarioId: number,
+  jwt: string
+) {
+  const response = await fetch(`${API_URl}/booking/new-booking`, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${jwt}`
+    },
+    body: JSON.stringify({
+      startDate: date.toISOString(),
+      timeSlot,
+      players,
+      price,
+      scenarioId,
+      userId
+    })
+  })
+  return response.status
 }

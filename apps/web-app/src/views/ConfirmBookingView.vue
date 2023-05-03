@@ -19,18 +19,24 @@ import { useUserStore } from '@/stores/user'
 import { reactive, watchEffect } from 'vue'
 import type { BookingDto } from '../dto/booking.dto'
 import { useRouter } from 'vue-router'
+import { bookNewDate } from '@/services/api-request/booking-manager/booking-request'
 
 const router = useRouter()
 const bookingStore = useBookingStore()
 const userStore = useUserStore()
 const state = reactive<{
   booking: BookingDto
+  bookingStatus: 'success' | 'danger' | 0
+  statusMessage: string
 }>({
-  booking: useBookingStore().getBooking()
+  booking: useBookingStore().getBooking(),
+  bookingStatus: 0,
+  statusMessage: ''
 })
 
 const emits = defineEmits<{
   (event: 'openLoginModal'): void
+  (event: 'bookingDone', statut: 'success' | 'danger', message: string): void
 }>()
 
 const displayDate = (date: Date) => {
@@ -47,18 +53,49 @@ function deleteNewBookingDate() {
   state.booking = bookingStore.getBooking()
 }
 
-function registerNewBookingDate() {
+async function registerNewBookingDate() {
   const user = userStore.getUser()
-  console.log(user)
   if (!user.accesToken) {
-    console.log('no user')
     emits('openLoginModal')
+  } else {
+    const request = await bookNewDate(
+      new Date(state.booking.startDate),
+      state.booking.hour,
+      state.booking.players,
+      state.booking.price,
+      user.id,
+      state.booking.scenarioId,
+      user.accesToken
+    )
+    if (request === 201) {
+      state.bookingStatus = 'success'
+      state.statusMessage = 'Votre réservation a bien été enregistrée'
+    } else {
+      state.bookingStatus = 'danger'
+      state.statusMessage =
+        'Une erreur est survenue lors de la réservation. Merci de réessayer ultérieurement.'
+    }
+    emits('bookingDone', state.bookingStatus, state.statusMessage)
+    if (request === 201) router.push({ name: 'home' })
   }
 }
 
 watchEffect(() => {
-  if (!state.booking.startDate) {
+  if (
+    !state.booking.startDate ||
+    !state.booking.hour ||
+    !state.booking.players ||
+    !state.booking.price
+  ) {
     router.push({ name: 'home' })
   }
 })
 </script>
+
+<style scoped lang="scss">
+.alert {
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
+}
+</style>

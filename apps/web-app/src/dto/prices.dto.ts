@@ -1,5 +1,5 @@
 export interface PricesDto {
-  id: string
+  id: number
   minPlayers: number
   maxPlayers: number
   price: number

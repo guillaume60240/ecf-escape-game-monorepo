@@ -3,7 +3,7 @@ import { Entity, BaseEntity, PrimaryGeneratedColumn, Column } from 'typeorm';
 @Entity()
 export class Game extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
   @Column()
   started_at: Date;
   @Column()

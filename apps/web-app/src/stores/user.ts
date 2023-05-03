@@ -3,10 +3,14 @@ import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', () => {
   const user = ref({
-    id: '',
-    name: '',
-    email: '',
-    accesToken: ''
+    id: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}').id : '',
+    name: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}').name : '',
+    email: localStorage.getItem('user')
+      ? JSON.parse(localStorage.getItem('user') || '{}').email
+      : '',
+    accesToken: localStorage.getItem('user')
+      ? JSON.parse(localStorage.getItem('user') || '{}').accesToken
+      : ''
   })
 
   function setUser(newUser: any) {
