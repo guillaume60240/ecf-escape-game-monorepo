@@ -65,6 +65,8 @@ footer {
   padding: 2rem;
   margin-top: 2rem;
   width: 100%;
+  display: flex;
+  align-items: center;
 
   .footer-content-container {
     max-width: 1280px;

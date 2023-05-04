@@ -13,7 +13,7 @@ export async function login(email: string, password: string) {
       password: password
     })
   })
-  return response.status === 201 ? await response.json() : null
+  return response.status === 201 ? response.json() : null
 }
 
 export async function register(email: string, password: string, name: string) {
@@ -30,7 +30,7 @@ export async function register(email: string, password: string, name: string) {
       name: name
     })
   })
-  return response.status === 201 ? await response.json() : null
+  return response.status === 201 ? response.json() : null
 }
 
 export async function getMe(token: string, id: number, email: string, name: string) {

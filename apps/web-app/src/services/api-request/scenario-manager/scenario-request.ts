@@ -11,7 +11,7 @@ export async function getAllScenarios(): Promise<scenarioDto[]> {
     }
   })
   if (!response.ok) return []
-  return await response.json()
+  return response.json()
 }
 
 export async function getOneScenarioById(id: number): Promise<scenarioDto> {
@@ -24,7 +24,7 @@ export async function getOneScenarioById(id: number): Promise<scenarioDto> {
     }
   })
   if (!response.ok) throw new Error('Scenario not found')
-  return await response.json()
+  return response.json()
 }
 
 export default { getAllScenarios, getOneScenarioById }

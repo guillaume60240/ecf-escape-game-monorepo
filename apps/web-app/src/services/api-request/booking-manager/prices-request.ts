@@ -8,5 +8,5 @@ export async function getPrices(): Promise<PricesDto[]> {
     mode: 'cors',
     cache: 'no-cache'
   })
-  return response.ok ? await response.json() : []
+  return response.ok ? response.json() : []
 }

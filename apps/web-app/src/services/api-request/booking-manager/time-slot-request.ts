@@ -9,7 +9,7 @@ export async function getAllTimeSlot() {
       'Content-Type': 'application/json'
     }
   })
-  return response.ok ? await response.json() : []
+  return response.ok ? response.json() : []
 }
 
 export default { getAllTimeSlot }

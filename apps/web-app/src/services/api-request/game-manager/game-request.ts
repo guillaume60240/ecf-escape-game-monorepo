@@ -9,5 +9,5 @@ export async function getRecordByscenarioId(id: number) {
       'Content-Type': 'application/json'
     }
   })
-  return response.ok ? await response.json() : null
+  return response.ok ? response.json() : null
 }

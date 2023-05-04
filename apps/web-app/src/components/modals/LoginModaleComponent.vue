@@ -110,7 +110,8 @@ function loginError() {
   background: #fff;
   padding: 2rem;
   border-radius: 5px;
-  min-width: 90%;
+  width: 90%;
+  max-width: 900px;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
   position: relative;
 
