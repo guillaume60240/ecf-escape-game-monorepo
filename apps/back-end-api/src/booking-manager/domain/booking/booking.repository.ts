@@ -69,16 +69,28 @@ export class BookingRepository {
   }
 
   async getBookingsByUserId(userId: number) {
-    const { rows } = await this.slonik.query(sql`
+    const request = await this.slonik.query(sql`
             SELECT 
                 b.start_date AS date,
+                b.id AS id,
                 b.time_slot AS hour,
-                b.scenario_id AS scenarioId,
+                b.scenario_id AS scenarioid,
                 b.players AS players,
-                b.price AS price
+                b.price AS price,
+                b.user_id AS userid
             FROM public.booking b
             WHERE b.user_id = ${userId}
         `);
-    return rows;
+    return request.rows.map((row) => {
+      return {
+        id: row.id,
+        startDate: new Date(row.date),
+        hour: row.hour,
+        scenarioId: row.scenarioid,
+        players: row.players,
+        price: row.price,
+        userId: row.userid,
+      };
+    });
   }
 }

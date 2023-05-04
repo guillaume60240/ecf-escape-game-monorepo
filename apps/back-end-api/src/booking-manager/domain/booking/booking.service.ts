@@ -32,7 +32,6 @@ export class BookingService {
   }
 
   async getBookedDateByUserId(userId: number) {
-    const request = await this.repository.getBookingsByUserId(userId);
-    return request;
+    return await this.repository.getBookingsByUserId(userId);
   }
 }
