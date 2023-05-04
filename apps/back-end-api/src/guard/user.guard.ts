@@ -15,6 +15,13 @@ export class UserGuard implements CanActivate {
     if (!user) return false;
     const userMail = user.email;
     if (!userMail) return false;
+    if (request.params?.userId) {
+      const requestUserFromDb = await this.userService.getOneUserById(
+        request.params?.userId,
+      );
+      if (!requestUserFromDb) return false;
+      if (requestUserFromDb.email !== userMail) return false;
+    }
     try {
       const userFromDb = await this.userService.findOneByEmail(userMail);
       if (!userFromDb) return false;

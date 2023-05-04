@@ -67,4 +67,18 @@ export class BookingRepository {
         `);
     return request;
   }
+
+  async getBookingsByUserId(userId: number) {
+    const { rows } = await this.slonik.query(sql`
+            SELECT 
+                b.start_date AS date,
+                b.time_slot AS hour,
+                b.scenario_id AS scenarioId,
+                b.players AS players,
+                b.price AS price
+            FROM public.booking b
+            WHERE b.user_id = ${userId}
+        `);
+    return rows;
+  }
 }

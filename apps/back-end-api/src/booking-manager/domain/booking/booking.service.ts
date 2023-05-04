@@ -30,4 +30,9 @@ export class BookingService {
     );
     return request;
   }
+
+  async getBookedDateByUserId(userId: number) {
+    const request = await this.repository.getBookingsByUserId(userId);
+    return request;
+  }
 }
