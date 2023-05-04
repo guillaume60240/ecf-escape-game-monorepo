@@ -24,5 +24,6 @@ module.exports = {
   },
   rules: {
     'no-console': 'warn',
+    'no-return-await': 'error'
   }
 }

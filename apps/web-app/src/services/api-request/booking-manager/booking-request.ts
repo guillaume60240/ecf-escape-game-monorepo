@@ -12,7 +12,7 @@ export async function getBookedDateForPeriodByScenarioId(scenarioId: number, per
       }
     }
   )
-  return response.ok ? await response.json() : null
+  return response.ok ? response.json() : null
 }
 
 export async function bookNewDate(
