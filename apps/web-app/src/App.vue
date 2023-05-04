@@ -107,7 +107,10 @@ watchEffect(() => {
           v-if="!state.user.accesToken"
           >Créer un compte</span
         >
-        <span v-else class="modal-action">Mon compte</span>
+
+        <RouterLink :to="{ name: 'user-profile', params: { id: state.user.id } }"
+          >Mon compte</RouterLink
+        >
       </nav>
     </div>
   </header>

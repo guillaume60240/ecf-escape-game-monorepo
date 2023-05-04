@@ -1,8 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   InternalServerErrorException,
+  Param,
   Post,
   Query,
   UseGuards,
@@ -72,4 +74,58 @@ export class BookingController {
   async createBooking(@Body() booking: NewBookingDateDto) {
     return await this.service.createBooking(booking);
   }
+
+  @UseGuards(UserGuard)
+  @Get('/booked-date/user/:userId')
+  @ApiResponse({
+    status: 200,
+    description: 'Booked Date',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error',
+    type: InternalServerErrorException,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request',
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Non authorized',
+  })
+  @ApiOperation({
+    summary: 'Get booked date by user id',
+    description: 'Get booked date by user id',
+  })
+  async getBookedDateByUserId(@Param('userId') userId: number) {
+    return await this.service.getBookedDateByUserId(userId);
+  }
+
+  /* @UseGuards(UserGuard)
+  @Delete('/booked-date/:bookedDateId')
+  @ApiResponse({
+    status: 200,
+    description: 'Booked Date deleted',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error',
+    type: InternalServerErrorException,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request',
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Non authorized',
+  })
+  @ApiOperation({
+    summary: 'Delete booked date',
+    description: 'Delete booked date',
+  })
+  async deleteBookedDate(@Param('bookedDateId') bookedDateId: number) {
+    return await this.service.deleteBookedDate(bookedDateId);
+  } */
 }

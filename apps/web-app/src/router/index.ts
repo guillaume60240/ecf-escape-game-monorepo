@@ -67,6 +67,21 @@ const router = createRouter({
       }
     },
     {
+      path: '/user-profile/:id',
+      name: 'user-profile',
+      component: () => import('../views/ProfileView.vue'),
+      beforeEnter: async (to, from, next) => {
+        const user = await verifyUser()
+        if (!user) {
+          const userStore = useUserStore()
+          localStorage.removeItem('user')
+          userStore.resetUser()
+        } else {
+          next()
+        }
+      }
+    },
+    {
       path: '/confidential-policies',
       name: 'confidential-policies',
       component: () => import('../views/PolitiqueView.vue')

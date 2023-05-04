@@ -3,9 +3,9 @@ import { defineStore } from 'pinia'
 import type { BookingDto } from '../dto/booking.dto'
 
 export const useBookingStore = defineStore('booking', () => {
-  const booking = ref({} as BookingDto)
+  const booking = ref({} as Partial<BookingDto>)
 
-  function setNewBooking(newBooking: BookingDto) {
+  function setNewBooking(newBooking: Partial<BookingDto>) {
     booking.value = newBooking
   }
 

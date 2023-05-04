@@ -25,7 +25,7 @@ const router = useRouter()
 const bookingStore = useBookingStore()
 const userStore = useUserStore()
 const state = reactive<{
-  booking: BookingDto
+  booking: any //Partial<BookingDto>
   bookingStatus: 'success' | 'danger' | 0
   statusMessage: string
 }>({
