@@ -6,7 +6,7 @@ import {
   Header,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { PricesDto } from 'src/booking-manager/dto/responses/prices.dto';
+import { PricesDto } from '../../dto/responses/prices.dto';
 
 @ApiTags('Booking manager')
 @Controller('prices')

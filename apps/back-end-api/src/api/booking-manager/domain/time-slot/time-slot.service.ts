@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { TimeSlotRepository } from './time-slot.repository';
-import { TimeSlotDto } from 'src/booking-manager/dto/responses/time-slot.dto';
+import { TimeSlotDto } from '../../dto/responses/time-slot.dto';
 
 @Injectable()
 export class TimeSlotService {

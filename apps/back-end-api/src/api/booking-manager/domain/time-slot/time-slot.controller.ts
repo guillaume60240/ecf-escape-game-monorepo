@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { TimeSlotService } from './time-slot.service';
-import { TimeSlotDto } from 'src/booking-manager/dto/responses/time-slot.dto';
+import { TimeSlotDto } from '../../dto/responses/time-slot.dto';
 
 @ApiTags('Booking manager')
 @Controller('time-slot')

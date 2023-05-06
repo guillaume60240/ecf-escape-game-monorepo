@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { SlonikService } from '../../../../config/slonik/slonik.service';
-import { TimeSlotEntity } from 'src/booking-manager/entity/time-slot.entity';
+import { TimeSlotEntity } from '../../entity/time-slot.entity';
 import { sql } from 'slonik';
 
 @Injectable()

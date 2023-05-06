@@ -1,7 +1,7 @@
 import { mock } from 'jest-mock-extended';
 import { BookingService } from './booking.service';
 import { BookingRepository } from './booking.repository';
-import { bookedDateFixtures } from './../../../fixtures/booked-date.fixtures';
+import { bookedDateFixtures } from './../../../../fixtures/booked-date.fixtures';
 describe('BookingService', () => {
   let service: BookingService;
   const repository = mock<BookingRepository>();

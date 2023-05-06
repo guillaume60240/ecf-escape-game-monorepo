@@ -1,8 +1,8 @@
 import { BookingController } from './booking.controller';
 import { mock } from 'jest-mock-extended';
 import { BookingService } from './booking.service';
-import { BookedDateDto } from 'src/booking-manager/dto/responses/booked-date.dto';
-import { bookedDateFixtures } from '../../../fixtures/booked-date.fixtures';
+import { BookedDateDto } from '../../dto/responses/booked-date.dto';
+import { bookedDateFixtures } from '../../../../fixtures/booked-date.fixtures';
 
 describe('BookingController', () => {
   let controller: BookingController;

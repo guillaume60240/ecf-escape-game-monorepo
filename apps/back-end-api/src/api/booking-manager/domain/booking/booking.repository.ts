@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { SlonikService } from '../../../../config/slonik/slonik.service';
-import { BookingEntity } from 'src/booking-manager/entity/booking.entity';
+import { BookingEntity } from '../../entity/booking.entity';
 import { sql } from 'slonik';
-import { BookedDateEntity } from 'src/booking-manager/entity/booked-date.entity';
+import { BookedDateEntity } from '../../entity/booked-date.entity';
 
 @Injectable()
 export class BookingRepository {

@@ -4,7 +4,7 @@ import { PricesRepository } from './prices.repository';
 import {
   pricesEntityFixtures,
   pricesFixtures,
-} from '../../../fixtures/prices.fixtures';
+} from '../../../../fixtures/prices.fixtures';
 
 describe('PricesService', () => {
   let service: PricesService;
