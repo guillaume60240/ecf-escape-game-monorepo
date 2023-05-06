@@ -5,6 +5,7 @@ import { PricesRepository } from './api/booking-manager/domain/prices/prices.rep
 import { BookingRepository } from './api/booking-manager/domain/booking/booking.repository';
 import { TimeSlotRepository } from './api/booking-manager/domain/time-slot/time-slot.repository';
 import { GameManagerRepository } from './game-manager/domain/game-manager.repository';
+import { FaqRepository } from './api/faq-manager/domain/faq.repository';
 
 export const repositories = [
   UserRepository,
@@ -14,4 +15,5 @@ export const repositories = [
   BookingRepository,
   TimeSlotRepository,
   GameManagerRepository,
+  FaqRepository,
 ];

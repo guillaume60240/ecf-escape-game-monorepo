@@ -6,6 +6,7 @@ import { PricesService } from './api/booking-manager/domain/prices/prices.servic
 import { BookingService } from './api/booking-manager/domain/booking/booking.service';
 import { TimeSlotService } from './api/booking-manager/domain/time-slot/time-slot.service';
 import { GameService } from './game-manager/domain/game-manager.service';
+import { FaqService } from './api/faq-manager/domain/faq.service';
 
 export const services = [
   // Add your services here
@@ -17,4 +18,5 @@ export const services = [
   BookingService,
   TimeSlotService,
   GameService,
+  FaqService,
 ];
