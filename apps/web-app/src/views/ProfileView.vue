@@ -4,8 +4,12 @@
       <h2>Espace personnel</h2>
       <h4>Bonjour {{ state.user.name }}</h4>
       <p>Voici vos réservations</p>
-      <div v-if="state.userBookedDate">
-        <div v-for="(date, index) in state.userBookedDate" :key="index">
+      <div v-if="state.userBookedDate" class="row justify-content-around container mt-2">
+        <div
+          v-for="(date, index) in state.userBookedDate"
+          :key="index"
+          class="col-12 col-lg-5 mt-4"
+        >
           <div>{{ date.scenarioTitle }}</div>
           <div>{{ new Date(date.startDate).toLocaleDateString() }} à {{ date.hour }}</div>
           <div>Pour {{ date.players }} joueurs</div>

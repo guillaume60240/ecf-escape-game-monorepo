@@ -15,7 +15,7 @@
           <h4>Pratique</h4>
         </template>
         <template v-slot:content>
-          <a href="">La FAQ</a>
+          <RouterLink to="/faq">La FAQ</RouterLink>
           <RouterLink to="/confidential-policies#politiciestitle"
             >Polique de confidentialité</RouterLink
           >

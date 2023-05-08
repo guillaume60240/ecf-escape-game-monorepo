@@ -17,7 +17,6 @@
 import { useBookingStore } from '@/stores/booking'
 import { useUserStore } from '@/stores/user'
 import { reactive, watchEffect } from 'vue'
-import type { BookingDto } from '../dto/booking.dto'
 import { useRouter } from 'vue-router'
 import { bookNewDate } from '@/services/api-request/booking-manager/booking-request'
 
