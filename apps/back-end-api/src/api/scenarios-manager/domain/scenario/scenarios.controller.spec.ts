@@ -1,7 +1,7 @@
 import { mock } from 'jest-mock-extended';
 import { ScenariosController } from './scenarios.controller';
 import { ScenarioService } from './scenarios.service';
-import { scenariosDtoFixtures } from './../../../fixtures/scenarios-fixtures';
+import { scenariosDtoFixtures } from './../../../../fixtures/scenarios-fixtures';
 
 describe('ScenariosController', () => {
   let controller: ScenariosController;

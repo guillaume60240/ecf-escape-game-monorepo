@@ -1,9 +1,9 @@
-import { ScenarioEntity } from 'src/scenarios-manager/entity/scenario.entity';
-import { scenariosEntityFixtures } from './../../../fixtures/scenarios-fixtures';
+import { ScenarioEntity } from 'src/api/scenarios-manager/entity/scenario.entity';
+import { scenariosEntityFixtures } from './../../../../fixtures/scenarios-fixtures';
 import { ScenarioRepository } from './scenarios.repository';
 import { ScenarioService } from './scenarios.service';
 import { mock } from 'jest-mock-extended';
-import { scenariosDtoFixtures } from './../../../fixtures/scenarios-fixtures';
+import { scenariosDtoFixtures } from './../../../../fixtures/scenarios-fixtures';
 
 describe('Scenario service', () => {
   let service: ScenarioService;
