@@ -7,7 +7,7 @@
     >
       <div v-for="faq in state.faq" :key="faq.id" class="mt-4">
         <h2>{{ faq.question }}</h2>
-        <p>{{ faq.answer }}</p>
+        <p v-html="faq.answer"></p>
       </div>
     </div>
     <div v-else class="mt-5 d-flex justify-content-center align-items-center flex-column">

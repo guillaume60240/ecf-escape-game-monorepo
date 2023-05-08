@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <main v-if="!state.bookedDateIsLoading">
+  <div class="w-100">
+    <main v-if="!state.bookedDateIsLoading" class="w-100 p-4">
       <h2>Espace personnel</h2>
       <h4>Bonjour {{ state.user.name }}</h4>
       <p>Voici vos réservations</p>
