@@ -7,9 +7,16 @@ import { DatabaseModule } from './config/database/database.module';
 import { controllers } from './controllers';
 import { services } from './services';
 import { repositories } from './repositories';
+import { GameMasterAuthModule } from './api/game-master-manager/domain/auth/auth.module';
 
 @Module({
-  imports: [adminjsConfig, DatabaseModule, SlonikModule, AuthModule],
+  imports: [
+    adminjsConfig,
+    DatabaseModule,
+    SlonikModule,
+    AuthModule,
+    GameMasterAuthModule,
+  ],
   controllers: [...controllers],
   providers: [...repositories, ...services],
 })
