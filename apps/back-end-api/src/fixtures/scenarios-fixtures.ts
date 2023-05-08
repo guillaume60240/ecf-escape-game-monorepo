@@ -1,4 +1,4 @@
-import { ScenarioDto } from '../scenarios-manager/dto/responses/scenario.dto';
+import { ScenarioDto } from '../api/scenarios-manager/dto/responses/scenario.dto';
 export const scenariosEntityFixtures = [
   {
     id: 1,

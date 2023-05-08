@@ -1,5 +1,5 @@
-import { PricesDto } from 'src/booking-manager/dto/responses/prices.dto';
-import { PriceEntity } from '../booking-manager/entity/price.entity';
+import { PricesDto } from 'src/api/booking-manager/dto/responses/prices.dto';
+import { PriceEntity } from '../api/booking-manager/entity/price.entity';
 export const pricesFixtures: PricesDto[] = [
   {
     minPlayers: 1,

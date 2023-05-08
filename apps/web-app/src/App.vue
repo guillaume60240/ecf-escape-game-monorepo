@@ -108,7 +108,7 @@ watchEffect(() => {
           >Créer un compte</span
         >
 
-        <RouterLink :to="{ name: 'user-profile', params: { id: state.user.id } }"
+        <RouterLink :to="{ name: 'user-profile', params: { id: state.user.id } }" v-else
           >Mon compte</RouterLink
         >
       </nav>

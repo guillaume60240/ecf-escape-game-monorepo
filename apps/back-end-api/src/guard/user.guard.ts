@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { decode, JwtPayload, verify } from 'jsonwebtoken';
-import { UserService } from '../user-manager/user/user.service';
+import { UserService } from '../api/user-manager/user/user.service';
 
 @Injectable()
 export class UserGuard implements CanActivate {

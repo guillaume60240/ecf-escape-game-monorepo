@@ -1,5 +1,5 @@
-import { BookedDateDto } from '../booking-manager/dto/responses/booked-date.dto';
-import { BookedDateEntity } from '../booking-manager/entity/booked-date.entity';
+import { BookedDateDto } from '../api/booking-manager/dto/responses/booked-date.dto';
+import { BookedDateEntity } from '../api/booking-manager/entity/booked-date.entity';
 export const bookedDateFixtures: BookedDateDto[] = [
   {
     bookingDate: [

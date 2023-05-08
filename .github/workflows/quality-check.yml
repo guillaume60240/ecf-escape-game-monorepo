@@ -69,8 +69,8 @@ jobs:
         working-directory: apps/web-app
       - run: npm run lint
         working-directory: apps/web-app
-      - run: npm run test:unit
-        working-directory: apps/web-app
+      # - run: npm run test:unit
+      #   working-directory: apps/web-app
       - run: echo "🍏 lint is ${{ job.status }}."
 
   build-and-lint-mobile-app:

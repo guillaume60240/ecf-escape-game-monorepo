@@ -90,6 +90,11 @@ const router = createRouter({
       path: '/general-conditions',
       name: 'general-conditions',
       component: () => import('../views/GeneralConditionsView.vue')
+    },
+    {
+      path: '/faq',
+      name: 'faq',
+      component: () => import('../views/FaqView.vue')
     }
   ]
 })

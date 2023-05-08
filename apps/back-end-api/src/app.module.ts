@@ -1,4 +1,4 @@
-import { AuthModule } from './user-manager/auth/auth.module';
+import { AuthModule } from './api/user-manager/auth/auth.module';
 import { Module } from '@nestjs/common';
 import { adminjsConfig } from './config/admin-js/admin-js.config';
 import { SlonikModule } from './config/slonik/slonik.module';
