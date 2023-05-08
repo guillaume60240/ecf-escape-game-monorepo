@@ -23,10 +23,11 @@ export class BookingRepository {
       period: 'day',
       datePart: sql`date_part('day', b.start_date)`,
     };
-    const startDatePeriod = sql`${startDate.toISOString()}`;
+    const startDatePeriod = sql`${startDate.toISOString().split('T')[0]} `;
 
     const endDate = new Date(startDate);
     endDate.setDate(startDate.getDate() + 3);
+    const endPeriod = sql`${endDate.toISOString().split('T')[0]} `;
     const { rows } = await this.slonik.query(sql`
             SELECT 
                 DATE_TRUNC(${granularity.period}, b.start_date) 
@@ -35,7 +36,7 @@ export class BookingRepository {
             FROM public.booking b
             WHERE b.scenario_id = ${scenarioId}
                 AND b.start_date >= ${startDatePeriod} 
-                AND b.start_date < ${endDate.toISOString()}
+                AND b.start_date < ${endPeriod}
             GROUP BY day
             ORDER BY day
         `);
@@ -80,7 +81,7 @@ export class BookingRepository {
                 b.price AS price,
                 b.user_id AS userid
             FROM public.booking b
-            INNER JOIN public.scenario s ON s.id = b.scenario_id
+            INNER JOIN public.scenario s ON s.id::integer = b.scenario_id
             WHERE b.user_id = ${userId}
         `);
     return request.rows.map((row) => {

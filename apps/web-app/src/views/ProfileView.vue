@@ -1,19 +1,21 @@
 <template>
-  <div>
-    <main v-if="!state.bookedDateIsLoading">
-      <h2>Espace personnel</h2>
-      <h4>Bonjour {{ state.user.name }}</h4>
-      <p>Voici vos réservations</p>
+  <div class="w-100">
+    <main v-if="!state.bookedDateIsLoading" class="w-100 p-4">
+      <h2 class="text-center">Espace personnel</h2>
+      <h4 class="text-center">Bonjour {{ state.user.name }}</h4>
+      <p class="text-center">Voici vos réservations</p>
       <div v-if="state.userBookedDate" class="row justify-content-around container mt-2">
         <div
           v-for="(date, index) in state.userBookedDate"
           :key="index"
           class="col-12 col-lg-5 mt-4"
         >
-          <div>{{ date.scenarioTitle }}</div>
+          <RouterLink :to="{ name: 'scenarios', params: { id: date.scenarioId } }"
+            ><h5>{{ date.scenarioTitle }}</h5></RouterLink
+          >
           <div>{{ new Date(date.startDate).toLocaleDateString() }} à {{ date.hour }}</div>
           <div>Pour {{ date.players }} joueurs</div>
-          <div>Prix: {{ date.price }}</div>
+          <div>Prix: {{ date.price }} €</div>
           <div v-if="new Date(date.startDate) > new Date()">
             <button
               class="btn btn-danger"
@@ -23,7 +25,6 @@
               Annuler
             </button>
           </div>
-          <hr />
         </div>
       </div>
       <div v-else>
@@ -41,7 +42,7 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, RouterLink } from 'vue-router'
 import type { BookingDto } from '../dto/booking.dto'
 import {
   deleteBookedDateByUserId,
@@ -84,4 +85,16 @@ function add24Hours(date: Date) {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+a {
+  color: var(--text-nav);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+  font-size: 14px;
+  font-weight: regular;
+
+  &:hover {
+    color: var(--text-nav-active);
+  }
+}
+</style>
