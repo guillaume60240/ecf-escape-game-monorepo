@@ -75,10 +75,12 @@ export class BookingRepository {
                 b.id AS id,
                 b.time_slot AS hour,
                 b.scenario_id AS scenarioid,
+                s.name AS title,
                 b.players AS players,
                 b.price AS price,
                 b.user_id AS userid
             FROM public.booking b
+            INNER JOIN public.scenario s ON s.id = b.scenario_id
             WHERE b.user_id = ${userId}
         `);
     return request.rows.map((row) => {
@@ -87,6 +89,7 @@ export class BookingRepository {
         startDate: new Date(row.date),
         hour: row.hour,
         scenarioId: row.scenarioid,
+        scenarioTitle: row.title,
         players: row.players,
         price: row.price,
         userId: row.userid,

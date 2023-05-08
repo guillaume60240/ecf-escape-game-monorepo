@@ -63,7 +63,7 @@ async function registerNewBookingDate() {
       state.booking.hour,
       state.booking.players,
       state.booking.price,
-      user.id,
+      +user.id,
       state.booking.scenarioId,
       user.accesToken
     )

@@ -23,8 +23,8 @@ export class BookingService {
     const request = await this.repository.createBooking(
       new Date(newBookingDate.startDate),
       newBookingDate.timeSlot,
-      newBookingDate.userId,
-      newBookingDate.scenarioId,
+      +newBookingDate.userId,
+      +newBookingDate.scenarioId,
       newBookingDate.players,
       newBookingDate.price,
     );
