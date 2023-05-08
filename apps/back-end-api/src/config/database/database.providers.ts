@@ -5,6 +5,7 @@ import { Price } from 'src/entity/price.entity';
 import { TimeSlot } from 'src/entity/time-slot.entity';
 import { Game } from 'src/entity/game.entity';
 import { Faq } from 'src/entity/faq.entity';
+import { GameMaster } from 'src/entity/game-master.entity';
 
 export const databaseProviders = [
   {
@@ -17,7 +18,7 @@ export const databaseProviders = [
         username: process.env.DB_USERNAME || 'postgres',
         password: process.env.DB_PASSWORD || '1234',
         database: process.env.DB_NAME || 'test_postgres',
-        entities: [User, Scenario, Price, TimeSlot, Game, Faq],
+        entities: [User, Scenario, Price, TimeSlot, Game, Faq, GameMaster],
         synchronize: true,
         ssl: process.env.SSL_ENABLED == 'true' ? true : false,
       });

@@ -21,6 +21,7 @@ services:
       - ./schema/scenario-manager:/docker-entrypoint-initdb.d/scenario-manager:ro
       - ./schema/booking-manager:/docker-entrypoint-initdb.d/booking-manager:ro
       - ./schema/faq-manager:/docker-entrypoint-initdb.d/faq-manager:ro
+      - ./schema/game-master-manager:/docker-entrypoint-initdb.d/game-master-manager:ro
       - ./schema/insert-data:/docker-entrypoint-initdb.d/insert-data:ro
       - ./init.sh:/docker-entrypoint-initdb.d/init.sh:ro
 

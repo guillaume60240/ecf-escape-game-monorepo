@@ -7,6 +7,7 @@ import { priceAdapter } from './admin-adapters/price-adapter';
 import { timeSlotAdapter } from './admin-adapters/time-slot-adapter';
 import { gameAdapter } from './admin-adapters/game-adapter';
 import { faqAdapter } from './admin-adapters/faq-adapter';
+import { gameMasterAdapter } from './admin-adapters/game-master-manager';
 
 const DEFAULT_ADMIN = {
   email: process.env.ADMIN_JS_EMAIL || 'admin@example.com',
@@ -50,6 +51,10 @@ export const adminjsConfig = AdminModule.createAdminAsync({
         {
           resource: faqAdapter.resource,
           options: faqAdapter.options,
+        },
+        {
+          resource: gameMasterAdapter.resource,
+          options: gameMasterAdapter.options,
         },
       ],
     },
