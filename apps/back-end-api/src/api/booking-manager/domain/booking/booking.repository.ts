@@ -52,6 +52,39 @@ export class BookingRepository {
     };
   }
 
+  async getBookedDateWithUser(date: Date) {
+    const { rows } = await this.slonik.query(sql`
+            SELECT
+                b.start_date AS date,
+                b.time_slot AS hour,
+                b.scenario_id AS scenarioid,
+                s.name AS title,
+                b.players AS players,
+                b.price AS price,
+                b.user_id AS userid,
+                u.name AS username,
+                u.email AS useremail
+            FROM public.booking b
+            INNER JOIN public.scenario s ON s.id::integer = b.scenario_id
+            INNER JOIN public.user u ON u.id::integer = b.user_id
+            WHERE DATE_TRUNC('day', b.start_date) = ${date.toISOString()}
+            ORDER by b.time_slot ASC
+        `);
+    return rows.map((row) => {
+      return {
+        startDate: new Date(row.date),
+        hour: row.hour,
+        scenarioId: row.scenarioid,
+        scenarioTitle: row.title,
+        players: row.players,
+        price: row.price,
+        userId: row.userid,
+        userName: row.username,
+        userEmail: row.useremail,
+      };
+    });
+  }
+
   async createBooking(
     date: Date,
     timeSlot: string,
@@ -83,6 +116,7 @@ export class BookingRepository {
             FROM public.booking b
             INNER JOIN public.scenario s ON s.id::integer = b.scenario_id
             WHERE b.user_id = ${userId}
+            ORDER by b.time_slot ASC
         `);
     return request.rows.map((row) => {
       return {
@@ -98,3 +132,23 @@ export class BookingRepository {
     });
   }
 }
+
+/* 
+SELECT
+                b.start_date AS date,
+                b.time_slot AS hour,
+                h.id AS timeslotid,
+                b.scenario_id AS scenarioid,
+                s.name AS title,
+                b.players AS players,
+                b.price AS price,
+                b.user_id AS userid,
+                u.name AS username,
+                u.email AS useremail
+            FROM public.booking b
+            INNER JOIN public.scenario s ON s.id::integer = b.scenario_id
+            INNER JOIN public.user u ON u.id::integer = b.user_id
+            INNER JOIN public.time_slot h ON h.display_hour = b.time_slot
+            WHERE DATE_TRUNC('day', b.start_date) = '2023-04-30'
+            ORDER by h.id ASC
+             */

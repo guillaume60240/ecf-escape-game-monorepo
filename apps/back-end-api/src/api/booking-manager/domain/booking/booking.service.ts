@@ -19,6 +19,10 @@ export class BookingService {
     );
   }
 
+  async getBookedDateWithUser(date: Date) {
+    return await this.repository.getBookedDateWithUser(date);
+  }
+
   async createBooking(newBookingDate: NewBookingDateDto) {
     const request = await this.repository.createBooking(
       new Date(newBookingDate.startDate),

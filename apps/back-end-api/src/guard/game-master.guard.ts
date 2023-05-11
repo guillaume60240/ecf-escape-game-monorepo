@@ -1,10 +1,10 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { decode, JwtPayload, verify } from 'jsonwebtoken';
-import { UserService } from '../api/user-manager/user/user.service';
+import { GameMasterService } from '../api/game-master-manager/domain/game-master.service';
 
 @Injectable()
-export class UserGuard implements CanActivate {
-  constructor(private userService: UserService) {}
+export class GameMasterGuard implements CanActivate {
+  constructor(private gameMasterService: GameMasterService) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     if (!request.headers['authorization']) return false;
@@ -14,17 +14,12 @@ export class UserGuard implements CanActivate {
     if (!decoded) return false;
     const user = decode(token) as JwtPayload;
     if (!user) return false;
-    const userMail = user.email;
-    if (!userMail) return false;
-    if (request.params?.userId) {
-      const requestUserFromDb = await this.userService.getOneUserById(
-        request.params?.userId,
-      );
-      if (!requestUserFromDb) return false;
-      if (requestUserFromDb.email !== userMail) return false;
-    }
+    const userName = user.name;
+    if (!userName) return false;
     try {
-      const userFromDb = await this.userService.findOneByEmail(userMail);
+      const userFromDb = await this.gameMasterService.getGameMasterByName(
+        userName,
+      );
       if (!userFromDb) return false;
     } catch (e) {
       return false;
