@@ -16,7 +16,7 @@ FROM package as builder
 ARG ENVIRONMENT=production
 WORKDIR /home/node/apps/mobile-app
 
-RUN cp .env .env.local || cp .env.dist .env.local
+RUN cp .env.dist .env.local
 RUN echo "Build app"
 RUN npm run build
 

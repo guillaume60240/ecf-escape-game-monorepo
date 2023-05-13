@@ -1,6 +1,6 @@
 import { GameMasterRepository } from './game-master.repository';
 import { Injectable } from '@nestjs/common';
-import { GameMasterDto } from '../dto/game-master.dto';
+import { GameMasterDto } from '../../dto/game-master.dto';
 
 @Injectable()
 export class GameMasterService {

@@ -6,6 +6,7 @@ import { BookingController } from './api/booking-manager/domain/booking/booking.
 import { TimeSlotController } from './api/booking-manager/domain/time-slot/time-slot.controller';
 import { GameController } from './game-manager/domain/game-manager.controller';
 import { FaqController } from './api/faq-manager/domain/faq.controller';
+import { GameMasterController } from './api/game-master-manager/domain/game-master/game-master.controller';
 export const controllers = [
   UserController,
   HealthcheckController,
@@ -15,4 +16,5 @@ export const controllers = [
   TimeSlotController,
   GameController,
   FaqController,
+  GameMasterController,
 ];

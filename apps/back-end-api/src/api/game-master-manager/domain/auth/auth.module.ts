@@ -6,8 +6,8 @@ import { LocalStrategy } from './local.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { JwtStrategy } from './jwt.strategy';
-import { GameMasterService } from '../game-master.service';
-import { GameMasterRepository } from '../game-master.repository';
+import { GameMasterService } from '../game-master/game-master.service';
+import { GameMasterRepository } from '../game-master/game-master.repository';
 import { SlonikModule } from '../../../../config/slonik/slonik.module';
 
 @Module({

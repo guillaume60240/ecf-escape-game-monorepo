@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { decode, JwtPayload, verify } from 'jsonwebtoken';
-import { GameMasterService } from '../api/game-master-manager/domain/game-master.service';
+import { GameMasterService } from '../api/game-master-manager/domain/game-master/game-master.service';
 
 @Injectable()
 export class GameMasterGuard implements CanActivate {

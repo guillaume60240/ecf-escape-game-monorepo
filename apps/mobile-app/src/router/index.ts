@@ -1,39 +1,80 @@
-import { createRouter, createWebHistory } from '@ionic/vue-router';
-import { RouteRecordRaw } from 'vue-router';
-import TabsPage from '../views/TabsPage.vue'
+import { createRouter, createWebHistory } from "@ionic/vue-router";
+import { RouteRecordRaw } from "vue-router";
+import TabsPage from "../views/TabsPage.vue";
+import { getMe } from "@/services/api-request/game-master-manager/game-master-manager-request";
+
+async function verifyUser() {
+  if (!localStorage.getItem("user")) {
+    return false;
+  }
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  console.log("verify user", user);
+  if (!user.access_token) {
+    return false;
+  } else {
+    const userVerified = await getMe(user.access_token);
+    if (!userVerified) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+}
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/',
-    redirect: '/tabs/tab1'
+    path: "/",
+    redirect: "/tabs/list",
   },
   {
-    path: '/tabs/',
+    path: "/login",
+    component: () => import("@/views/LoginPage.vue"),
+    beforeEnter: async (to, from, next) => {
+      const user = await verifyUser();
+      if (!user) {
+        localStorage.removeItem("user");
+        next();
+      } else {
+        next("/");
+      }
+    },
+  },
+  {
+    path: "/tabs/",
     component: TabsPage,
+    beforeEnter: async (to, from, next) => {
+      const user = await verifyUser();
+      if (!user) {
+        localStorage.removeItem("user");
+        next("/login");
+      } else {
+        next();
+      }
+    },
     children: [
       {
-        path: '',
-        redirect: '/tabs/tab1'
+        path: "",
+        redirect: "/tabs/list",
       },
       {
-        path: 'tab1',
-        component: () => import('@/views/Tab1Page.vue')
+        path: "list",
+        component: () => import("@/views/BookingList.vue"),
       },
       {
-        path: 'tab2',
-        component: () => import('@/views/Tab2Page.vue')
+        path: "game-started",
+        component: () => import("@/views/GameStarted.vue"),
       },
       {
-        path: 'tab3',
-        component: () => import('@/views/Tab3Page.vue')
-      }
-    ]
-  }
-]
+        path: "game-close",
+        component: () => import("@/views/GameClosed.vue"),
+      },
+    ],
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

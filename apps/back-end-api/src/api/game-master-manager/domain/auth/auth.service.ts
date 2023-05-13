@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { GameMasterService } from '../game-master.service';
+import { GameMasterService } from '../game-master/game-master.service';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
 

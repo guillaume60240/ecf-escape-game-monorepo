@@ -6,7 +6,7 @@ import { BookingRepository } from './api/booking-manager/domain/booking/booking.
 import { TimeSlotRepository } from './api/booking-manager/domain/time-slot/time-slot.repository';
 import { GameManagerRepository } from './game-manager/domain/game-manager.repository';
 import { FaqRepository } from './api/faq-manager/domain/faq.repository';
-import { GameMasterRepository } from './api/game-master-manager/domain/game-master.repository';
+import { GameMasterRepository } from './api/game-master-manager/domain/game-master/game-master.repository';
 
 export const repositories = [
   UserRepository,
