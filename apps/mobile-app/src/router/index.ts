@@ -65,7 +65,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/GameStarted.vue"),
       },
       {
-        path: "game-close",
+        path: "game-closed",
         component: () => import("@/views/GameClosed.vue"),
       },
     ],
