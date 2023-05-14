@@ -15,6 +15,7 @@ import {
   NewBookingDateDto,
 } from '../../dto/responses/booked-date.dto';
 import { UserGuard } from '../../../../guard/user.guard';
+import { GameMasterGuard } from '../../../../guard/game-master.guard';
 
 @ApiTags('Booking manager')
 @Controller('booking')
@@ -37,6 +38,7 @@ export class BookingController {
     summary: 'Get booked dates',
     description: 'Get booked dates for a scenario in a time interval',
   })
+  //TODO update DTO to not display user info
   async getBookingsByScenarioIdByStartDate(
     @Query('date') date: Date,
     @Query('scenarioId') scenarioId: number,
@@ -45,6 +47,33 @@ export class BookingController {
       scenarioId,
       new Date(date),
     );
+  }
+
+  @UseGuards(GameMasterGuard)
+  @Get('/booked-date-with-user')
+  @ApiResponse({
+    status: 200,
+    description: 'Booked Date',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error',
+    type: InternalServerErrorException,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request',
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Non authorized',
+  })
+  @ApiOperation({
+    summary: 'Get booked dates with user',
+    description: 'Get booked dates with user',
+  })
+  async getBookedDateWithUser(@Query('date') date: Date) {
+    return await this.service.getBookedDateWithUser(new Date(date));
   }
 
   @UseGuards(UserGuard)

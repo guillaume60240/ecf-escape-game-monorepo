@@ -2,7 +2,7 @@ INSERT INTO "public"."booking"("start_date","time_slot", "user_id", "scenario_id
 VALUES
 (
     '2023-04-30T9:00:16.409Z'::TIMESTAMP,
-    '9:00',
+    '09:00',
     1,
     1,
     2,
