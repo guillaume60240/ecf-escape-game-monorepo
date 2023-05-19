@@ -7,7 +7,7 @@ import { ApiTags } from '@nestjs/swagger';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
-  @UseGuards(AuthGuard('local'))
+  @UseGuards(AuthGuard('local-user'))
   @Post('login')
   async login(@Request() req: any) {
     return await this.authService.login(req.user);

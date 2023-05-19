@@ -10,7 +10,7 @@ export class GameMasterAuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(name: string, pass: string): Promise<any> {
+  async validateGameMaster(name: string, pass: string): Promise<any> {
     const gameMaster = await this.service.getGameMasterByName(name);
     if (!gameMaster) {
       return null;
