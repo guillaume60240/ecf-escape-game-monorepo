@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { PassportModule } from '@nestjs/passport';
-import { LocalStrategy } from './local.strategy';
+import { LocalUserStrategy } from './local-user.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
 import { JwtStrategy } from './jwt.strategy';
@@ -22,7 +22,10 @@ import { SlonikModule } from '../../../config/slonik/slonik.module';
   ],
   providers: [
     AuthService,
-    LocalStrategy,
+    {
+      provide: 'local-user',
+      useClass: LocalUserStrategy,
+    },
     JwtStrategy,
     UserService,
     UserRepository,

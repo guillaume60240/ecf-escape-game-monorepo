@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { GameMasterAuthService } from './auth.service';
 import { GameMasterAuthController } from './auth.controller';
 import { PassportModule } from '@nestjs/passport';
-import { LocalStrategy } from './local.strategy';
+import { GameMasterLocalStrategy } from './local.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
-import { JwtStrategy } from './jwt.strategy';
+import { GameMasterJwtStrategy } from './jwt.strategy';
 import { GameMasterService } from '../game-master/game-master.service';
 import { GameMasterRepository } from '../game-master/game-master.repository';
 import { SlonikModule } from '../../../../config/slonik/slonik.module';
@@ -22,8 +22,8 @@ import { SlonikModule } from '../../../../config/slonik/slonik.module';
   ],
   providers: [
     GameMasterAuthService,
-    LocalStrategy,
-    JwtStrategy,
+    GameMasterLocalStrategy,
+    GameMasterJwtStrategy,
     GameMasterService,
     GameMasterRepository,
   ],

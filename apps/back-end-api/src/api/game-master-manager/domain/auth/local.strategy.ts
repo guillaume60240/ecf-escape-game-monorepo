@@ -4,13 +4,18 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { GameMasterAuthService } from './auth.service';
 
 @Injectable()
-export class LocalStrategy extends PassportStrategy(Strategy) {
+export class GameMasterLocalStrategy extends PassportStrategy(Strategy) {
   constructor(private authService: GameMasterAuthService) {
     super({ usernameField: 'name' });
   }
 
-  async validate(name: string, password: string): Promise<any> {
-    const gameMaster = await this.authService.validateUser(name, password);
+  async validate(name: string, password: string, type: string): Promise<any> {
+    if (type !== 'game-master') {
+    }
+    const gameMaster = await this.authService.validateGameMaster(
+      name,
+      password,
+    );
     if (!gameMaster) {
       throw new UnauthorizedException();
     }
