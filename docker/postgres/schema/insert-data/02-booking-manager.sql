@@ -1,4 +1,4 @@
-INSERT INTO "public"."booking"("start_date","time_slot", "user_id", "scenario_id", "players", "price")
+INSERT INTO "public"."booking"("start_date","time_slot", "user_id", "scenario_id", "players", "price", "status")
 VALUES
 (
     '2023-04-30T9:00:16.409Z'::TIMESTAMP,
@@ -6,7 +6,8 @@ VALUES
     1,
     1,
     2,
-    54
+    54,
+    'pending'
 ),
 (
     '2023-04-30T11:00:16.409Z'::TIMESTAMP,
@@ -14,7 +15,8 @@ VALUES
     1,
     2,
     3,
-    81
+    81,
+    'pending'
 ),
 (
     '2023-04-30T13:00:16.409Z'::TIMESTAMP,
@@ -22,7 +24,8 @@ VALUES
     1,
     1,
     4,
-    88
+    88,
+    'pending'
 ),
 (
     '2023-04-30T15:00:16.409Z'::TIMESTAMP,
@@ -30,7 +33,8 @@ VALUES
     1,
     2,
     5,
-    110
+    110,
+    'pending'
 ),
 (
     '2023-04-30T17:00:16.409Z'::TIMESTAMP,
@@ -38,7 +42,8 @@ VALUES
     1,
     1,
     6,
-    120
+    120,
+    'pending'
 ),
 (
     '2023-04-30T19:00:16.409Z'::TIMESTAMP,
@@ -46,7 +51,8 @@ VALUES
     1,
     1,
     6,
-    120
+    120,
+    'pending'
 ),
 (
     '2023-04-29T9:00:16.409Z'::TIMESTAMP,
@@ -54,7 +60,8 @@ VALUES
     1,
     1,
     2,
-    54
+    54,
+    'pending'
 ),
 (
     '2023-04-29T11:00:16.409Z'::TIMESTAMP,
@@ -62,7 +69,8 @@ VALUES
     1,
     2,
     3,
-    81
+    81,
+    'pending'
 ),
 (
     '2023-04-29T13:00:16.409Z'::TIMESTAMP,
@@ -70,7 +78,8 @@ VALUES
     1,
     1,
     4,
-    88
+    88,
+    'pending'
 ),
 (
     '2023-04-29T15:00:16.409Z'::TIMESTAMP,
@@ -78,7 +87,8 @@ VALUES
     1,
     2,
     5,
-    110
+    110,
+    'pending'
 ),
 (
     '2023-04-29T17:00:16.409Z'::TIMESTAMP,
@@ -86,7 +96,8 @@ VALUES
     1,
     1,
     6,
-    120
+    120,
+    'pending'
 ),
 (
     '2023-04-29T19:00:16.409Z'::TIMESTAMP,
@@ -94,7 +105,8 @@ VALUES
     1,
     1,
     6,
-    120
+    120,
+    'pending'
 ),
 (
     '2023-05-02T21:00:16.409Z'::TIMESTAMP,
@@ -102,5 +114,6 @@ VALUES
     1,
     1,
     6,
-    120
+    120,
+    'pending'
 );
