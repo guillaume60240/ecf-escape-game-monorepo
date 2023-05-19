@@ -11,8 +11,14 @@
           <ion-title size="large">Connexion</ion-title>
         </ion-toolbar>
       </ion-header>
+      <div class="loginFailed" v-if="state.loginFailed">
+        Une erreur est survenue, merci de réessayer ultérieurement.
+      </div>
+      <div v-if="!state.isLoaded" class="spinnerContainer">
+        <ion-spinner color="tertiary" name="lines-sharp"></ion-spinner>
+      </div>
 
-      <ion-list class="list">
+      <ion-list class="list" v-else>
         <ion-item>
           <ion-input
             label="Nom du game master"
@@ -67,6 +73,7 @@ import {
   IonButton,
   IonList,
   IonFooter,
+  IonSpinner,
 } from "@ionic/vue";
 import { reactive } from "vue";
 import { gameMasterLogin } from "@/services/api-request/game-master-manager/game-master-manager-request";
@@ -77,6 +84,8 @@ const state = reactive({
   gameMaster: "",
   password: "",
   formIsOk: false,
+  isLoaded: true,
+  loginFailed: false,
 });
 
 function checkForm() {
@@ -84,17 +93,27 @@ function checkForm() {
 }
 
 async function login() {
+  state.isLoaded = false;
   const gameMaster = await gameMasterLogin(state.gameMaster, state.password);
   if (gameMaster) {
-    console.log("login success");
+    state.isLoaded = true;
     router.push("/");
   } else {
+    state.isLoaded = true;
     console.log("login failed");
+    loginFailed();
   }
 
   state.gameMaster = "";
   state.password = "";
   state.formIsOk = false;
+}
+
+function loginFailed() {
+  state.loginFailed = true;
+  setTimeout(() => {
+    state.loginFailed = false;
+  }, 3000);
 }
 </script>
 
@@ -113,5 +132,18 @@ async function login() {
 }
 .in-toolbar {
   text-align: center;
+}
+.loginFailed {
+  position: absolute;
+  margin-top: 2rem;
+  text-align: center;
+  color: red;
+  z-index: 100;
+}
+.spinnerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 </style>

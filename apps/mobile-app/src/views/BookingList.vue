@@ -97,7 +97,7 @@ const state = reactive<{
 });
 
 async function loadBookings(token: string) {
-  const bookings = await getBookingWithUser(token, "2023-04-29");
+  const bookings = await getBookingWithUser(token, state.today);
   state.bookings = bookings;
   state.isLoaded = true;
   console.log("bookings", bookings);
@@ -106,7 +106,6 @@ async function loadBookings(token: string) {
 async function loadTimeSlot() {
   const timeSlot = await getTimeSlot();
   state.timeSlot = timeSlot;
-  console.log("timeSlot", timeSlot);
 }
 
 onIonViewDidEnter(() => {
