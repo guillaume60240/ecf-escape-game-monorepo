@@ -1,7 +1,7 @@
 {
-  "name": "mobile-app",
+  "name": "game-master-manager",
   "version": "1.0.0",
-  "description": "An Amazing Capacitor App",
+  "description": "The Game Master Manager is a tool for Game Masters to manage their games.",
   "author": {
     "name": "",
     "email": ""

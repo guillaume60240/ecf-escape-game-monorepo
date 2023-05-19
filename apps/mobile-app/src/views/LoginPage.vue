@@ -100,7 +100,11 @@ async function login() {
 
 <style scoped lang="css">
 .list {
-  margin-top: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 .button {
   margin-top: 5rem;
