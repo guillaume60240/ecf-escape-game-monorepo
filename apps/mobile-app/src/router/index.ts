@@ -8,7 +8,7 @@ async function verifyUser() {
     return false;
   }
   const user = JSON.parse(localStorage.getItem("user") || "{}");
-  console.log("verify user", user);
+
   if (!user.access_token) {
     return false;
   } else {
