@@ -4,6 +4,7 @@ import {
   Get,
   InternalServerErrorException,
   Param,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -156,4 +157,33 @@ export class BookingController {
   async deleteBookedDate(@Param('bookedDateId') bookedDateId: number) {
     return await this.service.deleteBookedDate(bookedDateId);
   } */
+  @UseGuards(GameMasterGuard)
+  @Patch('/booked-date/:bookedDateId')
+  @ApiResponse({
+    status: 200,
+    description: 'Booked Date updated',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error',
+    type: InternalServerErrorException,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request',
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Non authorized',
+  })
+  @ApiOperation({
+    summary: 'Update booked date',
+    description: 'Update booked date',
+  })
+  async updateBookedDate(
+    @Param('bookedDateId') bookedDateId: number,
+    @Body() status: string,
+  ) {
+    return await this.service.updateBookedDateStatus(bookedDateId, status);
+  }
 }

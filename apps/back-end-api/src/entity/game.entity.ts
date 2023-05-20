@@ -6,12 +6,12 @@ export class Game extends BaseEntity {
   id: number;
   @Column()
   started_at: Date;
-  @Column()
+  @Column({ nullable: true })
   ended_at: Date;
   @Column()
-  scenario_id: string;
-  @Column({ type: 'time' })
-  duration: Date;
+  scenario_id: number;
+  @Column({ nullable: true })
+  duration: number;
   @Column()
-  booking_id: string;
+  booking_id: number;
 }

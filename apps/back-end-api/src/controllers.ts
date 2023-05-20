@@ -4,7 +4,7 @@ import { ScenariosController } from './api/scenarios-manager/domain/scenario/sce
 import { PricesController } from './api/booking-manager/domain/prices/prices.controller';
 import { BookingController } from './api/booking-manager/domain/booking/booking.controller';
 import { TimeSlotController } from './api/booking-manager/domain/time-slot/time-slot.controller';
-import { GameController } from './game-manager/domain/game-manager.controller';
+import { GameController } from './api/game-manager/domain/game-manager.controller';
 import { FaqController } from './api/faq-manager/domain/faq.controller';
 import { GameMasterController } from './api/game-master-manager/domain/game-master/game-master.controller';
 export const controllers = [
