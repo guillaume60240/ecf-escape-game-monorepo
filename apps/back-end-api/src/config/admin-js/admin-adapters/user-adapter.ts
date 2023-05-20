@@ -19,21 +19,21 @@ export const userAdapter = {
     navigation: { name: 'User manager', icon: 'User' },
     id: 'Utilisateurs',
     properties: {},
-    listProperties: ['id', 'email', 'name'],
+    listProperties: ['email', 'name'],
     filterProperties: ['email', 'name'],
     showProperties: ['email', 'name'],
     actions: {
       edit: {
         isAccessible: false,
-        isVisible: true,
+        isVisible: false,
       },
       new: {
         isAccessible: false,
-        isVisible: true,
+        isVisible: false,
       },
       delete: {
         isAccessible: false,
-        isVisible: true,
+        isVisible: false,
       },
       list: {
         before: [customBefore],
