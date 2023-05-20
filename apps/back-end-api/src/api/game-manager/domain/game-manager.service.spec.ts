@@ -1,3 +1,4 @@
+import { BookingService } from 'src/api/booking-manager/domain/booking/booking.service';
 import { GameManagerRepository } from './game-manager.repository';
 import { GameService } from './game-manager.service';
 import { mock } from 'jest-mock-extended';
@@ -5,8 +6,9 @@ import { mock } from 'jest-mock-extended';
 describe('Game Manager service', () => {
   let service: GameService;
   const repository = mock<GameManagerRepository>();
+  const bookingService = mock<BookingService>();
   beforeEach(async () => {
-    service = new GameService(repository);
+    service = new GameService(repository, bookingService);
     jest.resetAllMocks();
   });
 

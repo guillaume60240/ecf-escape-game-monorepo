@@ -17,22 +17,6 @@
           </div>
         </template>
       </div>
-      <div
-        v-for="(bookedDate, index) in state.bookings"
-        :key="index"
-        class="dateWrapper"
-      >
-        <p v-if="bookedDate">Client: {{ bookedDate.userName }}</p>
-        <p>Scénario: {{ bookedDate.scenarioTitle }}</p>
-        <p>Participants: {{ bookedDate.players }}</p>
-        <template v-if="props.isMobile">
-          <div v-if="bookedDate.status === 'pending'">
-            <ion-button @click="startGame(bookedDate.bookingId)"
-              >Démarrer</ion-button
-            >
-          </div>
-        </template>
-      </div>
     </template>
     <template v-else>
       <p class="no-booking">Pas de réservation à ce créneau</p>

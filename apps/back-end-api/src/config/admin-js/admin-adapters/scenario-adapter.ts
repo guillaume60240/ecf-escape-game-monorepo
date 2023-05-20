@@ -6,5 +6,16 @@ export const scenarioAdapter = {
     navigation: { name: 'Scenario manager' },
     id: 'Scénarios',
     properties: {},
+    listProperties: ['name'],
+    filterProperties: ['name'],
+    showProperties: [
+      'name',
+      'description',
+      'difficulty',
+      'duration',
+      'min_players',
+      'max_players',
+      'summary',
+    ],
   },
 };

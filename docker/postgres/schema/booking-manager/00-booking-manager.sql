@@ -7,7 +7,7 @@ CREATE SEQUENCE public.booking_id_seq
 
 CREATE TABLE IF NOT EXISTS public."booking"
 (
-    id character varying DEFAULT nextval('public.booking_id_seq'::regclass) NOT NULL,
+    id integer DEFAULT nextval('public.booking_id_seq'::regclass) NOT NULL,
     start_date timestamp without time zone NOT NULL UNIQUE,
     time_slot character varying NOT NULL,
     user_id integer NOT NULL,

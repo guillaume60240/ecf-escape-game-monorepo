@@ -135,4 +135,13 @@ export class BookingRepository {
       };
     });
   }
+
+  async updateBookedDateStatus(bookingId: number, status: string) {
+    const request = await this.slonik.query(sql`
+            UPDATE public.booking
+                SET status = ${status}
+                WHERE id = ${bookingId}
+        `);
+    return request;
+  }
 }
