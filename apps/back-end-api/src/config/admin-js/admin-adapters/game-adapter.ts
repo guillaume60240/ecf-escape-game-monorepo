@@ -1,14 +1,21 @@
 import { Game } from 'src/entity/game.entity';
 
-const customBefore = (request, context) => {
-  return request;
+const formatDuration = (request, context) => {
+  if (context.record.params.duration) {
+    const duration = context.record.params.duration;
+    const minutes = Math.floor(duration / 60);
+    const seconds = duration - minutes * 60;
+    context.record.params.duration = `${minutes} minutes et ${seconds} secondes`;
+  }
+
+  return context;
 };
 export const gameAdapter = {
   resource: Game,
   options: {
     navigation: { name: 'Game manager' },
     id: 'Parties',
-    listProperties: ['started_at', 'ended_at', 'scenario_id', 'duration'],
+    listProperties: ['started_at', 'ended_at', 'scenario_id'],
     filterProperties: ['started_at', 'scenario_id'],
     showProperties: ['started_at', 'ended_at', 'scenario_id', 'duration'],
     properties: {
@@ -45,7 +52,11 @@ export const gameAdapter = {
       list: {
         isAccessible: true,
         isVisible: true,
-        before: [customBefore],
+      },
+      show: {
+        isAccessible: true,
+        isVisible: true,
+        before: [formatDuration],
       },
     },
   },
