@@ -28,20 +28,25 @@ export class GameService {
       if (!updateBookedDate) {
         throw new Error("La réservation n'a pas pu être mise à jour");
       }
+      return updateBookedDate;
     }
-    return {
-      id: request.id,
-    };
+    throw new Error("La partie n'a pas pu être créée");
   }
 
-  async closeGame(gameId: number): Promise<any> {
-    const gameToUpdate = await this.repository.getGameById(gameId);
+  async closeGame(bookingId: number): Promise<any> {
+    const gameToUpdate = await this.repository.getGameByBookingId(bookingId);
+    if (!gameToUpdate) {
+      throw new Error("La partie n'existe pas");
+    }
     if (!gameToUpdate.ended_at) {
       const startedAt = new Date(gameToUpdate.started_at);
       const endedAt = new Date();
       const duration = endedAt.getTime() - startedAt.getTime();
       const durationInSecond = Math.round(duration / 1000);
-      const request = await this.repository.closeGame(gameId, durationInSecond);
+      const request = await this.repository.closeGame(
+        bookingId,
+        durationInSecond,
+      );
       if (request.booking_id) {
         const updateBookedDate =
           await this.bookingService.updateBookedDateStatus(
@@ -51,12 +56,18 @@ export class GameService {
         if (!updateBookedDate) {
           throw new Error("La réservation n'a pas pu être mise à jour");
         }
+        return updateBookedDate;
       }
-      return {
-        id: request.id,
-      };
     } else {
       throw new Error('La partie est déjà terminée');
     }
+  }
+
+  async getGameByBookingId(bookingId: number): Promise<any> {
+    const request = await this.repository.getGameByBookingId(bookingId);
+    if (!request) {
+      throw new Error("La partie n'existe pas");
+    }
+    return request;
   }
 }
