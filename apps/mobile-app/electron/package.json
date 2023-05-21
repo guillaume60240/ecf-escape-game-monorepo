@@ -1,9 +1,15 @@
 {
   "name": "game-master-manager",
+  "productName": "Game Master Interface",
+  "copyright": "Copyright © 2023 Guillaume Lepoetre",
+  "appImage": {
+    "artifactName": "Game Master Interface",
+    "icon": "src/assets/icon.png"
+  },
   "version": "1.0.0",
   "description": "The Game Master Manager is a tool for Game Masters to manage their games.",
   "author": {
-    "name": "",
+    "name": "Guillaume Lepoetre",
     "email": ""
   },
   "repository": {
