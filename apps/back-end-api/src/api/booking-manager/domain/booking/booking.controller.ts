@@ -186,4 +186,31 @@ export class BookingController {
   ) {
     return await this.service.updateBookedDateStatus(bookedDateId, status);
   }
+
+  @UseGuards(GameMasterGuard)
+  @Get('/booked-date/:bookedDateId')
+  @ApiResponse({
+    status: 200,
+    description: 'Booked Date updated',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal server error',
+    type: InternalServerErrorException,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request',
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Non authorized',
+  })
+  @ApiOperation({
+    summary: 'Update booked date',
+    description: 'Update booked date',
+  })
+  async getBookingDateById(@Param('bookedDateId') bookedDateId: number) {
+    return await this.service.getBookingDateById(bookedDateId);
+  }
 }

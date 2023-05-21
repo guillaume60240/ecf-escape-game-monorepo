@@ -137,11 +137,49 @@ export class BookingRepository {
   }
 
   async updateBookedDateStatus(bookingId: number, status: string) {
-    const request = await this.slonik.query(sql`
+    const { rows } = await this.slonik.query(sql`
             UPDATE public.booking
                 SET status = ${status}
                 WHERE id = ${bookingId}
+                RETURNING *;
         `);
-    return request;
+    return rows[0];
+  }
+
+  async getBookingDateById(bookingId: number) {
+    const { rows } = await this.slonik.query(sql`
+            SELECT
+
+                b.start_date AS date,
+                b.time_slot AS hour,
+                b.scenario_id AS scenarioid,
+                s.name AS title,
+                b.players AS players,
+                b.price AS price,
+                b.user_id AS userid,
+                b.status AS status,
+                b.id AS bookingid,
+                u.name AS username,
+                u.email AS useremail
+            FROM public.booking b
+            INNER JOIN public.scenario s ON s.id::integer = b.scenario_id
+            INNER JOIN public.user u ON u.id::integer = b.user_id
+            WHERE b.id = ${bookingId}
+        `);
+    return rows.map((row) => {
+      return {
+        startDate: new Date(row.date),
+        hour: row.hour,
+        scenarioId: row.scenarioid,
+        scenarioTitle: row.title,
+        players: row.players,
+        price: row.price,
+        userId: row.userid,
+        userName: row.username,
+        userEmail: row.useremail,
+        status: row.status,
+        bookingId: row.bookingid,
+      };
+    });
   }
 }

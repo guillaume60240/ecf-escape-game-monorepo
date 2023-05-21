@@ -39,6 +39,10 @@ export class BookingService {
     return await this.repository.getBookingsByUserId(userId);
   }
 
+  async getBookingDateById(id: number) {
+    return await this.repository.getBookingDateById(id);
+  }
+
   async updateBookedDateStatus(id: number, status: string) {
     return await this.repository.updateBookedDateStatus(id, status);
   }

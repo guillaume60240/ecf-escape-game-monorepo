@@ -50,7 +50,4 @@ export class NewBookingDateDto {
   @ApiProperty()
   @IsNumber()
   userId: number;
-  @ApiProperty()
-  @IsString()
-  status: string;
 }

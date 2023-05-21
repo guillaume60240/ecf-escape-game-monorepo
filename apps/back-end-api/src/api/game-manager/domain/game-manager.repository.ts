@@ -26,13 +26,13 @@ export class GameManagerRepository {
     return rows[0];
   }
 
-  async closeGame(gameId: number, duration: number): Promise<any> {
+  async closeGame(bookingId: number, duration: number): Promise<any> {
     const endedAt = new Date();
     const { rows } = await this.slonik.query(sql`
       UPDATE public.game
       SET ended_at = ${endedAt.toISOString()}
       , duration = ${duration}
-      WHERE id = ${gameId}
+      WHERE booking_id = ${bookingId}
       RETURNING booking_id
     `);
     return rows[0];
@@ -42,6 +42,14 @@ export class GameManagerRepository {
     const { rows } = await this.slonik.query(sql`
       SELECT * FROM public.game
       WHERE id = ${gameId}
+    `);
+    return rows[0];
+  }
+
+  async getGameByBookingId(bookingId: number): Promise<any> {
+    const { rows } = await this.slonik.query(sql`
+      SELECT * FROM public.game
+      WHERE booking_id = ${bookingId}
     `);
     return rows[0];
   }

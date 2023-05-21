@@ -23,6 +23,9 @@
             :timeSlot="slot"
             :bookings="state.bookings"
             :isMobile="state.plateform.includes('mobile')"
+            :user="state.user"
+            @startGame="startGame"
+            @stopGame="stopGame"
           />
         </template>
       </ion-item-group>
@@ -51,6 +54,12 @@ import {
 import BookedDateContainerView from "@/components/BookedDateContainerView.vue";
 import { getPlatforms } from "@ionic/vue";
 import { computed, reactive } from "vue";
+import {
+  createGame,
+  closeGame,
+} from "@/services/api-request/game-manager/game-manager-request";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 const plateform = computed(() => {
   return getPlatforms();
@@ -100,7 +109,6 @@ async function loadBookings(token: string) {
   const bookings = await getBookingWithUser(token, state.today);
   state.bookings = bookings;
   state.isLoaded = true;
-  console.log("bookings", bookings);
 }
 
 async function loadTimeSlot() {
@@ -108,19 +116,30 @@ async function loadTimeSlot() {
   state.timeSlot = timeSlot;
 }
 
+async function startGame(bookingId: number, scenarioId: number) {
+  if (!state.user) return;
+  await createGame(state.user?.access_token, bookingId, scenarioId);
+  state.isLoaded = false;
+  router.go(0);
+}
+
+async function stopGame(bookingId: number) {
+  if (!state.user) return;
+  await closeGame(state.user?.access_token, bookingId);
+  state.isLoaded = false;
+  router.go(0);
+}
+
 onIonViewDidEnter(() => {
-  console.log("enter");
   const userString = localStorage.getItem("user");
   if (userString) {
     const user = JSON.parse(userString);
-    console.log("user", user);
     state.user = user;
     loadTimeSlot();
     loadBookings(user.access_token);
   }
 });
 onIonViewWillLeave(() => {
-  console.log("leave");
   state.isLoaded = false;
 });
 </script>

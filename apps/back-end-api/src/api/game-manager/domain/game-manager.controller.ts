@@ -95,7 +95,34 @@ export class GameController {
     summary: 'Close Game',
     description: 'New Game',
   })
-  async closeGAme(@Body('gameId') gameId: number): Promise<any[]> {
-    return await this.service.closeGame(+gameId);
+  async closeGAme(@Body('bookingId') bookingId: number): Promise<any[]> {
+    return await this.service.closeGame(+bookingId);
+  }
+
+  @UseGuards(GameMasterGuard)
+  @Get('/game/:bookingId')
+  @ApiResponse({
+    status: 200,
+    description: 'Get Game',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Erreur interne',
+    type: InternalServerErrorException,
+  })
+  @ApiResponse({
+    status: 403,
+    description: 'Forbidden',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request',
+  })
+  @ApiOperation({
+    summary: 'Get Game',
+    description: 'Get Game',
+  })
+  async getGame(@Param('bookingId') bookingId: number): Promise<any[]> {
+    return await this.service.getGameByBookingId(+bookingId);
   }
 }

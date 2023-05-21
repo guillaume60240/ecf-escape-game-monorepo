@@ -13,9 +13,9 @@
           <ion-label>En cours</ion-label>
         </ion-tab-button>
 
-        <ion-tab-button tab="tab3" href="/tabs/game-closed">
-          <ion-icon aria-hidden="true" :icon="checkmarkCircleOutline" />
-          <ion-label>Terminées</ion-label>
+        <ion-tab-button tab="tab3" @click="reload">
+          <ion-icon :icon="reloadCircleOutline"></ion-icon>
+          <ion-label>Actualiser</ion-label>
         </ion-tab-button>
 
         <ion-tab-button tab="tab4" @click="logout">
@@ -40,7 +40,7 @@ import {
 import {
   ellipse,
   listCircleOutline,
-  checkmarkCircleOutline,
+  reloadCircleOutline,
   logOutOutline,
 } from "ionicons/icons";
 import { useRouter } from "vue-router";
@@ -48,5 +48,9 @@ const router = useRouter();
 function logout() {
   localStorage.removeItem("user");
   router.push("/login");
+}
+
+function reload() {
+  router.go(0);
 }
 </script>
