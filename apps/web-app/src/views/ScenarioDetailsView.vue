@@ -83,7 +83,7 @@ async function init() {
   state.scenario = await getOneScenarioById(state.scenarioId)
   const recordRequest = await getRecordByscenarioId(state.scenarioId)
   if (recordRequest) {
-    state.scenarioRecord = formatRecord(recordRequest)
+    state.scenarioRecord = formatRecord(recordRequest.duration)
   } else {
     state.scenarioRecord = null
   }
