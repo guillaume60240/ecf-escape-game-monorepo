@@ -73,11 +73,14 @@ async function getScenario(id: number) {
   }
 }
 function getChronoTime(chronoStart: number) {
-  const chronoTime = new Date(chronoStart);
-  const hours = chronoTime.getHours();
-  const minutes = chronoTime.getMinutes();
-  const seconds = chronoTime.getSeconds();
-  const milliseconds = chronoTime.getMilliseconds();
+  const hours = Math.floor(chronoStart / 3600000);
+  const minutes = Math.floor((chronoStart - hours * 3600000) / 60000);
+  const seconds = Math.floor(
+    (chronoStart - hours * 3600000 - minutes * 60000) / 1000
+  );
+  const milliseconds = Math.floor(
+    chronoStart - hours * 3600000 - minutes * 60000 - seconds * 1000
+  );
   return `${hours}h ${minutes}mins ${seconds}:${milliseconds}`;
 }
 
