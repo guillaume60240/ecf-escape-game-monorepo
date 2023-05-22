@@ -1,21 +1,14 @@
 import {
   Body,
   Controller,
-  Delete,
-  Get,
-  Header,
   InternalServerErrorException,
-  NotFoundException,
-  Param,
-  ParseIntPipe,
-  Patch,
   Post,
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserDto } from './dto/responses/user.dto';
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserGuard } from '../../../guard/user.guard';
 
 @ApiTags('Users manager')
@@ -23,7 +16,7 @@ import { UserGuard } from '../../../guard/user.guard';
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @Get()
+  /* @Get()
   @Header('Cache-Control', 'no-store')
   @ApiResponse({
     status: 200,
@@ -46,9 +39,9 @@ export class UserController {
   })
   async getUsers(): Promise<UserDto[]> {
     return await this.userService.getAllUsers();
-  }
+  } */
 
-  @Get('/:userId')
+  /*   @Get('/:userId')
   @Header('Cache-Control', 'no-store')
   @ApiParam({
     name: 'userId',
@@ -75,7 +68,7 @@ export class UserController {
   })
   async getUser(@Param('userId') userId: string): Promise<UserDto> {
     return await this.userService.getOneUserById(userId);
-  }
+  } */
 
   @Post()
   async createUser(@Body() user: CreateUserDto) {
@@ -104,19 +97,9 @@ export class UserController {
   })
   @ApiOperation({
     summary: 'Get one user',
-    description: 'Verify who I am',
+    description: 'Verify who I am. For user only',
   })
   async getMe(@Body() user: Partial<UserDto>) {
     return await this.userService.getMe(user);
   }
-
-  /* @Patch(':userId')
-  UpdateUser(@Param('userId', ParseIntPipe) userId: number, @Body() body: any) {
-    return this.userService.update(userId, body);
-  }
-
-  @Delete(':userId')
-  deleteUser(@Param('userId', ParseIntPipe) userId: number) {
-    return this.userService.delete(userId);
-  } */
 }

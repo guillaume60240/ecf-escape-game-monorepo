@@ -47,8 +47,14 @@ run `docker compose up -d`
 it will create a `web-app`, a `mobile-app`, a `back-end-api` and a PostGres instance with somme data.
 
 - web-app = http://localhost:8081
+  user: studi@mail.fr
+  password: test
 - mobile-app = http://localhost:8080 (use browser inspector to emulate mobile or desktop environment)
+  user: tino
+  password: test
 - swagger = http://localhost:8082/api
 - admin = http://localhost:8082/admin
+  user: admin@example.com
+  password: password
 - pg-admin = http://localhost:5050
 - postgres = http://localhost:5432 (db: escape_game_postgres, user: postgres, password: password)

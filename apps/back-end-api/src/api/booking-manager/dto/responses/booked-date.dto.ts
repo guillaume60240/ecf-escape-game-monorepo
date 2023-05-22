@@ -31,6 +31,35 @@ class BookingDto {
   }
 }
 
+export class UserBookedDateDto {
+  @ApiProperty()
+  @IsNumber()
+  id: number;
+  @ApiProperty()
+  @IsDate()
+  startDate: Date;
+  @ApiProperty({
+    example: ['10:00', '11:00'],
+  })
+  @IsString()
+  hour: string;
+  @ApiProperty()
+  @IsNumber()
+  scenarioId: number;
+  @ApiProperty()
+  @IsString()
+  scenarioTitle: string;
+  @ApiProperty()
+  @IsNumber()
+  players: number;
+  @ApiProperty()
+  @IsNumber()
+  price: number;
+  @ApiProperty()
+  @IsNumber()
+  userId: number;
+}
+
 export class NewBookingDateDto {
   @ApiProperty()
   @IsString()
@@ -50,4 +79,19 @@ export class NewBookingDateDto {
   @ApiProperty()
   @IsNumber()
   userId: number;
+}
+
+class RowsDto {
+  @ApiProperty()
+  id: number;
+}
+export class NewDateBookedResponseDTO {
+  @ApiProperty({
+    type: [RowsDto],
+    example: [{ id: 1 }],
+  })
+  rows: RowsDto[];
+  @ApiProperty()
+  @IsNumber()
+  rowCount: number;
 }
