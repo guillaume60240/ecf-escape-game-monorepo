@@ -32,11 +32,11 @@ services:
 
   back-end-api:
     ## Option 1 - Build from Dockerfile
-    build:
-      context: .
-      dockerfile: ./docker/back-end-api.Dockerfile
+    # build:
+    #   context: .
+    #   dockerfile: ./docker/back-end-api.Dockerfile
     ## Option 2 - Use the latest image available on Docker Hub
-    # image: "guillaume60240/ecf-escape-game-back-end-api:latest"
+    image: "guillaume60240/ecf-escape-game-back-end-api:latest"
     ports:
       - "8082:3000"
     env_file:

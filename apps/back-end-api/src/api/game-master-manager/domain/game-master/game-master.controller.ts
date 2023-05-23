@@ -5,7 +5,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiHeader, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { GameMasterGuard } from '../../../../guard/game-master.guard';
+import { GameMasterGuard } from '@/guard/game-master.guard';
 
 @ApiTags('Game master manager')
 @Controller('game-master')

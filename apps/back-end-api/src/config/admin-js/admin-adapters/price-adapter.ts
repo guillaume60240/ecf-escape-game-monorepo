@@ -1,4 +1,4 @@
-import { Price } from 'src/entity/price.entity';
+import { Price } from '@/entity/price.entity';
 
 export const priceAdapter = {
   resource: Price,

@@ -17,8 +17,8 @@ import {
   NewDateBookedResponseDTO,
   UserBookedDateDto,
 } from '../../dto/responses/booked-date.dto';
-import { UserGuard } from '../../../../guard/user.guard';
-import { GameMasterGuard } from '../../../../guard/game-master.guard';
+import { UserGuard } from '@/guard/user.guard';
+import { GameMasterGuard } from '@/guard/game-master.guard';
 import { BookedDateWithUserDto } from '../../dto/responses/booked-date-with-user.dto';
 
 @ApiTags('Booking manager')

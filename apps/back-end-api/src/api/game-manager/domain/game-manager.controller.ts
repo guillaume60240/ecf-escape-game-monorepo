@@ -11,7 +11,7 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { GameMasterGuard } from 'src/guard/game-master.guard';
+import { GameMasterGuard } from '@/guard/game-master.guard';
 import { RecordDto } from '../dto/response/record.dto';
 import {
   ClosedGameDto,

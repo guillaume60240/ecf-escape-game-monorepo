@@ -1,4 +1,4 @@
-import { GameMaster } from 'src/entity/game-master.entity';
+import { GameMaster } from '@/entity/game-master.entity';
 import * as bcrypt from 'bcrypt';
 
 export const gameMasterAdapter = {

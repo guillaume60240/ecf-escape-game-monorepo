@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { sql } from 'slonik';
-import { SlonikService } from '../../../../config/slonik/slonik.service';
+import { SlonikService } from '@/config/slonik/slonik.service';
 import { ScenarioEntity } from '../../entity/scenario.entity';
 
 @Injectable()

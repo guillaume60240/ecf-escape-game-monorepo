@@ -58,3 +58,12 @@ it will create a `web-app`, a `mobile-app`, a `back-end-api` and a PostGres inst
   password: password
 - pg-admin = http://localhost:5050
 - postgres = http://localhost:5432 (db: escape_game_postgres, user: postgres, password: password)
+
+> #### Note:
+>
+> Run **web-app** and **back-end-api** with option 2 will be faster than option 1
+> :fire: In this case web-app send HTTP request to API in production. :fire:
+> So, the best configutaion is:
+> back-end-api: option 2 (to run the latest image available)
+> web-app: option 1 (to build code and expose it)
+> **This is the default configuration**
