@@ -1,6 +1,7 @@
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 
+//méthode use by all test to check if the status code is correct
 export async function testStatusCodeWithoutToken(
   path: string,
   app: INestApplication,
