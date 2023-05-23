@@ -8,6 +8,8 @@ import { controllers } from './controllers';
 import { services } from './services';
 import { repositories } from './repositories';
 import { GameMasterAuthModule } from './api/game-master-manager/domain/auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
+import slonikConfig from './config/slonik/slonik.config';
 
 @Module({
   imports: [
@@ -16,6 +18,11 @@ import { GameMasterAuthModule } from './api/game-master-manager/domain/auth/auth
     SlonikModule,
     AuthModule,
     GameMasterAuthModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+      load: [slonikConfig],
+    }),
   ],
   controllers: [...controllers],
   providers: [...repositories, ...services],

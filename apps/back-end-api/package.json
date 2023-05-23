@@ -19,7 +19,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e-suite": "jest --config ./test/jest-e2e.json",
-    "start:docker": "cd ../../docker/postgres && docker-compose up -d",
+    "start:docker": "cd ../../docker/postgres && docker-compose up -d --wait --detach",
     "test:e2e": "npm run start:docker && npm run test:e2e-suite"
   },
   "dependencies": {
