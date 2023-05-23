@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { testConfig } from './test.config';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
+import { AppModule } from '@/app.module';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
@@ -16,7 +16,6 @@ describe('AppController (e2e)', () => {
       .overrideProvider(ConfigService)
       .useValue(testConfig)
       .compile();
-
     app = module.createNestApplication();
     await app.init();
   });
