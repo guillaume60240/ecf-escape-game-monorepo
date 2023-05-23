@@ -10,7 +10,7 @@ VALUES(
     2,
     1,
     7,
-    45,
+    03,
     'https://storage.googleapis.com/escape-game-img/hassan-pasha-nEbMedmVwgw-unsplash.jpg'
 ),
 (

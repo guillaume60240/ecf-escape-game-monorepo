@@ -1,32 +1,24 @@
 import {
-  Body,
   Controller,
-  Delete,
-  Get,
-  Header,
   InternalServerErrorException,
-  NotFoundException,
-  Param,
-  ParseIntPipe,
-  Patch,
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { GameMasterGuard } from '../../../../guard/game-master.guard';
-import { GameMasterService } from './game-master.service';
-import { GameMasterDto } from '../../dto/game-master.dto';
+import { ApiHeader, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { GameMasterGuard } from '@/guard/game-master.guard';
 
 @ApiTags('Game master manager')
 @Controller('game-master')
 export class GameMasterController {
-  constructor(private gameMasterService: GameMasterService) {}
   @UseGuards(GameMasterGuard)
+  @ApiHeader({
+    name: 'Bearer Token',
+  })
   @Post('/me')
   @ApiResponse({
     status: 200,
     description: 'Verif if game master is connected',
-    type: GameMasterDto,
+    type: Boolean,
   })
   @ApiResponse({
     status: 500,
@@ -43,7 +35,7 @@ export class GameMasterController {
   })
   @ApiOperation({
     summary: 'Get one game master',
-    description: 'Verify who I am',
+    description: 'Verify who I am. For game master',
   })
   async getMe() {
     return true;

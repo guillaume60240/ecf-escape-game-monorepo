@@ -1,4 +1,4 @@
-import { Faq } from 'src/entity/faq.entity';
+import { Faq } from '@/entity/faq.entity';
 
 export const faqAdapter = {
   resource: Faq,

@@ -1,4 +1,4 @@
-import { Game } from 'src/entity/game.entity';
+import { Game } from '@/entity/game.entity';
 
 const formatDuration = (request, context) => {
   if (context.record.params.duration) {

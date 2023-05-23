@@ -1,11 +1,11 @@
-import { User } from 'src/entity/user.entity';
+import { User } from '@/entity/user.entity';
 import { DataSource } from 'typeorm';
-import { Scenario } from 'src/entity/scenario.entity';
-import { Price } from 'src/entity/price.entity';
-import { TimeSlot } from 'src/entity/time-slot.entity';
-import { Game } from 'src/entity/game.entity';
-import { Faq } from 'src/entity/faq.entity';
-import { GameMaster } from 'src/entity/game-master.entity';
+import { Scenario } from '@/entity/scenario.entity';
+import { Price } from '@/entity/price.entity';
+import { TimeSlot } from '@/entity/time-slot.entity';
+import { Game } from '@/entity/game.entity';
+import { Faq } from '@/entity/faq.entity';
+import { GameMaster } from '@/entity/game-master.entity';
 
 export const databaseProviders = [
   {

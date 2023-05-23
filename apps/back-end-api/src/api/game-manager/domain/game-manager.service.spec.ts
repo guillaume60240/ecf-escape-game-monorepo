@@ -1,4 +1,4 @@
-import { BookingService } from 'src/api/booking-manager/domain/booking/booking.service';
+import { BookingService } from '@/api/booking-manager/domain/booking/booking.service';
 import { GameManagerRepository } from './game-manager.repository';
 import { GameService } from './game-manager.service';
 import { mock } from 'jest-mock-extended';

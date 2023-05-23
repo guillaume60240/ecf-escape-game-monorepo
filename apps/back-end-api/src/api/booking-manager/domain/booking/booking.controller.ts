@@ -9,14 +9,17 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags, ApiHeader } from '@nestjs/swagger';
 import { BookingService } from './booking.service';
 import {
   BookedDateDto,
   NewBookingDateDto,
+  NewDateBookedResponseDTO,
+  UserBookedDateDto,
 } from '../../dto/responses/booked-date.dto';
-import { UserGuard } from '../../../../guard/user.guard';
-import { GameMasterGuard } from '../../../../guard/game-master.guard';
+import { UserGuard } from '@/guard/user.guard';
+import { GameMasterGuard } from '@/guard/game-master.guard';
+import { BookedDateWithUserDto } from '../../dto/responses/booked-date-with-user.dto';
 
 @ApiTags('Booking manager')
 @Controller('booking')
@@ -39,7 +42,6 @@ export class BookingController {
     summary: 'Get booked dates',
     description: 'Get booked dates for a scenario in a time interval',
   })
-  //TODO update DTO to not display user info
   async getBookingsByScenarioIdByStartDate(
     @Query('date') date: Date,
     @Query('scenarioId') scenarioId: number,
@@ -51,10 +53,14 @@ export class BookingController {
   }
 
   @UseGuards(GameMasterGuard)
+  @ApiHeader({
+    name: 'Bearer Token',
+  })
   @Get('/booked-date-with-user')
   @ApiResponse({
     status: 200,
     description: 'Booked Date',
+    type: BookedDateWithUserDto,
   })
   @ApiResponse({
     status: 500,
@@ -71,17 +77,21 @@ export class BookingController {
   })
   @ApiOperation({
     summary: 'Get booked dates with user',
-    description: 'Get booked dates with user',
+    description: 'Get booked dates with user. For game master only',
   })
   async getBookedDateWithUser(@Query('date') date: Date) {
     return await this.service.getBookedDateWithUser(new Date(date));
   }
 
   @UseGuards(UserGuard)
+  @ApiHeader({
+    name: 'Bearer Token',
+  })
   @Post('/new-booking')
   @ApiResponse({
     status: 201,
     description: 'Booking created',
+    type: NewDateBookedResponseDTO,
   })
   @ApiResponse({
     status: 500,
@@ -98,17 +108,21 @@ export class BookingController {
   })
   @ApiOperation({
     summary: 'Create booking',
-    description: 'Create booking',
+    description: 'Create booking. For user only',
   })
   async createBooking(@Body() booking: NewBookingDateDto) {
     return await this.service.createBooking(booking);
   }
 
   @UseGuards(UserGuard)
+  @ApiHeader({
+    name: 'Bearer Token',
+  })
   @Get('/booked-date/user/:userId')
   @ApiResponse({
     status: 200,
     description: 'Booked Date',
+    type: UserBookedDateDto,
   })
   @ApiResponse({
     status: 500,
@@ -125,7 +139,7 @@ export class BookingController {
   })
   @ApiOperation({
     summary: 'Get booked date by user id',
-    description: 'Get booked date by user id',
+    description: 'Get booked date by user id. For user only',
   })
   async getBookedDateByUserId(@Param('userId') userId: number) {
     return await this.service.getBookedDateByUserId(userId);
@@ -158,6 +172,9 @@ export class BookingController {
     return await this.service.deleteBookedDate(bookedDateId);
   } */
   @UseGuards(GameMasterGuard)
+  @ApiHeader({
+    name: 'Bearer Token',
+  })
   @Patch('/booked-date/:bookedDateId')
   @ApiResponse({
     status: 200,
@@ -178,7 +195,7 @@ export class BookingController {
   })
   @ApiOperation({
     summary: 'Update booked date',
-    description: 'Update booked date',
+    description: 'Update booked date. For game master only',
   })
   async updateBookedDate(
     @Param('bookedDateId') bookedDateId: number,
@@ -188,6 +205,9 @@ export class BookingController {
   }
 
   @UseGuards(GameMasterGuard)
+  @ApiHeader({
+    name: 'Bearer Token',
+  })
   @Get('/booked-date/:bookedDateId')
   @ApiResponse({
     status: 200,
@@ -208,7 +228,7 @@ export class BookingController {
   })
   @ApiOperation({
     summary: 'Update booked date',
-    description: 'Update booked date',
+    description: 'Update booked date. For game master only',
   })
   async getBookingDateById(@Param('bookedDateId') bookedDateId: number) {
     return await this.service.getBookingDateById(bookedDateId);

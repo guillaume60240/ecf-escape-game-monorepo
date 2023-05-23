@@ -1,5 +1,5 @@
 import { GameService } from './game-manager.service';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags, ApiHeader } from '@nestjs/swagger';
 import {
   Body,
   Controller,
@@ -11,7 +11,13 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { GameMasterGuard } from 'src/guard/game-master.guard';
+import { GameMasterGuard } from '@/guard/game-master.guard';
+import { RecordDto } from '../dto/response/record.dto';
+import {
+  ClosedGameDto,
+  GameDtoResponse,
+  NewGameDtoResponse,
+} from '../dto/response/game.dto';
 @ApiTags('Game manager')
 @Controller('games')
 export class GameController {
@@ -22,6 +28,7 @@ export class GameController {
   @ApiResponse({
     status: 200,
     description: 'Record pour un scénario',
+    type: RecordDto,
   })
   @ApiResponse({
     status: 404,
@@ -44,10 +51,14 @@ export class GameController {
   }
 
   @UseGuards(GameMasterGuard)
+  @ApiHeader({
+    name: 'Bearer Token',
+  })
   @Post('/new-game')
   @ApiResponse({
     status: 201,
     description: 'New Game',
+    type: NewGameDtoResponse,
   })
   @ApiResponse({
     status: 500,
@@ -64,7 +75,7 @@ export class GameController {
   })
   @ApiOperation({
     summary: 'New Game',
-    description: 'New Game',
+    description: 'New Game. For Game Master only',
   })
   async newGame(
     @Body('bookingId') bookingId: number,
@@ -73,10 +84,14 @@ export class GameController {
     return await this.service.newGame(+bookingId, +scenarioId);
   }
   @UseGuards(GameMasterGuard)
+  @ApiHeader({
+    name: 'Bearer Token',
+  })
   @Post('/close-game')
   @ApiResponse({
     status: 201,
     description: 'Close the game',
+    type: ClosedGameDto,
   })
   @ApiResponse({
     status: 500,
@@ -93,17 +108,21 @@ export class GameController {
   })
   @ApiOperation({
     summary: 'Close Game',
-    description: 'New Game',
+    description: 'New Game. For Game Master only',
   })
   async closeGAme(@Body('bookingId') bookingId: number): Promise<any[]> {
     return await this.service.closeGame(+bookingId);
   }
 
   @UseGuards(GameMasterGuard)
+  @ApiHeader({
+    name: 'Bearer Token',
+  })
   @Get('/game/:bookingId')
   @ApiResponse({
     status: 200,
     description: 'Get Game',
+    type: GameDtoResponse,
   })
   @ApiResponse({
     status: 500,
@@ -120,7 +139,7 @@ export class GameController {
   })
   @ApiOperation({
     summary: 'Get Game',
-    description: 'Get Game',
+    description: 'Get Game. For Game Master only',
   })
   async getGame(@Param('bookingId') bookingId: number): Promise<any[]> {
     return await this.service.getGameByBookingId(+bookingId);

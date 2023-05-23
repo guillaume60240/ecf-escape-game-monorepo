@@ -1,4 +1,4 @@
-import { Scenario } from 'src/entity/scenario.entity';
+import { Scenario } from '@/entity/scenario.entity';
 
 export const scenarioAdapter = {
   resource: Scenario,

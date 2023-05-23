@@ -1,4 +1,4 @@
-import { TimeSlot } from 'src/entity/time-slot.entity';
+import { TimeSlot } from '@/entity/time-slot.entity';
 
 export const timeSlotAdapter = {
   resource: TimeSlot,

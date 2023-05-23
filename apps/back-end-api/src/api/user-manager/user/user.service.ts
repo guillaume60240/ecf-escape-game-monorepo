@@ -41,21 +41,3 @@ export class UserService {
     };
   }
 }
-
-/*  getOne(id: number) {
-  return this.usersRepository.findOne({ where: { id } });
-}
-
-
-async create(user: CreateUserDto) {
-  user.password = await bcrypt.hash(user.password, 10);
-  return this.usersRepository.save(user);
-}
-
-update(id: number, body: any) {
-  return this.usersRepository.update(id, body);
-}
-
-delete(id: number) {
-  return this.usersRepository.delete(id);
-} */
