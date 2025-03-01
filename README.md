@@ -14,7 +14,7 @@
 
 - To release
   On Github make a release with tag `web-app-*`
-- url: https://ecf-escape-game-web-app-docker-bfaitf4hkq-od.a.run.app
+- url: ~~https://ecf-escape-game-web-app-docker-bfaitf4hkq-od.a.run.app~~ (dead link)
 
 ### mobile-app:
 
@@ -39,7 +39,7 @@ npm run copy:all
 
 - To release
   On Github make a release with tag `back-end-api-*`
-- swagger: https://ecf-escape-game-back-end-api-bfaitf4hkq-od.a.run.app/api
+- swagger: ~~https://ecf-escape-game-back-end-api-bfaitf4hkq-od.a.run.app/api~~ (dead link)
 
 ## To run in Docker
 
